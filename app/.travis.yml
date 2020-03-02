@@ -6,11 +6,6 @@ env:
     - ANDROID_TARGET=android-22
     - ANDROID_ABI=armeabi-v7a
 
-branches:
-  only:
-    - master
-    - development
-
 android:
   components:
     # Uncomment the lines below if you want to
