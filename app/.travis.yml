@@ -6,11 +6,14 @@ env:
     - ANDROID_TARGET=android-22
     - ANDROID_ABI=armeabi-v7a
 
+<<<<<<< HEAD
 branches:
   only:
     - master
     - development
 
+=======
+>>>>>>> Add travis ci and sample tests
 android:
   components:
     # Uncomment the lines below if you want to
