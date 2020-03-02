@@ -6,11 +6,6 @@ env:
     - ANDROID_TARGET=android-22
     - ANDROID_ABI=armeabi-v7a
 
-branches:
-  only:
-    - master
-    - development
-
 android:
   components:
     # Uncomment the lines below if you want to
@@ -68,4 +63,8 @@ before_install:
 
 
   # The app will now automatically be installed and tested via
+<<<<<<< HEAD
   # the command `gradle connectedCheck`
+=======
+  # the command `gradle connectedCheck`
+>>>>>>> Add travis ci and sample tests
