@@ -3,7 +3,11 @@ package com.example.bonvoyage;
 import androidx.appcompat.app.AppCompatActivity;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import android.os.Bundle;
+=======
+import com.example.bonvoyage.fragments.RiderStatusDialog;
+>>>>>>> added fields to RiderStatusDialog
 =======
 import com.example.bonvoyage.fragments.RiderStatusDialog;
 >>>>>>> added fields to RiderStatusDialog
@@ -17,6 +21,12 @@ public class MainActivity extends AppCompatActivity {
 <<<<<<< HEAD
 =======
 
+        RiderStatusDialog dialog = new RiderStatusDialog();
+        dialog.show(getSupportFragmentManager(), "dialog");
+
+<<<<<<< HEAD
+>>>>>>> added fields to RiderStatusDialog
+=======
         RiderStatusDialog dialog = new RiderStatusDialog();
         dialog.show(getSupportFragmentManager(), "dialog");
 
