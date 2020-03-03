@@ -95,7 +95,8 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="9"
-                android:text="Current Location"/>
+                android:text="Current Location"
+                android:id="@+id/rs_location"/>
 
         </TableRow>
 
@@ -113,7 +114,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="9"
                 android:text="University of Alberta"
-                android:id="@+id/rs_location"/>
+                android:id="@+id/rs_destination"/>
 
         </TableRow>
 
@@ -124,7 +125,8 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:src="@drawable/ic_attach_money_black_24dp"/>
+                android:src="@drawable/ic_attach_money_black_24dp"
+                android:id="@+id/rs_amount_icon"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -142,13 +144,15 @@
         android:layout_height="40dp"
         android:text="Call your driver"
         android:drawableLeft="@drawable/ic_call_black_24dp"
+        android:id="@+id/rs_call_btn"
         />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Call your driver"
+        android:text="Text your driver"
         android:drawableLeft="@drawable/ic_textsms_black_24dp"
+        android:id="@+id/rs_text_btn"
         />
 
     <TextView
@@ -158,6 +162,7 @@
         android:layout_height="wrap_content"
         android:text="Cancel Ride"
         android:paddingBottom="8dp"
+        android:clickable="true"
         android:id="@+id/rs_cancel"/>
 
 
