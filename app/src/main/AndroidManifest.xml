@@ -22,7 +22,7 @@
         <activity android:name=".SMSActivity"></activity>
         <activity android:name=".SignInPhoneActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".SignInActivity" />
+        <activity android:name=".SignInEmailActivity" />
     </application>
 
 </manifest>
