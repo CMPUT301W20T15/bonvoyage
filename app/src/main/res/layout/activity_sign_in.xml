@@ -65,7 +65,13 @@
                 android:layout_marginTop="16dp"
                 android:text="Add Items to Database"
                 android:textStyle="bold"/>
-
+            <Button
+                android:id="@+id/BackButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="bottom"
+                android:text="GO BACK TO LOGIN SCREEN" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

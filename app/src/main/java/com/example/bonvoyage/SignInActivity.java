@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private EditText mEmail, mPassword;
     private Button btnSignIn, btnSignOut;
+    private Button backToLoginScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,19 @@ public class SignInActivity extends AppCompatActivity {
                 toastMessage("Signing out...");
             }
         });
+
+        backToLoginScreen = findViewById(R.id.BackButton);
+        backToLoginScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToLoginScreen(v);
+            }
+        });
+
+    }
+    public void goToLoginScreen(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
     @Override
     public void onStart(){
