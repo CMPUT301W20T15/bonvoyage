@@ -1,56 +1,50 @@
 package com.example.bonvoyage;
 
 public class User {
-    public String username;
-    public String email;
-    public String firstname;
-    public String lastname;
-    public String phonenumber;
-    public User(String username, String email, String firstname, String lastname, String phonenumber){
-        this.username = username;
-        this.email = email;
+    private String firstname;
+    private String lastname;
+    private String email;
+    private String phonenumber;
+    private String password;
+
+    public User(String firstname, String lastname, String email, String phonenumber, String password){
         this.firstname = firstname;
         this.lastname = lastname;
+        this.email = email;
         this.phonenumber = phonenumber;
-    }
-
-    public String getEmail() {
-        return email;
+        this.password = password;
     }
 
     public String getFirstname() {
         return firstname;
     }
-
     public String getLastname() {
         return lastname;
     }
-
+    public String getEmail() {
+        return email;
+    }
     public String getPhonenumber() {
         return phonenumber;
     }
-
-    public String getUsername() {
-        return username;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
-
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
