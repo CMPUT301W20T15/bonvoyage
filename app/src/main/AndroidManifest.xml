@@ -11,18 +11,29 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".MainActivity">
+=======
+        <activity android:name=".SplashPageActivity">
+>>>>>>> c8e740222e3270f2579dd30850624ae7a7870772
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".SMSActivity"></activity>
         <activity android:name=".SignInPhoneActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SignInActivity" />
 
+=======
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".MainActivity">
+        </activity>
+>>>>>>> c8e740222e3270f2579dd30850624ae7a7870772
     </application>
 
 </manifest>

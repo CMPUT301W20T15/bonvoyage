@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,13 +26,9 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
-    String TAG = "Sample";
-    private Button signUpConfirmButton;
-    private EditText signUpFirstName;
-    private EditText signUpLastName;
-    private EditText signUpEmail;
-    private EditText signUpPhoneNumber;
-    private EditText signUpPassword;
+    String TAG = "SignUpActivity";
+    private Button signUpConfirmButton, signUpBackButton;
+    private EditText signUpFirstName, signUpLastName, signUpEmail, signUpPhoneNumber, signUpPassword;
     private CheckBox signUpUserIsDriver;
     private String userType;
 
@@ -49,6 +46,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        signUpBackButton = findViewById(R.id.signUpBackButton);
+        signUpBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToLoginScreen(v);
+            }
+        });
+
         signUpUserIsDriver = findViewById(R.id.signUpUserIsDriver);
         signUpUserIsDriver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +66,12 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
+    public void goToLoginScreen(View view){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
     public void createNewUserAccount(){
-        final String newFirstName;
-        final String newLastName;
-        final String newEmail;
-        final String newPhoneNumber;
-        final String newPassword;
+        final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword;
 
         signUpFirstName = findViewById(R.id.signUpFirstName);
         signUpLastName = findViewById(R.id.signUpLastName);

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="First Name" />
+        android:hint ="First Name" />
 
     <EditText
         android:id="@+id/signUpLastName"
@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Last Name" />
+        android:hint="Last Name" />
 
     <EditText
         android:id="@+id/signUpEmail"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:text="Email Address" />
+        android:hint="Email Address" />
 
     <EditText
         android:id="@+id/signUpPhoneNumber"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="phone"
-        android:text="Phone Number" />
+        android:hint="Phone Number" />
 
     <EditText
         android:id="@+id/signUpPassword"
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPassword"
-        android:text="Password" />
+        android:hint="Password" />
 
     <CheckBox
         android:id="@+id/signUpUserIsDriver"
@@ -55,4 +55,11 @@
         android:layout_height="wrap_content"
         android:text="CONFIRM REGISTRATION"
         android:onClick="True" />
+
+    <Button
+        android:id="@+id/signUpBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="GO BACK TO LOGIN SCREEN" />
 </LinearLayout>
