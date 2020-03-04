@@ -21,8 +21,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:digits="0123456789"
+            android:inputType="number"
             android:hint="@string/phone_number"
-            android:maxLength="11">
+            android:maxLength="11"
+            android:imeOptions="actionDone">
 
         </EditText>
         <Button

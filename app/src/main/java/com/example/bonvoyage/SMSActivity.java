@@ -49,7 +49,7 @@ public class SMSActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String smsCode = smsEditText.getText().toString().trim();
                 if (smsCode.isEmpty() || smsCode.length() < 6) {
-                    toastMessage("Enter code!");
+                    toastMessage("Enter SMS code!");
                 } else {
                     verifyCode(smsCode);
                 }
@@ -61,7 +61,7 @@ public class SMSActivity extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in" + user.getUid());
-                    toastMessage("Successfully signed in with: " + user.getEmail());
+                    toastMessage("Successfully signed in with: " + user.getPhoneNumber());
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                     toastMessage("Sucessfully signed out");
@@ -81,7 +81,7 @@ public class SMSActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            toastMessage("Login with phone Sucess");
+                            toastMessage("LOGIN WITH PHONE SUCESSFUL");
                         } else {
                             toastMessage(task.getException().getMessage());
                         }
@@ -117,7 +117,7 @@ public class SMSActivity extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(@NonNull FirebaseException e) {
-            toastMessage(e.getMessage() + "Verifcation Failed");
+            toastMessage(e.getMessage() + "VERIFICATION FAILED");
         }
     };
     public void toastMessage(String message){
