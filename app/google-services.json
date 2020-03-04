@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "740747372922-aqr3ahrgttvp1ln5snrrn7h8avuv3prd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bonvoyage",
+            "certificate_hash": "a43a8cf1b11c713f59fa423913a6acd6016d4ff5"
+          }
+        },
+        {
           "client_id": "740747372922-c1ge3r47kbpvljgsgcml4pj9trckt79g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

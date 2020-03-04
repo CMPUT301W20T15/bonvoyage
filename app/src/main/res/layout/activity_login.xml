@@ -4,11 +4,17 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/signInButton"
+        android:id="@+id/signInEmailButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="signInClicked"
-        android:text="SIGN IN" />
+        android:onClick="signInEmailClicked"
+        android:text="SIGN IN WITH EMAIL" />
+    <Button
+        android:id="@+id/signInPhoneButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="signInPhoneClicked"
+        android:text="SIGN IN WITH PHONE" />
 
     <Button
         android:id="@+id/signUpButton"
