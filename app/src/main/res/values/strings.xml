@@ -1,3 +1,7 @@
 <resources>
+<<<<<<< HEAD
     <string name="app_name">BonVoyage</string>
+=======
+    <string name="app_name">Bonvoyage</string>
+>>>>>>> move xml files to app directory
 </resources>
