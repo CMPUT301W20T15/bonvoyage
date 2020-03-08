@@ -2,5 +2,6 @@
     <string name="app_name">BonVoyage</string>
     <string name="title_activity_rider_home">Bon Voyage</string>
     <string name="api_key">AIzaSyBPFTzh_rgXi82JRZJIv6avzYYynm-7aPs</string>
+    <string name="title_activity_rider_map">Map</string>
 
 </resources>

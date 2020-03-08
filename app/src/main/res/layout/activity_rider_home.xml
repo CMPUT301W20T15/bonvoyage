@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.bonvoyage.RiderHome"
+    tools:context="com.example.bonvoyage.RiderMapActivity"
     tools:showIn="@layout/activity_main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent">
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_gravity="center"
         android:layout_height="match_parent"
-        tools:context=".RiderHome" />
+        tools:context=".RiderMapActivity" />
 
     <RelativeLayout
         android:layout_height="320dp"
@@ -44,10 +44,11 @@
             android:layout_height="75dp"
             android:paddingTop="20dp"
             android:background="#FFFFFF"
+            android:clickable="true"
             android:id="@+id/current_location"
             android:paddingHorizontal="5dp"
-            android:inputType="none"
-            android:gravity="center_horizontal" />
+            android:gravity="center_horizontal"
+            android:focusable="false" />
 
         <EditText
             android:layout_width="match_parent"
