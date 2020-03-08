@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,11 +26,13 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -35,6 +40,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.TypeFilter;
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class RiderMapActivity extends FragmentActivity implements
@@ -44,13 +63,16 @@ public class RiderMapActivity extends FragmentActivity implements
     private static final int REQUEST_CODE = 10;
     private GoogleMap mMap;
     private EditText findLocation;
+    private TextView destinationLocation;
+
     private Rider rider;
     private Location current;
+    private LatLng end;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
     private MarkerOptions startMarker;
     private MarkerOptions endMarker;
-
+    private Button submit;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,22 +92,77 @@ public class RiderMapActivity extends FragmentActivity implements
             // if permissions granted, check if location is enabled
             // request the location from the system
             checkPermissionsForApp();
-            if(mMap.isMyLocationEnabled()){
+            if (mMap.isMyLocationEnabled()) {
                 isLocationEnabled();
 
                 requestLocationUpdates();
             }
-            if(current!=null){
-                moveMap(mMap, current,startMarker);
-                rider.setCurrentLocation(new LatLng(current.getLatitude(),current.getLongitude()));
+            if (current != null) {
+                moveMap(mMap, current, startMarker);
                 findLocation.setText("Current Location");
             }
 
         });
 
+        if (!Places.isInitialized()) {
+            Places.initialize(RiderMapActivity.this, getString(R.string.api_key));
+        }
+
+        // Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(RiderMapActivity.this);
+
+
+        destinationLocation = findViewById(R.id.add_destination);
+
+        destinationLocation.setOnClickListener(v -> {
+            AutocompleteSupportFragment autocompleteFragment =
+                    (AutocompleteSupportFragment) getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+            // Set the fields to specify which types of place data to
+            // return after the user has made a selection.
+            List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.ADDRESS);
+
+            // Start the autocomplete intent.
+            Intent intent = new Autocomplete.IntentBuilder(
+                    AutocompleteActivityMode.FULLSCREEN, fields)
+                    .build(this);
+            startActivityForResult(intent, REQUEST_CODE);
+        });
+
+        submit = findViewById(R.id.continue_req);
+        //submit button code
+        submit.setOnClickListener(v -> {
+            if(end!=null && current!=null){
+                rider.setCurrentLocation(new LatLng(current.getLatitude(), current.getLongitude()));
+                rider.setDestinationLocation(end);
+            }
+        });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                end = place.getLatLng();
+                Location endLocation = new Location(LocationManager.GPS_PROVIDER);
+                endLocation.setLatitude(end.latitude);
+                endLocation.setLongitude(end.longitude);
+                endMarker = new MarkerOptions();
+                moveMap(mMap,endLocation,endMarker);
+                destinationLocation.setText(place.getAddress());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
 
+                destinationLocation.setText("Could not fetch place");
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+
+
+    }
     // code from https://stackoverflow.com/questions/10311834/how-to-check-if-location-services-are-enabled
     // lenik https://stackoverflow.com/users/1329296/lenik
     public void isLocationEnabled()
