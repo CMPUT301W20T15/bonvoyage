@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BonVoyage</string>
+    <string name="current_location_hint">Current Location</string>
+    <string name="destination_location_hint">Add Destination</string>
+    <string name="button_continue">Continue</string>
 </resources>
