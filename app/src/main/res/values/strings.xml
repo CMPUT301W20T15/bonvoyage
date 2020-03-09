@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">BonVoyage</string>
+<<<<<<< HEAD
   
     <string name="title_activity_rider_home">Bon Voyage</string>
     <string name="title_activity_rider_map">Map</string>
@@ -14,4 +15,9 @@
     <string name="help">Help</string>
     <string name="home">Home</string>
 
+=======
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="payment_title">Your ride is complete!</string>
+>>>>>>> Driver and Rider payment
 </resources>

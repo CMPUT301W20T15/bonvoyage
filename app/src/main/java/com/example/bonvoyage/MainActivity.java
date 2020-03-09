@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+<<<<<<< HEAD
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import android.widget.ListView;
@@ -29,10 +30,20 @@ public class MainActivity extends AppCompatActivity {
     ListView riderList;
     ArrayAdapter<String> riderAdapter;
     ArrayList<String> riderDataList;
+=======
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+    
+>>>>>>> Driver and Rider payment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+<<<<<<< HEAD
         if(isServicesOK()){
             init();
         }
@@ -113,5 +124,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+=======
+
+>>>>>>> Driver and Rider payment
     }
 }
