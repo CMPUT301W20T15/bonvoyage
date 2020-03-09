@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">BonVoyage</string>
     <string name="google_maps_API_key">AIzaSyBPFTzh_rgXi82JRZJIv6avzYYynm-7aPs</string>
+    <string name="current_location_hint">Current Location</string>
+    <string name="destination_location_hint">Add Destination</string>
+    <string name="button_continue">Continue</string>
+    <string name="my_trips">My Trips</string>
+    <string name="payments">Payments</string>
+    <string name="settings">Settings</string>
+    <string name="help">Help</string>
+    <string name="home">Home</string>
 </resources>
