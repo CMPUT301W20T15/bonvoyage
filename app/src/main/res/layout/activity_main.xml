@@ -17,6 +17,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     
+    <include layout="@layout/driver_layout" />
     <include layout="@layout/rider_layout" />
 
 
