@@ -47,6 +47,8 @@
         android:id="@+id/signUpUserIsDriver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checked="false"
+        android:clickable="true"
         android:text="Sign up as a driver?" />
 
     <Button
@@ -61,5 +63,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:onClick="goToLoginScreen"
         android:text="GO BACK TO LOGIN SCREEN" />
 </LinearLayout>
