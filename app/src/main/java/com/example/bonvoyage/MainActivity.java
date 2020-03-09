@@ -7,14 +7,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.widget.ArrayAdapter;
 import java.util.ArrayList;
-import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;

@@ -41,7 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
         <activity android:name=".DriverMapActivity"></activity>
         <activity android:name=".RiderMapActivity"></activity>
         <meta-data
@@ -53,10 +52,8 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-=======
         <activity android:name=".DriverPayment"/>
         <activity android:name=".QRGenerate"/>
->>>>>>> updated the rider payment so now there are 2 classes for the function
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
