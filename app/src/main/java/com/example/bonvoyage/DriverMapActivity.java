@@ -133,7 +133,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-
+            mMap.clear();
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
         }
