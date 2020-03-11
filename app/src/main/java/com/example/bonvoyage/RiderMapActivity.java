@@ -108,7 +108,7 @@ public class RiderMapActivity extends FragmentActivity implements
         });
 
         if (!Places.isInitialized()) {
-            Places.initialize(RiderMapActivity.this, getString(R.string.api_key));
+            Places.initialize(RiderMapActivity.this, getString(R.string.google_maps_API_key));
         }
 
         // Create a new Places client instance.
