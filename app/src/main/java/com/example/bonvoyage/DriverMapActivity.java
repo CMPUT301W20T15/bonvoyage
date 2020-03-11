@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -18,8 +20,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -101,18 +104,33 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private FirebaseFirestore mDatabase;
 
-    private ArrayList<RiderLocation> riderLocationArrayList = new ArrayList<>();
     private ListenerRegistration mRiderListEventListener;
+
+    private ListView riderList;
+    ArrayAdapter<RiderLocation> riderLocationArrayAdapter;
+    private ArrayList<RiderLocation> riderLocationArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
+        riderList = findViewById(R.id.rider_list_view);
+        riderLocationArrayAdapter = new RiderLocationAdapter(DriverMapActivity.this,riderLocationArrayList);
+        riderList.setAdapter(riderLocationArrayAdapter);
+
         mSearchText = (EditText) findViewById(R.id.input_search);
         mGps = (ImageView) findViewById(R.id.ic_gps);
         mDatabase = FirebaseFirestore.getInstance();
         getLocationPermission();
 
+        riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RiderLocation selectedRider = (RiderLocation) adapterView.getItemAtPosition(i);
+                riderLocationArrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
     /*
     private void saveRiderLocation(){
@@ -259,6 +277,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RiderLocation rider = doc.toObject(RiderLocation.class);
                         riderLocationArrayList.add(rider);
+                        riderLocationArrayAdapter.add(rider);
                         LatLng rider_position = new LatLng(rider.getStart_geopoint().getLatitude(), rider.getStart_geopoint().getLongitude());
                         MarkerOptions options = new MarkerOptions()
                                 .position(rider_position)
