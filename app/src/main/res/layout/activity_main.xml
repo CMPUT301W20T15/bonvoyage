@@ -24,7 +24,7 @@
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"/>
 
-    <include layout="@layout/rider_layout" />
     <include layout="@layout/driver_layout" />
+    <include layout="@layout/rider_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
