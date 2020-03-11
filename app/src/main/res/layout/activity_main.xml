@@ -18,10 +18,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="#fff" />
 
+<<<<<<< HEAD
         <include layout="@layout/activity_driver_map" />
 
         <include layout="@layout/driver_layout" />
 
         <include layout="@layout/rider_layout" />
+=======
+    <Button
+        android:id="@+id/scan_barcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="scan barcode" />
+>>>>>>> 69885af4e92de3022723452189d8ec2ba4e00238
 
 </androidx.constraintlayout.widget.ConstraintLayout>

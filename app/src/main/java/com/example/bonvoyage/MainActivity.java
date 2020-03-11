@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.example.bonvoyage;
 
 import android.app.Dialog;
@@ -111,3 +112,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+=======
+>>>>>>> 69885af4e92de3022723452189d8ec2ba4e00238

@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< HEAD
         <activity android:name=".DriverMapActivity"></activity>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -31,6 +32,8 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+=======
+>>>>>>> 69885af4e92de3022723452189d8ec2ba4e00238
         <activity android:name=".DriverPayment"/>
         <activity android:name=".QRGenerate"/>
     </application>
