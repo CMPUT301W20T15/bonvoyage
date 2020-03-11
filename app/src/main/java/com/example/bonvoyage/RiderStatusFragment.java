@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,10 @@ public class RiderStatusFragment extends Fragment {
     Button callBtn;
 
 
+    View rating_layout;
+    RatingBar driver_rating;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +58,8 @@ public class RiderStatusFragment extends Fragment {
         contact_layout = view.findViewById(R.id.rs_contact);
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        rating_layout = view.findViewById(R.id.rs_rate_driver);
+        driver_rating = rating_layout.findViewById(R.id.rating);
 
         callBtn.setOnClickListener(new View.OnClickListener() {
         
@@ -75,6 +82,14 @@ public class RiderStatusFragment extends Fragment {
                 Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
                 sms_intent.putExtra("sms_body", "Hello");
                 startActivity(sms_intent);
+            }
+        });
+
+
+        driver_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                driver_rating.getRating();
             }
         });
 
