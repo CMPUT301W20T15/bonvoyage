@@ -2,6 +2,7 @@ package com.example.bonvoyage;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -13,6 +14,8 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -81,6 +84,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         mSearchText = (EditText) findViewById(R.id.input_search);
         mGps = (ImageView) findViewById(R.id.ic_gps);
         getLocationPermission();
+        Toolbar myToolbar = findViewById(R.id.toolbar);
+        myToolbar.setTitle("my title");
+        setSupportActionBar(myToolbar);
     }
 
     private void init(){
@@ -240,4 +246,21 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        // This needs to be replaced with an actual action
+//        if (id == R.id.menu_item_home) {
+//            Toast.makeText(DriverMapActivity.this, "Action clicked", Toast.LENGTH_LONG).show();
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 }

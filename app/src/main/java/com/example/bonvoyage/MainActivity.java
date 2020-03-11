@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,14 +61,6 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
         startActivity(intent);
-//        Button btnMap = (Button) findViewById(R.id.map_id);
-//        btnMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     public boolean isServicesOK(){
