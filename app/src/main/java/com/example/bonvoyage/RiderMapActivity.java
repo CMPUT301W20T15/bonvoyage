@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -40,6 +41,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AutocompleteSessionToken;
 import com.google.android.libraries.places.api.model.Place;
@@ -135,8 +138,18 @@ public class RiderMapActivity extends FragmentActivity implements
             if(end!=null && current!=null){
                 rider.setCurrentLocation(new LatLng(current.getLatitude(), current.getLongitude()));
                 rider.setDestinationLocation(end);
+                drawPath();
             }
         });
+    }
+
+    private void drawPath() {
+        LatLng currentLocation = new LatLng(current.getLatitude(), current.getLongitude());
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(currentLocation,end)
+                .width(6)
+                .color(Color.parseColor("#9da1c7")));
+
     }
 
     @Override
@@ -286,6 +299,18 @@ public class RiderMapActivity extends FragmentActivity implements
         dummyLocation.setLongitude(-113.5263);
         dummyLocation.setLatitude(53.5232);
         moveMap(mMap,dummyLocation,startMarker);
+        Location dummEndLoc = new Location(LocationManager.GPS_PROVIDER);
+        dummEndLoc.setLatitude(53.516698);
+        dummEndLoc.setLongitude(-113.505075);
+        endMarker = new MarkerOptions();
+        moveMap(mMap, dummEndLoc, endMarker);
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(new LatLng(53.5232, -113.5263), new LatLng(53.516698, -113.505075))
+                .width(6)
+                .color(Color.parseColor("#9da1c7")));
+        mMap.setMinZoomPreference(14);
+
+
     }
 
     public void moveMap(GoogleMap mMap, Location current, MarkerOptions marker) {
@@ -309,5 +334,4 @@ public class RiderMapActivity extends FragmentActivity implements
             Log.e("TAG", "Can't find style. Error: ", e);
         }
     }
-
 }
