@@ -1,19 +1,21 @@
 package com.example.bonvoyage;
 
-public class User {
-    // TODO: This needs to be made abstract
-    private final String username;
-    private final String userType;
-    public User(String username, String userType) {
-        this.username = username;
-        this.userType = userType;
+public abstract class User {
+    // Active RideRequest
+    // History
+    // Email
+    // Phone number
+
+    // TODO: add payment information
+
+    // TODO: Add profile class
+
+    private final String email;
+    public User(String email) {
+        this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getUserType() {
-        return userType;
+    public String getEmail() {
+        return email;
     }
 }

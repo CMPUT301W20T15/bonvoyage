@@ -2,7 +2,11 @@ package com.example.bonvoyage;
 
 import com.google.android.gms.maps.model.LatLng;
 
-public class Rider {
+public class Rider extends User {
+
+    public Rider(String username) {
+        super(username);
+    }
     private LatLng currentLocation;
     private LatLng destinationLocation;
 
