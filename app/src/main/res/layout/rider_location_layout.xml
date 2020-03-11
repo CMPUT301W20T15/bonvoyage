@@ -2,50 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:stretchColumns="0,1">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:paddingBottom="20dp"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_my_location_black_24dp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="9"
-                android:text="Current Location"
-                android:id="@+id/rs_current_location"/>
-
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:paddingBottom="20dp"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_add_location_black_24dp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="9"
-                android:text="University of Alberta"
-                android:id="@+id/rs_destination"/>
-
-        </TableRow>
-
-    </TableLayout>
+    <TextView
+        android:id="@+id/startLocation"
+        android:drawableStart="@drawable/ic_near_me_navy_24dp"
+        android:drawableLeft="@drawable/ic_near_me_navy_24dp"
+        android:text="@string/current_location_hint"
+        style="@style/behindMenuItemLabel"/>
+    <TextView
+        android:id="@+id/endLocation"
+        android:drawableStart="@drawable/ic_place_navy_24dp"
+        android:drawableLeft="@drawable/ic_place_navy_24dp"
+        android:text="@string/destination_location_hint"
+        android:layout_marginBottom="14dp"
+        style="@style/behindMenuItemLabel"/>
 
 </LinearLayout>

@@ -44,6 +44,8 @@ public class RiderStatusFragment extends Fragment {
     View rating_layout;
     RatingBar driver_rating;
 
+    TextView exitBtn;
+
 
     @Nullable
     @Override
@@ -53,13 +55,14 @@ public class RiderStatusFragment extends Fragment {
         profile_name = profile_preview.findViewById(R.id.rs_profile_name);
         profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
         location_layout = view.findViewById(R.id.rs_location);
-        current_location = location_layout.findViewById(R.id.rs_current_location);
-        destination_location = location_layout.findViewById(R.id.rs_destination);
+        current_location = location_layout.findViewById(R.id.startLocation);
+        destination_location = location_layout.findViewById(R.id.endLocation);
         contact_layout = view.findViewById(R.id.rs_contact);
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
         rating_layout = view.findViewById(R.id.rs_rate_driver);
         driver_rating = rating_layout.findViewById(R.id.rating);
+        exitBtn = view.findViewById(R.id.rs_exitBtn);
 
         callBtn.setOnClickListener(new View.OnClickListener() {
         

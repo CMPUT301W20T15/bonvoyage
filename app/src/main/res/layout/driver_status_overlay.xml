@@ -82,6 +82,8 @@
     </TableLayout>
 
     <Button
+        android:background="#1A237E"
+        android:textColor="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="COMPLETE TRIP"
