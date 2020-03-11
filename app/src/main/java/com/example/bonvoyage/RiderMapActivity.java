@@ -62,7 +62,6 @@ import java.util.List;
 public class RiderMapActivity extends FragmentActivity implements
         OnMapReadyCallback {
 
-
     private static final int REQUEST_CODE = 10;
     private GoogleMap mMap;
     private EditText findLocation;
@@ -79,13 +78,13 @@ public class RiderMapActivity extends FragmentActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rider_home);
+        setContentView(R.layout.activity_main);
         startMarker = new MarkerOptions();
         rider = new Rider();
 
         // map the mapFragment to the map element in the xml
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.map_rider);
         mapFragment.getMapAsync(RiderMapActivity.this);
 
         findLocation = findViewById(R.id.current_location);

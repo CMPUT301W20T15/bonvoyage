@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <include layout="@layout/activity_driver_map" />
+        <include layout="@layout/activity_rider_home" />
 
         <include layout="@layout/driver_layout" />
 

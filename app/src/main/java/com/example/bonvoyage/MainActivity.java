@@ -60,8 +60,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-        startActivity(intent);
+        currentUser = new User("test", "rider");
+        if (currentUser.getUserType().equals("rider")) {
+            Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
+            startActivity(intent);
+        }
+        else if (currentUser.getUserType().equals("driver")) {
+            Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+            startActivity(intent);
+        }
+
 //        Button btnMap = (Button) findViewById(R.id.map_id);
 //        btnMap.setOnClickListener(new View.OnClickListener() {
 //            @Override
