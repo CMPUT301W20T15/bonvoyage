@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Call your driver"
+        android:drawableLeft="@drawable/ic_call_black_24dp"
+        android:id="@+id/rs_call_btn"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Text your driver"
+        android:drawableLeft="@drawable/ic_textsms_black_24dp"
+        android:id="@+id/rs_text_btn"
+        />
+
+</LinearLayout>
