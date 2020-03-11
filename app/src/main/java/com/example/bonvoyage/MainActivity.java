@@ -13,9 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
 import android.widget.ListView;
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         riderAdapter = new RidersAvailableList(this, riderDataList);
         riderList.setAdapter(riderAdapter);
 
-        currentUser = new User("test", "driver");
+        currentUser = new User("test", "rider");
 
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
@@ -63,14 +60,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        Button btnMap = (Button) findViewById(R.id.map_id);
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-                startActivity(intent);
-            }
-        });
+        Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
+        startActivity(intent);
+//        Button btnMap = (Button) findViewById(R.id.map_id);
+//        btnMap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     public boolean isServicesOK(){
