@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         riderList.setAdapter(riderAdapter);
 
         currentUser = new User("test", "rider");
+    }
+
+    @Override
+    public void onClick(View v) {
 
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
