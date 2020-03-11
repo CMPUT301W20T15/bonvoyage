@@ -1,6 +1,6 @@
 package com.example.bonvoyage;
 
-public abstract class User {
+public class User {
     // Active RideRequest
     // History
     // Email
@@ -17,5 +17,9 @@ public abstract class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUserType() {
+        return "rider";
     }
 }

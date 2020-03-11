@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         riderAdapter = new RidersAvailableList(this, riderDataList);
         riderList.setAdapter(riderAdapter);
 
-        currentUser = new User("test", "rider");
+        currentUser = new User("test");
 
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        currentUser = new User("test", "rider");
+        currentUser = new User("test");
         if (currentUser.getUserType().equals("rider")) {
             Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
             startActivity(intent);

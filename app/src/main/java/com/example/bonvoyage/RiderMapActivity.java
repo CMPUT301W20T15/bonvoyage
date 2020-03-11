@@ -80,7 +80,7 @@ public class RiderMapActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startMarker = new MarkerOptions();
-        rider = new Rider();
+        rider = new Rider("hello");
 
         // map the mapFragment to the map element in the xml
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
