@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -10,8 +11,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class FirebaseHandler {
@@ -24,6 +32,33 @@ public class FirebaseHandler {
             instance = new  FirebaseHandler();
         }
         return instance;
+    }
+
+    public ArrayList<RiderLocation> getAvailableRiderRequest(){
+        final ArrayList<RiderLocation> riderRequestList = new ArrayList<>();
+        ListenerRegistration riderRequestRefListener;
+
+        CollectionReference riderRequestRef = db.collection("Rider Location");
+        riderRequestRefListener = riderRequestRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e!=null){
+                    Log.e(TAG,  "onEventRiderLocations: list failed");
+                    return;
+                }
+                if (queryDocumentSnapshots != null){
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        RiderLocation rider_detail = doc.toObject(RiderLocation.class);
+                        if (rider_detail.getStatus() == "available")
+                        {
+                            riderRequestList.add(rider_detail);
+                        }
+                    }
+                }
+            }
+        });
+
+        return riderRequestList;
     }
 
     public void addNewRideRequestToDatabase(Map request_details, final String unique_id){

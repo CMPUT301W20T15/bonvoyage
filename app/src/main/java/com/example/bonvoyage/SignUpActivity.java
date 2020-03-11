@@ -84,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
      * @param view  the current view of the activity
      */
     public void goToLoginScreen(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginSignupActivity.class);
         startActivity(intent);
     }
 

@@ -17,13 +17,13 @@ import static org.junit.Assert.assertTrue;
 public class SignUpActivityTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<MainActivity> rule =
-            new ActivityTestRule<>(MainActivity.class, true, true);
+    public ActivityTestRule<LoginSignupActivity> rule =
+            new ActivityTestRule<>(LoginSignupActivity.class, true, true);
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(), rule.getActivity());
 
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.assertCurrentActivity("Wrong Activity", LoginSignupActivity.class);
         solo.clickOnButton("SIGN UP");
     }
 
@@ -70,7 +70,7 @@ public class SignUpActivityTest {
     @Test
     public void checkBackButton(){
         solo.clickOnButton("GO BACK TO LOGIN SCREEN");
-        solo.assertCurrentActivity("Back Button not working", MainActivity.class);
+        solo.assertCurrentActivity("Back Button not working", LoginSignupActivity.class);
 
     }
     @After

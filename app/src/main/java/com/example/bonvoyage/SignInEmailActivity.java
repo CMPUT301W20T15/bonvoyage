@@ -79,7 +79,7 @@ public class SignInEmailActivity extends AppCompatActivity {
 
     }
     public void goToLoginScreen(View view){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, LoginSignupActivity.class);
         startActivity(intent);
     }
     @Override
