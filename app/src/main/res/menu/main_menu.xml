@@ -15,4 +15,5 @@
     <item
         android:id="@+id/menu_item_help"
         android:title="@string/help" />
-</menu>
+</menu> 
+
