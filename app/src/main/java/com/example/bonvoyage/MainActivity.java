@@ -19,6 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.firestore.auth.User;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
