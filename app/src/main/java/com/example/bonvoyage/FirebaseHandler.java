@@ -14,9 +14,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Map;
 
-public class FirebaseAccessor {
-    FirebaseFirestore db;
+public class FirebaseHandler {
+    private static FirebaseHandler instance = null;
     private String TAG = "Firebase";
+    private static FirebaseFirestore db;
+
+    public static FirebaseHandler getInstance(){
+        if (instance == null){
+            instance = new  FirebaseHandler();
+        }
+        return instance;
+    }
 
     public void addNewRideRequestToDatabase(Map request_details, final String unique_id){
         db = FirebaseFirestore.getInstance();
@@ -36,6 +44,7 @@ public class FirebaseAccessor {
                     }
                 });
     }
+
     public void addNewUserToDatabase(Map user, final String unique_id, String userType){
         db = FirebaseFirestore.getInstance();
         db.collection(userType)

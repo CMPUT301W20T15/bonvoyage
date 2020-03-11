@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    public FirebaseAccessor controller;
+    public FirebaseHandler firebaseHandler;
 
     String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         User model = setUpUser();
         SignUpActivity view = new SignUpActivity();
-        controller = new FirebaseAccessor();
+        firebaseHandler = new FirebaseHandler();
 
         signUpConfirmButton = findViewById(R.id.signUpConfirmButton);
         signUpConfirmButton.setOnClickListener(new View.OnClickListener(){
@@ -123,8 +123,8 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
 
-        controller.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
-        controller.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
+        firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
+        firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
     }
 
     public void displayToastMessage(Boolean success){
