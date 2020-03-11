@@ -17,14 +17,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
-    public SignUpController controller;
+    public FirebaseAccessor controller;
 
     String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
     private Button signUpConfirmButton;
     private EditText signUpFirstName, signUpLastName, signUpEmail, signUpPhoneNumber, signUpPassword;
     private CheckBox signUpUserIsDriver;
-    private String userType;
+    private String userType = "riders";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         User model = setUpUser();
         SignUpActivity view = new SignUpActivity();
-        controller = new SignUpController(model, view);
+        controller = new FirebaseAccessor();
 
         signUpConfirmButton = findViewById(R.id.signUpConfirmButton);
         signUpConfirmButton.setOnClickListener(new View.OnClickListener(){
@@ -56,8 +56,6 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
-
-        controller.updateView();
     }
     public User setUpUser(){
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword;
@@ -117,8 +115,6 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
             return;
         }
-
-
         // Create a new user with a first and last name, email, phone number, and password
         Map<String, Object> user_map = new HashMap<>();
         user_map.put("first_name", user.getFirstname());
@@ -127,7 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
 
-        controller.createNewUser(user.getEmail(), user.getPassword(), mAuth); // Adds it to the Authentication of Firebase
+        controller.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
         controller.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
     }
 
