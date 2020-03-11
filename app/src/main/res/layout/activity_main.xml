@@ -18,19 +18,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:titleTextColor="#fff" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <include layout="@layout/activity_driver_map" />
         <include layout="@layout/activity_rider_home" />
 
         <include layout="@layout/driver_layout" />
 
         <include layout="@layout/rider_layout" />
-    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

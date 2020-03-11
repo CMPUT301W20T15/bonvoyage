@@ -21,6 +21,7 @@
         android:text="No Barcode Detected"
         android:textColor="@android:color/white"
         android:textSize="20sp"/>
+
     <Button
         android:id="@+id/done_button"
         android:layout_width="match_parent"

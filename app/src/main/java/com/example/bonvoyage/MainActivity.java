@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(isServicesOK()){
+        if (isServicesOK()) {
             init();
         }
         Toolbar myToolbar = findViewById(R.id.toolbar);
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         riderList = findViewById(R.id.rider_list);
         riderDataList = new ArrayList<>();
-        riderDataList.add("user1") ;
+        riderDataList.add("user1");
         riderDataList.add("user2");
 
         riderAdapter = new RidersAvailableList(this, riderDataList);
@@ -57,20 +57,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
             riderView.setVisibility(View.VISIBLE);
-        }
-        else if (currentUser.getUserType().equals("driver")) {
+        } else if (currentUser.getUserType().equals("driver")) {
             ConstraintLayout driverView = findViewById(R.id.driver_layout);
             driverView.setVisibility(View.VISIBLE);
         }
     }
 
-    private void init(){
+    private void init() {
         currentUser = new User("test", "rider");
         if (currentUser.getUserType().equals("rider")) {
             Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
             startActivity(intent);
-        }
-        else if (currentUser.getUserType().equals("driver")) {
+        } else if (currentUser.getUserType().equals("driver")) {
             Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
             startActivity(intent);
         }
@@ -85,19 +83,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
     }
 
-    public boolean isServicesOK(){
-        Log.d(TAG,"isServicesOK: checking google services version");
+    public boolean isServicesOK() {
+        Log.d(TAG, "isServicesOK: checking google services version");
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
-        if (available == ConnectionResult.SUCCESS){
+        if (available == ConnectionResult.SUCCESS) {
             //everything is good can make map stuff
-            Log.d(TAG,"isServicesOK: Google play services is working");
+            Log.d(TAG, "isServicesOK: Google play services is working");
             return true;
-        }else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)){
-            Log.d(TAG,"isServicesOK: an error occured but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this,available,ERROR_DIALOG_REQUEST);
+        } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
-        }else {
-            Toast.makeText(this,"You can't make map requests",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
         }
         return false;
     }
