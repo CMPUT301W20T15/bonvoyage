@@ -272,16 +272,16 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     return;
                 }
                 if (queryDocumentSnapshots!= null){
-                    riderLocationArrayList.clear();
-                    riderLocationArrayList = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        riderLocationArrayList.clear();
+                        riderLocationArrayList = new ArrayList<>();
                         RiderLocation rider = doc.toObject(RiderLocation.class);
                         riderLocationArrayList.add(rider);
                         riderLocationArrayAdapter.add(rider);
                         LatLng rider_position = new LatLng(rider.getStart_geopoint().getLatitude(), rider.getStart_geopoint().getLongitude());
                         MarkerOptions options = new MarkerOptions()
                                 .position(rider_position)
-                                .title(rider.getUserEmail())
+                                .title(rider.getUser_email())
                                 .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         mMap.addMarker(options);

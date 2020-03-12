@@ -29,7 +29,7 @@ public class RiderLocationAdapter extends ArrayAdapter<RiderLocation> {
         }
         RiderLocation riderLocation = riderLocationArrayList.get(position);
         TextView user_name = view.findViewById(R.id.contact_name);
-        String rider_name = riderLocation.getUserEmail();
+        String rider_name = riderLocation.getFirst_name() + " " + riderLocation.getLast_name();
         user_name.setText(rider_name);
         return view;
     }
