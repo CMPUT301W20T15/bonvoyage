@@ -56,8 +56,7 @@
         android:id="@+id/signUpConfirmButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CONFIRM REGISTRATION"
-        android:onClick="True" />
+        android:text="CONFIRM REGISTRATION" />
 
     <Button
         android:id="@+id/signUpBackButton"
