@@ -29,7 +29,7 @@ public class RiderRequestAdapter extends ArrayAdapter<RiderRequest> {
         }
         RiderRequest riderRequest = riderRequestArrayList.get(position);
         TextView user_name = view.findViewById(R.id.contact_name);
-        String rider_name = riderRequest.getFirstName() + " " + riderRequest.getLastName();
+        String rider_name = riderRequest.getUserEmail();
         user_name.setText(rider_name);
         return view;
     }

@@ -254,9 +254,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
+                riderRequestArrayList.clear();
+                riderRequestArrayList = new ArrayList<>();
                 if (queryDocumentSnapshots!= null){
-                    riderRequestArrayList.clear();
-                    riderRequestArrayList = new ArrayList<>();
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RiderRequest rider = doc.toObject(RiderRequest.class);
                         riderRequestArrayList.add(rider);

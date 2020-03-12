@@ -93,9 +93,12 @@ public class RiderRequest {
     @Override
     public String toString(){
         return "RiderLocation{ userEmail=" + userEmail +
-                ", start_geopoint=" + startGeopoint +
-                ", end_geopoint=" + endGeopoint
+                ", startGeopoint=" + startGeopoint +
+                ", endGeopoint=" + endGeopoint
                 +", timestamp=" + timestamp +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
+                ", phoneNumber=" + phoneNumber +
                 ", status="+status+"}";
     }
 }
