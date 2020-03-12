@@ -7,7 +7,6 @@
     app:layout_constraintBottom_toBottomOf="parent"
     android:id="@+id/driver_status_overlay">
 
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,6 +69,7 @@
                         android:textSize="15dp"
                         android:text="Destination"
                         android:id="@+id/ds_destination"/>
+
 
                 </TableRow>
 

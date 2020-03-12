@@ -6,6 +6,7 @@
     <Button
         android:paddingHorizontal="16dp"
         android:background="@android:color/transparent"
+
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="Call your driver"
