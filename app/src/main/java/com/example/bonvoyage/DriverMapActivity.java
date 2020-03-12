@@ -115,7 +115,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
         riderList = findViewById(R.id.rider_list_view);
-        riderLocationArrayAdapter = new RiderLocationAdapter(DriverMapActivity.this, riderRequestArrayList);
+        riderLocationArrayAdapter = new RiderRequestAdapter(DriverMapActivity.this, riderRequestArrayList);
         riderList.setAdapter(riderLocationArrayAdapter);
 
         mSearchText = (EditText) findViewById(R.id.input_search);

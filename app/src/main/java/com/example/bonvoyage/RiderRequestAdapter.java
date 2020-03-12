@@ -14,10 +14,10 @@ import com.example.bonvoyage.models.RiderRequest;
 
 import java.util.ArrayList;
 
-public class RiderLocationAdapter extends ArrayAdapter<RiderRequest> {
+public class RiderRequestAdapter extends ArrayAdapter<RiderRequest> {
     private ArrayList<RiderRequest> riderRequestArrayList;
     private Context context;
-    public RiderLocationAdapter(Context context, ArrayList<RiderRequest> riderRequestArrayList){
+    public RiderRequestAdapter(Context context, ArrayList<RiderRequest> riderRequestArrayList){
         super(context,0, riderRequestArrayList);
         this.riderRequestArrayList = riderRequestArrayList;
         this.context = context;
