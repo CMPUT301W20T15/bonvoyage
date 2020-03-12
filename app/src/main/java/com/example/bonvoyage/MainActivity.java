@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
 
+
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
             riderView.setVisibility(View.VISIBLE);
