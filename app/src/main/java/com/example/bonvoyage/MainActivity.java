@@ -15,11 +15,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.widget.ArrayAdapter;
 import java.util.ArrayList;
+import java.util.Collection;
+
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +52,14 @@ public class MainActivity extends AppCompatActivity {
         riderList.setAdapter(riderAdapter);
 
         currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
+
+
+        FirebaseHandler db = FirebaseHandler.getInstance();
+        FirebaseUser user = db.getCurrentUser();
+        String TAG = "Email";
+
+        Log.d(TAG, user.getEmail());
+        Log.v(TAG, user.getEmail());
 
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);

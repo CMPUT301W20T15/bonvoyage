@@ -38,13 +38,14 @@
             android:value="@string/google_maps_API_key" />
 
         <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".LoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".LoginSignupActivity"></activity>
         <activity android:name=".DriverMapActivity"></activity>
         <activity android:name=".RiderMapActivity"></activity>
         <meta-data

@@ -11,18 +11,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignInEmailActivity extends AppCompatActivity {
     private static final String TAG = "SignInEmailActivity";
     private FirebaseAuth mAuth;
-    private  FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseAuth.AuthStateListener mAuthListener;
 
     private EditText mEmail, mPassword;
     private Button btnSignIn, btnSignOut;
     private Button backToLoginScreen;
 
+    private FirebaseHandler firebaseHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,34 +37,43 @@ public class SignInEmailActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
         btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
 
-
+        // FOR TESTINGS
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null){
-                    Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
-                    toastMessage("Successfully signed in with: "+user.getEmail());
-                }else {
-                    Log.d(TAG,"onAuthStateChanged:signed_out");
-                    toastMessage("Sucessfully signed out");
+        mAuth.signOut();
+
+        firebaseHandler = new FirebaseHandler();
+
+        // SHOULD BE CHANGED
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null){
+                Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
+                toastMessage("Successfully signed in with: "+user.getEmail());
+
+                if (firebaseHandler.checkIfUserIsDriver(user.getEmail())){
+                    Intent intent = new Intent(this, DriverMapActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(this, RiderMapActivity.class);
+                    startActivity(intent);
                 }
+
+            }else {
+                Log.d(TAG,"onAuthStateChanged:signed_out");
+                toastMessage("Successfully signed out");
             }
         };
 
-        btnSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = mEmail.getText().toString();
-                String pass = mPassword.getText().toString();
-                if (!email.equals("") && !pass.equals("")){
-                    mAuth.signInWithEmailAndPassword(email,pass);
-                }else {
-                    toastMessage("Fill in all fields");
-                }
+        btnSignIn.setOnClickListener(view -> {
+            String email = mEmail.getText().toString();
+            String pass = mPassword.getText().toString();
+            if (!email.equals("") && !pass.equals("")){
+                firebaseHandler.loginUser(email, pass, SignInEmailActivity.this);
+            }else {
+                toastMessage("Fill in all fields");
             }
         });
+
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
