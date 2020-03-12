@@ -4,7 +4,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date;
 
-public class RiderRequest {
+public class RiderRequests {
     private GeoPoint startGeopoint;
     private GeoPoint endGeopoint;
     private @ServerTimestamp Date timestamp;
@@ -14,7 +14,7 @@ public class RiderRequest {
     private String firstName;
     private String lastName;
 
-    public RiderRequest(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName){
+    public RiderRequests(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName){
         this.startGeopoint = startGeopoint;
         this.endGeopoint = endGeopoint;
         this.timestamp = timestamp;
@@ -24,39 +24,8 @@ public class RiderRequest {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    public RiderRequest(){
+    public RiderRequests(){
 
-    }
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public GeoPoint getStartGeopoint() {
@@ -90,6 +59,39 @@ public class RiderRequest {
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     @Override
     public String toString(){
         return "RiderLocation{ userEmail=" + userEmail +

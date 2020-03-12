@@ -26,7 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bonvoyage.models.RiderRequest;
+import com.example.bonvoyage.models.RiderRequests;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -106,8 +106,8 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private ListenerRegistration mRiderListEventListener;
 
     private ListView riderList;
-    private ArrayAdapter<RiderRequest> riderLocationArrayAdapter;
-    private ArrayList<RiderRequest> riderRequestArrayList = new ArrayList<>();
+    private ArrayAdapter<RiderRequests> riderLocationArrayAdapter;
+    private ArrayList<RiderRequests> riderRequestsArrayList = new ArrayList<>();
 
 
     @Override
@@ -115,7 +115,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
         riderList = findViewById(R.id.rider_list_view);
-        riderLocationArrayAdapter = new RiderRequestAdapter(DriverMapActivity.this, riderRequestArrayList);
+        riderLocationArrayAdapter = new RiderRequestsAdapter(DriverMapActivity.this, riderRequestsArrayList);
         riderList.setAdapter(riderLocationArrayAdapter);
 
         mSearchText = (EditText) findViewById(R.id.input_search);
@@ -126,7 +126,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RiderRequest selectedRider = (RiderRequest) adapterView.getItemAtPosition(i);
+                RiderRequests selectedRider = (RiderRequests) adapterView.getItemAtPosition(i);
                 riderLocationArrayAdapter.notifyDataSetChanged();
             }
         });
@@ -246,7 +246,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     }
     private void getRiderLocations(){
         CollectionReference riderRef = mDatabase
-                .collection("RideRequests");
+                .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
@@ -254,12 +254,12 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                riderRequestArrayList.clear();
-                riderRequestArrayList = new ArrayList<>();
+                riderRequestsArrayList.clear();
+                riderRequestsArrayList = new ArrayList<>();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        RiderRequest rider = doc.toObject(RiderRequest.class);
-                        riderRequestArrayList.add(rider);
+                        RiderRequests rider = doc.toObject(RiderRequests.class);
+                        riderRequestsArrayList.add(rider);
                         riderLocationArrayAdapter.add(rider);
                         GeoPoint startGeopoint = rider.getStartGeopoint();
                         GeoPoint endGeopoint = rider.getEndGeopoint();
@@ -272,12 +272,12 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                                 .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         mMap.addMarker(options);
                     }
-                    Log.d(TAG,"onEventRiderLocations: size is : "+ riderRequestArrayList.size());
+                    Log.d(TAG,"onEventRiderLocations: size is : "+ riderRequestsArrayList.size());
                 }
             }
         });
     }
-    private void plotRiders(ArrayList<RiderRequest> riderRequestArrayList){
+    private void plotRiders(ArrayList<RiderRequests> riderRequestsArrayList){
 
     }
 
