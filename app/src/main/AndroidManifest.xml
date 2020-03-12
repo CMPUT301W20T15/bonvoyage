@@ -8,17 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission
-        android:name="android.permission.ACCESS_FINE_LOCATION"
-        tools:remove="android:maxSdkVersion" />
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION"
-        tools:remove="android:maxSdkVersion" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission
         android:name="android.permission.INTERNET"
         tools:remove="android:maxSdkVersion" />
     <uses-permission android:name="android.permission.CALL_DIAL" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -50,7 +42,7 @@
         <activity android:name=".LoginSignupActivity" />
         <activity android:name=".DriverMapActivity" />
         <activity android:name=".RiderMapActivity" />
-        <activity android:name=".RiderSuggestPrice"></activity>
+        <activity android:name=".RiderSuggestPrice" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -63,7 +55,7 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".SplashPageActivity"></activity>
+        <activity android:name=".SplashPageActivity" />
         <activity android:name=".SMSActivity" />
         <activity android:name=".SignInPhoneActivity" />
         <activity android:name=".SignUpActivity" />
