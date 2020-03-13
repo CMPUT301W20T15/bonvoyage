@@ -29,7 +29,7 @@ public class RiderRequestsAdapter extends ArrayAdapter<RiderRequests> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.rider_list_item,parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.driver_list_item,parent,false);
         }
         final RiderRequests riderRequests = riderRequestsArrayList.get(position);
         TextView name = view.findViewById(R.id.contact_name);

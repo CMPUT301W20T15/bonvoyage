@@ -61,6 +61,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SMSActivity" />
         <activity android:name=".SplashPageActivity" />
+        <activity android:name=".RiderStatusActivity"/>
 
     </application>
 </manifest>
