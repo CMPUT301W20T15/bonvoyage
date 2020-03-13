@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,6 +20,7 @@ import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +30,14 @@ public class RiderMapActivity extends MapActivity {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
-
+    FragmentManager fm = getSupportFragmentManager();
+    RiderPricingFragment pricingFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
-
+        pricingFragment = (RiderPricingFragment)
+                getSupportFragmentManager().findFragmentById(R.id.rider_add_price);
+        pricingFragment.getView().setVisibility(View.GONE);
         ConstraintLayout riderView = findViewById(R.id.rider_layout);
         riderView.setVisibility(View.VISIBLE);
 
@@ -70,26 +76,29 @@ public class RiderMapActivity extends MapActivity {
         getDeviceLocation();
         // TODO: update in database
         // TODO: draw line
+        // TODO: disable button if desintation not set
         // TODO: calculate destination amount
+        // TODO: set address
     }
 
     private void continueToPayment() {
-        Log.d(TAG, "Start location: " + startLocation.getLatitude()
-                + ", " + startLocation.getLongitude());
-        Log.d(TAG, "Destination location: " + endLocation.getLatitude()
-                + ", " + endLocation.getLongitude());
+//        Log.d(TAG, "Start location: " + startLocation.getLatitude()
+//                + ", " + startLocation.getLongitude());
+//        Log.d(TAG, "Destination location: " + endLocation.getLatitude()
+//                + ", " + endLocation.getLongitude());
         Map<String, Object> tripInformation = new HashMap<>();
-        tripInformation.put("cost", 10.00);
-        tripInformation.put("endGeopoint", endLocation);
-        tripInformation.put("startGeopoint", startLocation);
-        tripInformation.put("firstName", "Test");
-        tripInformation.put("lastName", "User");
-        tripInformation.put("phoneNumber", "17801234567");
-        tripInformation.put("status", "available");
-//        tripInformation.put("timestamp", );
+//        tripInformation.put("cost", 10.00);
+//        tripInformation.put("endGeopoint", endLocation);
+//        tripInformation.put("startGeopoint", startLocation);
+//        tripInformation.put("firstName", "Test");
+//        tripInformation.put("lastName", "User");
+//        tripInformation.put("phoneNumber", "17801234567");
+//        tripInformation.put("status", "available");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        tripInformation.put("timestamp", timestamp);
         firebaseHandler.addNewRideRequestToDatabase(tripInformation, "bob@gmail.com");
-
-//        Intent intent = new Intent(RiderMapActivity.this, RiderPaymentFragment.class);
+        pricingFragment.getView().setVisibility(View.VISIBLE);
+//        Intent intent = new Intent(RiderMapActivity.this, RiderSuggestPrice.class);
 //        startActivity(intent);
     }
 

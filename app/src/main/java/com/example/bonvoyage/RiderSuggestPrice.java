@@ -28,7 +28,7 @@ public class RiderSuggestPrice extends AppCompatActivity {
         text_given = findViewById(R.id.price_info);
         propose = findViewById(R.id.price_edit);
         verify = findViewById(R.id.approve);
-        submit = findViewById(R.id.submit_req);
+//        submit = findViewById(R.id.submit_req);
         // implement methods to fetch the saved start and end locations from previous activity
         // from dedicated Rider class
 
