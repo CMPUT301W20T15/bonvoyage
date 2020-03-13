@@ -117,7 +117,7 @@ public class DriverPayment extends AppCompatActivity {
                         @Override
                         public void run() {
                             barcodeVal.removeCallbacks(null);
-                            intentData = barcodes.valueAt(0).toString();
+                            intentData = barcodes.valueAt(0).displayValue;
                             barcodeVal.setText(intentData);
                             doneButton.setText("ADD TO WALLET");
                         }
