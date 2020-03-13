@@ -26,8 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
+        android:usesCleartextTraffic="true">
 
         <!--uses-library-->
         <uses-library
@@ -55,6 +54,7 @@
         <activity android:name=".DriverMapActivity" />
         <activity android:name=".LoginSignupActivity" />
         <activity android:name=".RiderMapActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".RiderSuggestPrice" />
         <activity android:name=".SignInEmailActivity" />
         <activity android:name=".SignInPhoneActivity" />
