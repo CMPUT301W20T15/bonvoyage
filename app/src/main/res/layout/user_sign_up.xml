@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash_page_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_page" />
+
+    <TextView
+        android:id="@+id/BonVovage_Splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="top|center"
+        android:text="BonVovage"
+        android:textColor="#FFFFFF"
+        android:textSize="60dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/whiteBox2"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/BonVovage_Splash"
+        android:layout_marginLeft="30dp"
+        app:srcCompat="@drawable/white_backgroundroundcorners2" />
+
+    <TextView
+        android:id="@+id/sign_up_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BonVovage_Splash"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="40dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textSize="20dp"
+        android:text="SIGN UP" />
+    <EditText
+        android:id="@+id/signUpFirstName"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_up_title"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPersonName"
+        android:hint ="First Name" />
+
+    <EditText
+        android:id="@+id/signUpLastName"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpFirstName"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPersonName"
+        android:hint="Last Name" />
+
+
+    <EditText
+        android:id="@+id/signUpEmail"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpLastName"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textEmailAddress"
+        android:hint="Email Address" />
+
+    <EditText
+        android:id="@+id/signUpPhoneNumber"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpEmail"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="phone"
+        android:hint="Phone Number" />
+
+    <EditText
+        android:id="@+id/signUpPassword"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpPhoneNumber"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPassword"
+        android:hint="Password" />
+
+    <EditText
+        android:id="@+id/signUpRePassword"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpPassword"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:inputType="textPassword"
+        android:hint="Re-enter Password [NOT IMPLEMENTED]" />
+
+
+    <CheckBox
+        android:id="@+id/signUpUserIsDriver"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpRePassword"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:checked="false"
+        android:clickable="true"
+        android:text="Sign up as a driver?" />
+
+    <Button
+        android:id="@+id/signUpConfirmButton"
+        android:layout_width="330dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signUpUserIsDriver"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="40dp"
+        android:backgroundTint="#1A237E"
+        android:text="CONFIRM REGISTRATION"
+        android:textColor="#FFFFFF"
+        android:onClick="True" />
+
+</RelativeLayout>

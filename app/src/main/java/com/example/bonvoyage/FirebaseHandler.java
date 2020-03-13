@@ -86,6 +86,7 @@ public class FirebaseHandler {
         });
         return driver[0];
     }
+
     public ArrayList<RiderLocation> getAvailableRiderRequest(){
         final ArrayList<RiderLocation> riderRequestList = new ArrayList<>();
         ListenerRegistration riderRequestRefListener;
@@ -151,6 +152,7 @@ public class FirebaseHandler {
                     }
                 });
     }
+
     public void createNewUserToDatabase(String email, String password, FirebaseAuth mAuth,
                                         SignUpActivity view, final SignUpActivity signUpActivity) {
         mAuth.createUserWithEmailAndPassword(email, password)

@@ -45,7 +45,7 @@ public class SignInEmailActivity extends AppCompatActivity {
             if (user != null){
                 Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
                 toastMessage("Successfully signed in with: "+user.getEmail());
-
+                // GO TO THE DRIVER HOME PAGE IS THEY ARE A DRIVER, LIKEWISE WITH A RIDER
                 if (firebaseHandler.checkIfUserIsDriver(user.getEmail())){
                     Intent intent = new Intent(this, DriverMapActivity.class);
                     startActivity(intent);
@@ -69,6 +69,7 @@ public class SignInEmailActivity extends AppCompatActivity {
                 toastMessage("Fill in all fields");
             }
         });
+
         /* FOR SIGNING OUT
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +90,12 @@ public class SignInEmailActivity extends AppCompatActivity {
         });
         */
     }
+
     public void goToLoginScreen(View view){
         Intent intent = new Intent(this, LoginSignupActivity.class);
         startActivity(intent);
     }
+
     @Override
     public void onStart(){
         super.onStart();
