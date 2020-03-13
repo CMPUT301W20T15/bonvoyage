@@ -26,9 +26,9 @@ public class DriverStatusFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.driver_status_overlay, container, false);
         status = view.findViewById(R.id.ds_status_title);
-        name = view.findViewById(R.id.ds_driver_name);
+        name = view.findViewById(R.id.ds_riderName);
         amount = view.findViewById(R.id.ds_amount);
-        destination = view.findViewById(R.id.ds_destination);
+        destination = view.findViewById(R.id.rs_location);
         completeBtn = view.findViewById(R.id.ds_complete_btn);
 
         completeBtn.setOnClickListener(new View.OnClickListener(){
