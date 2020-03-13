@@ -11,10 +11,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,9 +26,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import com.example.bonvoyage.models.RiderRequests;
+import com.example.bonvoyage.models.RideRequest;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationServices;
@@ -326,7 +323,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     address.getAddressLine(0));
         }
     }
-    public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RiderRequests> riderLocationArrayAdapter, ArrayList<RiderRequests> riderRequestsArrayList){
+    public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RideRequest> riderLocationArrayAdapter, ArrayList<RideRequest> rideRequestArrayList){
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -336,11 +333,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                riderRequestsArrayList.clear();
+                rideRequestArrayList.clear();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        RiderRequests rider = doc.toObject(RiderRequests.class);
-                        riderRequestsArrayList.add(rider);
+                        RideRequest rider = doc.toObject(RideRequest.class);
+                        rideRequestArrayList.add(rider);
                         riderLocationArrayAdapter.add(rider);
                         GeoPoint startGeopoint = rider.getStartGeopoint();
                         GeoPoint endGeopoint = rider.getEndGeopoint();
@@ -353,7 +350,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         mMap.addMarker(options);
                     }
-                    Log.d(TAG,"onEventRiderLocations: size is : "+ riderRequestsArrayList.size());
+                    Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());
                 }
             }
         });
