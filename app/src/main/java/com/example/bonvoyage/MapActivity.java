@@ -69,12 +69,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     static final float DEFAULT_ZOOM = 15f;
-    private static final int REQUEST_CODE = 10;
+    static final int REQUEST_CODE = 10;
 
     // vars
     private GoogleMap mMap;
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    FirebaseHandler firebaseHandler;
 
     // views (probably need to be moved locally
     private TextView findLocation;
@@ -83,7 +84,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ImageView mGps;
 
     private Rider rider;
-    private Location current;
+
+    GeoPoint startLocation;
+    GeoPoint endLocation;
     private LatLng end;
     private FusedLocationProviderClient mFusedLocationClient;
     private LocationCallback mLocationCallback;
@@ -98,6 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        firebaseHandler = new FirebaseHandler();
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         // map the mapFragment to the map element in the xml
@@ -213,7 +217,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                            Location currentLocation =  (Location) task.getResult();
+                            startLocation = new GeoPoint(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM,
@@ -293,15 +298,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void drawPath() {
-        LatLng currentLocation = new LatLng(current.getLatitude(), current.getLongitude());
-        Polyline line = mMap.addPolyline(new PolylineOptions()
-                .add(currentLocation,end)
-                .width(6)
-                .color(Color.parseColor("#9da1c7")));
+//        LatLng currentLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+//        Polyline line = mMap.addPolyline(new PolylineOptions()
+//                .add(currentLocation,end)
+//                .width(6)
+//                .color(Color.parseColor("#9da1c7")));
 
     }
 
-    void geoLocate(EditText searchBox){
+    Address geoLocate(EditText searchBox){
+        Address address;
         Log.d(TAG, "geoLocate: geolocating");
 
         String searchString = searchBox.getText().toString();
@@ -315,14 +321,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         if(list.size() > 0){
-            Address address = list.get(0);
+            address = list.get(0);
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
 
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
+        } else {
+            address = null;
         }
+        return address;
     }
+
     public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RideRequest> riderLocationArrayAdapter, ArrayList<RideRequest> rideRequestArrayList){
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");

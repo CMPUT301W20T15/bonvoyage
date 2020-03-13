@@ -36,21 +36,19 @@ public class FirebaseHandler {
 
     public ArrayList<RiderLocation> getAvailableRiderRequest(){
         final ArrayList<RiderLocation> riderRequestList = new ArrayList<>();
-        ListenerRegistration riderRequestRefListener;
 
         CollectionReference riderRequestRef = db.collection("Rider Location");
-        riderRequestRefListener = riderRequestRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        ListenerRegistration riderRequestRefListener = riderRequestRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e!=null){
-                    Log.e(TAG,  "onEventRiderLocations: list failed");
+                if (e != null) {
+                    Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                if (queryDocumentSnapshots != null){
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                if (queryDocumentSnapshots != null) {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         RiderLocation rider_detail = doc.toObject(RiderLocation.class);
-                        if (rider_detail.getStatus() == "available")
-                        {
+                        if (rider_detail.getStatus() == "available") {
                             riderRequestList.add(rider_detail);
                         }
                     }
@@ -61,9 +59,9 @@ public class FirebaseHandler {
         return riderRequestList;
     }
 
-    public void addNewRideRequestToDatabase(Map request_details, final String unique_id){
+    public void addNewRideRequestToDatabase(Map request_details, String unique_id){
         db = FirebaseFirestore.getInstance();
-        db.collection("Rider Location")
+        db.collection("RiderRequests")
                 .document(unique_id)
                 .set(request_details)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -8,18 +8,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="signInEmailClicked"
-        android:text="SIGN IN WITH EMAIL" />
+        android:text="@string/sign_in_with_email" />
     <Button
         android:id="@+id/signInPhoneButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="signInPhoneClicked"
-        android:text="SIGN IN WITH PHONE" />
+        android:text="@string/sign_in_with_phone" />
 
     <Button
         android:id="@+id/signUpButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="signUpClicked"
-        android:text="SIGN UP" />
+        android:text="@string/sign_up" />
 </LinearLayout>
