@@ -1,6 +1,7 @@
 package com.example.bonvoyage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +49,8 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
             @Override
             public void onClick(View view) {
                 //PASS TO NEXT FRAGMENT HERE
+                Intent intent = new Intent(context, DriverStatusActivity.class);
+                context.startActivity(intent);
                 Log.d("TEST ACCEPT", "WORKING");
             }
         });
