@@ -14,8 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         />
-    <Button
-        android:id="@+id/message_button"
+    <TextView
+        android:id="@+id/drive_cost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+    <ImageButton
+        android:id="@+id/expand_button"
+        android:src="@drawable/ic_right_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="16dp"
