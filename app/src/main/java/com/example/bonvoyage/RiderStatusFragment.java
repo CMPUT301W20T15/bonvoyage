@@ -13,6 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import android.widget.RatingBar;
+
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +43,12 @@ public class RiderStatusFragment extends Fragment {
     Button callBtn;
 
 
+    View rating_layout;
+    RatingBar driver_rating;
+
+    TextView exitBtn;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -48,11 +57,14 @@ public class RiderStatusFragment extends Fragment {
         profile_name = profile_preview.findViewById(R.id.rs_profile_name);
         profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
         location_layout = view.findViewById(R.id.rs_location);
-        current_location = location_layout.findViewById(R.id.rs_current_location);
-        destination_location = location_layout.findViewById(R.id.rs_destination);
+        current_location = location_layout.findViewById(R.id.startLocation);
+        destination_location = location_layout.findViewById(R.id.endLocation);
         contact_layout = view.findViewById(R.id.rs_contact);
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        rating_layout = view.findViewById(R.id.rs_rate_driver);
+        driver_rating = rating_layout.findViewById(R.id.rating);
+        exitBtn = view.findViewById(R.id.rs_exitBtn);
 
         callBtn.setOnClickListener(new View.OnClickListener() {
         
@@ -78,6 +90,13 @@ public class RiderStatusFragment extends Fragment {
             }
         });
 
+
+        driver_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                driver_rating.getRating();
+            }
+        });
 
         return view;
     }

@@ -13,11 +13,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.widget.ArrayAdapter;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,39 +25,25 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
     private User currentUser;
-    ListView riderList;
-    ArrayAdapter<String> riderAdapter;
-    ArrayList<String> riderDataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if(isServicesOK()){
+            Log.d(TAG,"isServicesOK: returned true");
             init();
+        } else {
+            Log.d(TAG,"isServicesOK: returned false");
         }
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
     }
 
     private void init(){
-        currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
-        if (currentUser.getUserType().equals("rider")) {
-            Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
-            startActivity(intent);
-        }
-        else if (currentUser.getUserType().equals("driver")) {
-            Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
-            startActivity(intent);
-        }
-
-//        Button btnMap = (Button) findViewById(R.id.map_id);
-//        btnMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+//        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+        Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
+        startActivity(intent);
     }
 
     public boolean isServicesOK(){

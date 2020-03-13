@@ -18,7 +18,6 @@ public abstract class User {
         this.phonenumber = phonenumber;
         this.password = password;
     }
-
     public String getFirstname() {
         return firstname;
     }
@@ -35,24 +34,8 @@ public abstract class User {
         return password;
     }
 
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
-    }
-    public void setPassword(String password) {
-        this.password = password;
-    }
     // this is for testing only
     public String getUserType() {
-        return "rider";
+        return "driver";
     }
 }
