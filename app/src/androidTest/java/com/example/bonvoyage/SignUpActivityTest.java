@@ -31,7 +31,7 @@ public class SignUpActivityTest {
     public void checkActivitySwitched(){
         solo.assertCurrentActivity("Activity not switched.", SignUpActivity.class);
     }
-
+    /* NEEDS TO BE CHANGED
     @Test
     public void checkBlankSpace(){
         solo.enterText((EditText) solo.getView(R.id.signUpFirstName), "");
@@ -66,13 +66,8 @@ public class SignUpActivityTest {
         solo.clickOnButton("CONFIRM REGISTRATION");
         assertTrue(solo.waitForText("Password length must be greater than 6.", 1, 2000));
     }
+    */
 
-    @Test
-    public void checkBackButton(){
-        solo.clickOnButton("GO BACK TO LOGIN SCREEN");
-        solo.assertCurrentActivity("Back Button not working", LoginSignupActivity.class);
-
-    }
     @After
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
