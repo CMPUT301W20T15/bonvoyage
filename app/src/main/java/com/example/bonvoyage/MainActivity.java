@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-
     }
 
     private void init(){

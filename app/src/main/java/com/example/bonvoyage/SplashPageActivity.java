@@ -12,7 +12,7 @@ public class SplashPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash_page);
+        setContentView(R.layout.user_splash_page);
         getSupportActionBar().hide();
         RelativeLayout splash_screen = (RelativeLayout) findViewById(R.id.splash_page_layout);
 
