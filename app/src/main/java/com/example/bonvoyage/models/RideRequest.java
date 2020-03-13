@@ -114,7 +114,7 @@ public class RideRequest implements Parcelable {
 
     @Override
     public String toString(){
-        return "RiderLocation{ userEmail=" + userEmail +
+        return "RideRequest{ userEmail=" + userEmail +
                 ", startGeopoint=" + startGeopoint +
                 ", endGeopoint=" + endGeopoint
                 +", timestamp=" + timestamp +
