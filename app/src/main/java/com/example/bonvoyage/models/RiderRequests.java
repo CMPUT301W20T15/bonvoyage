@@ -13,8 +13,9 @@ public class RiderRequests {
     private String phoneNumber;
     private String firstName;
     private String lastName;
+    private float cost;
 
-    public RiderRequests(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName){
+    public RiderRequests(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName, float cost){
         this.startGeopoint = startGeopoint;
         this.endGeopoint = endGeopoint;
         this.timestamp = timestamp;
@@ -23,7 +24,17 @@ public class RiderRequests {
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.cost = cost;
     }
+
+    public float getCost() {
+        return cost;
+    }
+
+    public void setCost(float cost) {
+        this.cost = cost;
+    }
+
     public RiderRequests(){
 
     }
