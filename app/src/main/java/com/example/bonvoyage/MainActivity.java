@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
         riderAdapter = new RidersAvailableList(this, riderDataList);
         riderList.setAdapter(riderAdapter);
 
-        currentUser = new User("test", "rider");
+        currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
+
 
         if (currentUser.getUserType().equals("rider")) {
             ConstraintLayout riderView = findViewById(R.id.rider_layout);
@@ -60,8 +61,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-        Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-        startActivity(intent);
+        currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
+        if (currentUser.getUserType().equals("rider")) {
+            Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
+            startActivity(intent);
+        }
+        else if (currentUser.getUserType().equals("driver")) {
+            Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+            startActivity(intent);
+        }
+
 //        Button btnMap = (Button) findViewById(R.id.map_id);
 //        btnMap.setOnClickListener(new View.OnClickListener() {
 //            @Override
