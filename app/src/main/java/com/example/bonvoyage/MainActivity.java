@@ -42,33 +42,6 @@ public class MainActivity extends AppCompatActivity {
         }
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-
-        riderList = findViewById(R.id.rider_list);
-        riderDataList = new ArrayList<>();
-        riderDataList.add("user1") ;
-        riderDataList.add("user2");
-
-        riderAdapter = new RidersAvailableList(this, riderDataList);
-        riderList.setAdapter(riderAdapter);
-
-        currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
-
-
-        FirebaseHandler db = FirebaseHandler.getInstance();
-        FirebaseUser user = db.getCurrentUser();
-        String TAG = "Email";
-
-        Log.d(TAG, user.getEmail());
-        Log.v(TAG, user.getEmail());
-
-        if (currentUser.getUserType().equals("rider")) {
-            ConstraintLayout riderView = findViewById(R.id.rider_layout);
-            riderView.setVisibility(View.VISIBLE);
-        }
-        else if (currentUser.getUserType().equals("driver")) {
-            ConstraintLayout driverView = findViewById(R.id.driver_layout);
-            driverView.setVisibility(View.VISIBLE);
-        }
     }
 
     private void init(){
