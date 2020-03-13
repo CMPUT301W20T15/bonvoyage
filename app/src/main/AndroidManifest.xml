@@ -19,6 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true">
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -42,6 +43,7 @@
         <activity android:name=".LoginSignupActivity" />
         <activity android:name=".DriverMapActivity" />
         <activity android:name=".RiderMapActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".RiderSuggestPrice" />
 
         <meta-data

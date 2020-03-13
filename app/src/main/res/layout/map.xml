@@ -6,14 +6,13 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-
         android:id="@+id/activity_driver_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:context=".DriverMapActivity">
+        tools:context=".MapActivity">
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
@@ -21,10 +20,10 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MapsActivity" />
+            tools:context=".MapActivity" />
 
         <RelativeLayout
-            android:id="@+id/relative_layout1"
+            android:id="@+id/search_layout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
@@ -35,6 +34,7 @@
             <ImageView
                 android:id="@+id/ic_magnify"
                 android:layout_width="15dp"
+                android:visibility="gone"
                 android:layout_height="15dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
@@ -49,6 +49,7 @@
                 android:layout_toRightOf="@+id/ic_magnify"
                 android:background="@null"
                 android:hint="Search"
+                android:visibility="gone"
                 android:imeOptions="actionSearch"
                 android:textColor="#000"
                 android:textSize="15sp"/>
@@ -58,7 +59,7 @@
             android:id="@+id/ic_gps"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/relative_layout1"
+            android:layout_below="@+id/search_layout"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"

@@ -36,6 +36,6 @@ public abstract class User {
 
     // this is for testing only
     public String getUserType() {
-        return "rider";
+        return "driver";
     }
 }
