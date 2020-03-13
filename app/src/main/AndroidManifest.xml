@@ -46,13 +46,15 @@
 
         <!--activities-->
         <activity android:name=".MainActivity">
+        </activity>
+
+        <activity android:name=".LoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".DriverMapActivity" />
-        <activity android:name=".LoginSignupActivity" />
         <activity android:name=".RiderMapActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".RiderSuggestPrice" />
@@ -61,6 +63,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SMSActivity" />
         <activity android:name=".SplashPageActivity" />
+        <activity android:name=".RiderStatusActivity"/>
 
     </application>
 </manifest>

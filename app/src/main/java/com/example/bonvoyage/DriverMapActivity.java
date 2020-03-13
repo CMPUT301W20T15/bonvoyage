@@ -36,7 +36,7 @@ public class DriverMapActivity extends MapActivity {
         riderList.setAdapter(riderLocationArrayAdapter);
         mDatabase = FirebaseFirestore.getInstance();
 
-        getRiderLocations(mRiderListEventListener,mDatabase,riderLocationArrayAdapter, rideRequestArrayList);
+//        getRideRequests(mRiderListEventListener,mDatabase,riderLocationArrayAdapter, rideRequestArrayList);
         inputSearch = findViewById(R.id.endLocation);
 //        ImageView magnifyingIcon = findViewById(R.id.ic_magnify);
 //        magnifyingIcon.setVisibility(View.VISIBLE);

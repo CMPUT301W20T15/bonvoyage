@@ -11,7 +11,7 @@ public class LoginSignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.user_login);
     }
     public void signInEmailClicked(View view) {
         Intent intent = new Intent(this, SignInEmailActivity.class);

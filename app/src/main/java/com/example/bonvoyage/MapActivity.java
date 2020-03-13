@@ -340,7 +340,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e!= null){
-                    Log.e(TAG, "onEventRiderLocations: list failed");
+                    Log.e(TAG, "onEventRideRequests: list failed");
                     return;
                 }
                 rideRequestArrayList.clear();
@@ -360,7 +360,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         mMap.addMarker(options);
                     }
-                    Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());
+                    Log.d(TAG,"onEventRideRequests: size is : "+ rideRequestArrayList.size());
                 }
             }
         });

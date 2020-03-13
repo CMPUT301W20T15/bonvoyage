@@ -1,7 +1,9 @@
 package com.example.bonvoyage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -74,6 +76,8 @@ public class RiderSuggestPrice extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(RiderSuggestPrice.this, "yep!! accepted", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(RiderSuggestPrice.this, RiderStatusActivity.class );
+                    startActivity(intent);
                 }
             });
 
