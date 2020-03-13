@@ -323,14 +323,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     address.getAddressLine(0));
         }
     }
-    public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RideRequest> riderLocationArrayAdapter, ArrayList<RideRequest> rideRequestArrayList){
+    public void getRideRequests(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RideRequest> riderLocationArrayAdapter, ArrayList<RideRequest> rideRequestArrayList){
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e!= null){
-                    Log.e(TAG, "onEventRiderLocations: list failed");
+                    Log.e(TAG, "onEventRideRequests: list failed");
                     return;
                 }
                 rideRequestArrayList.clear();
@@ -350,7 +350,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                         .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                         mMap.addMarker(options);
                     }
-                    Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());
+                    Log.d(TAG,"onEventRideRequests: size is : "+ rideRequestArrayList.size());
                 }
             }
         });

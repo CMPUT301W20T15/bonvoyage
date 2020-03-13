@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.bonvoyage.models.RideRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -87,22 +88,22 @@ public class FirebaseHandler {
         return driver[0];
     }
 
-    public ArrayList<RiderLocation> getAvailableRiderRequest(){
-        final ArrayList<RiderLocation> riderRequestList = new ArrayList<>();
+    public ArrayList<RideRequest> getAvailableRiderRequest(){
+        final ArrayList<RideRequest> riderRequestList = new ArrayList<>();
         ListenerRegistration riderRequestRefListener;
         db = FirebaseFirestore.getInstance();
 
-        CollectionReference riderRequestRef = db.collection("Rider Location");
+        CollectionReference riderRequestRef = db.collection("RiderRequests");
         riderRequestRefListener = riderRequestRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
                 if (e!=null){
-                    Log.e(TAG,  "onEventRiderLocations: list failed");
+                    Log.e(TAG,  "onEventRideRequests: list failed");
                     return;
                 }
                 if (queryDocumentSnapshots != null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        RiderLocation rider_detail = doc.toObject(RiderLocation.class);
+                        RideRequest rider_detail = doc.toObject(RideRequest.class);
                         if (rider_detail.getStatus() == "available")
                         {
                             riderRequestList.add(rider_detail);
@@ -117,7 +118,7 @@ public class FirebaseHandler {
 
     public void addNewRideRequestToDatabase(Map request_details, final String unique_id){
         db = FirebaseFirestore.getInstance();
-        db.collection("Rider Location")
+        db.collection("RiderRequests")
                 .document(unique_id)
                 .set(request_details)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
