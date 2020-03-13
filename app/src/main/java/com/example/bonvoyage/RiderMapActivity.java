@@ -1,6 +1,8 @@
 package com.example.bonvoyage;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Address;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +32,7 @@ public class RiderMapActivity extends MapActivity {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
+    private TextView currentLocationBox;
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     @Override
@@ -41,11 +44,13 @@ public class RiderMapActivity extends MapActivity {
         ConstraintLayout riderView = findViewById(R.id.rider_layout);
         riderView.setVisibility(View.VISIBLE);
 
-        TextView currentLocationBox = findViewById(R.id.startLocation);
+        currentLocationBox = findViewById(R.id.startLocation);
         currentLocationBox.setOnClickListener(v -> setCurrentLocation());
 
         Button continueButton = findViewById(R.id.continueButton);
+        continueButton.setVisibility(View.GONE);
         continueButton.setOnClickListener(v -> continueToPayment());
+        continueButton.setEnabled(false);
         destinationLocationBox = findViewById(R.id.endLocation);
         destinationLocationBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -57,7 +62,12 @@ public class RiderMapActivity extends MapActivity {
 
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
-                    endLocation = new GeoPoint(address.getLatitude(), address.getLatitude());
+                    if (address != null) {
+                        continueButton.setEnabled(true);
+                        continueButton.setVisibility(View.VISIBLE);
+                        endLocation = new GeoPoint(address.getLatitude(), address.getLatitude());
+                    }
+
                 }
 
                 return false;
@@ -82,27 +92,34 @@ public class RiderMapActivity extends MapActivity {
     }
 
     private void continueToPayment() {
-//        Log.d(TAG, "Start location: " + startLocation.getLatitude()
-//                + ", " + startLocation.getLongitude());
-//        Log.d(TAG, "Destination location: " + endLocation.getLatitude()
-//                + ", " + endLocation.getLongitude());
-        Map<String, Object> tripInformation = new HashMap<>();
-//        tripInformation.put("cost", 10.00);
-//        tripInformation.put("endGeopoint", endLocation);
-//        tripInformation.put("startGeopoint", startLocation);
-//        tripInformation.put("firstName", "Test");
-//        tripInformation.put("lastName", "User");
-//        tripInformation.put("phoneNumber", "17801234567");
-//        tripInformation.put("status", "available");
+        createPricingFragment();
+        Log.d(TAG, "Start location: " + startLocation.getLatitude()
+                + ", " + startLocation.getLongitude());
+        Log.d(TAG, "Destination location: " + endLocation.getLatitude()
+                + ", " + endLocation.getLongitude());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Map<String, Object> tripInformation = new HashMap<>();
+        tripInformation.put("cost", 10.00);
+        tripInformation.put("endGeopoint", endLocation);
+        tripInformation.put("startGeopoint", startLocation);
+        tripInformation.put("firstName", "Test");
+        tripInformation.put("lastName", "User");
+        tripInformation.put("phoneNumber", "17801234567");
+        tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
+
         firebaseHandler.addNewRideRequestToDatabase(tripInformation, "bob@gmail.com");
-        pricingFragment.getView().setVisibility(View.VISIBLE);
-//        Intent intent = new Intent(RiderMapActivity.this, RiderSuggestPrice.class);
-//        startActivity(intent);
+
     }
 
 
+    void createPricingFragment() {
+        currentLocationBox.setOnClickListener(null);
+        destinationLocationBox.setOnClickListener(null);
 
+        pricingFragment.getView().setVisibility(View.VISIBLE);
+
+
+    }
 
 }

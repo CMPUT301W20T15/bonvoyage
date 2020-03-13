@@ -35,14 +35,19 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:orientation="horizontal">
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="$"
+                android:paddingTop="10dp"
+                android:textSize="20dp" />
             <EditText
                 android:id="@+id/price_edit"
                 android:layout_marginBottom="10dp"
                 android:layout_weight="3"
                 android:fadingEdge="horizontal|vertical"
                 android:textSize="20sp"
-                android:hint="$20.00"
+                android:hint="20.00"
                 android:inputType="number"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
