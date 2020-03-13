@@ -1,10 +1,17 @@
 package com.example.bonvoyage.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
-import java.util.Date;
 
-public class RideRequest {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class RideRequest implements Parcelable {
     private GeoPoint startGeopoint;
     private GeoPoint endGeopoint;
     private @ServerTimestamp Date timestamp;
@@ -26,6 +33,8 @@ public class RideRequest {
         this.lastName = lastName;
         this.cost = cost;
     }
+
+
 
     public float getCost() {
         return cost;
@@ -114,4 +123,54 @@ public class RideRequest {
                 ", phoneNumber=" + phoneNumber +
                 ", status="+status+"}";
     }
+
+    // parcelling information
+
+    public static final Creator<RideRequest> CREATOR = new Creator<RideRequest>() {
+        @Override
+        public RideRequest createFromParcel(Parcel in) {
+            return new RideRequest(in);
+        }
+
+        @Override
+        public RideRequest[] newArray(int size) {
+            return new RideRequest[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.userEmail);
+        dest.writeDouble(this.startGeopoint.getLatitude());
+        dest.writeDouble(this.startGeopoint.getLongitude());
+        dest.writeDouble(this.endGeopoint.getLatitude());
+        dest.writeDouble(this.endGeopoint.getLongitude());
+        dest.writeLong(timestamp.getTime());
+        dest.writeString(this.firstName);
+        dest.writeString(this.lastName);
+        dest.writeString(this.phoneNumber);
+        dest.writeFloat(this.cost);
+        dest.writeString(this.status);
+
+    }
+
+    protected RideRequest(Parcel in) {
+        userEmail = in.readString();
+        startGeopoint = new GeoPoint(in.readDouble(), in.readDouble());
+        endGeopoint = new GeoPoint(in.readDouble(), in.readDouble());
+        timestamp = new Date(in.readLong());
+        firstName = in.readString();
+        lastName = in.readString();
+        phoneNumber = in.readString();
+        cost = in.readFloat();
+        status = in.readString();
+
+    }
+
+
 }
