@@ -26,12 +26,12 @@ public class SignUpActivityTest {
         solo.assertCurrentActivity("Wrong Activity", LoginSignupActivity.class);
         solo.clickOnButton("SIGN UP");
     }
-
+    /* NEEDS TO BE CHANGED
     @Test
     public void checkActivitySwitched(){
         solo.assertCurrentActivity("Activity not switched.", SignUpActivity.class);
     }
-    /* NEEDS TO BE CHANGED
+
     @Test
     public void checkBlankSpace(){
         solo.enterText((EditText) solo.getView(R.id.signUpFirstName), "");
