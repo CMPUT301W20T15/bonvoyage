@@ -18,6 +18,10 @@
     <string name="help">Help</string>
     <string name="home">Home</string>
 
+    <!-- Firestore Strings -->
+    <string name="collection_users">Users</string>
+    <string name="collection_rider_locations">Rider Locations</string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="phone_number">Phone Number</string>
