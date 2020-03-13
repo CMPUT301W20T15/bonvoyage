@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,12 +23,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.bonvoyage.models.RiderRequests;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationServices;
@@ -35,6 +38,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,6 +51,14 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -313,5 +325,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
         }
+    }
+    public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RiderRequests> riderLocationArrayAdapter, ArrayList<RiderRequests> riderRequestsArrayList){
+        CollectionReference riderRef = mDatabase
+                .collection("RiderRequests");
+        mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e!= null){
+                    Log.e(TAG, "onEventRiderLocations: list failed");
+                    return;
+                }
+                riderRequestsArrayList.clear();
+                if (queryDocumentSnapshots!= null){
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        RiderRequests rider = doc.toObject(RiderRequests.class);
+                        riderRequestsArrayList.add(rider);
+                        riderLocationArrayAdapter.add(rider);
+                        GeoPoint startGeopoint = rider.getStartGeopoint();
+                        GeoPoint endGeopoint = rider.getEndGeopoint();
+                        Log.d(TAG,rider.toString());
+                        LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
+                        MarkerOptions options = new MarkerOptions()
+                                .position(rider_position)
+                                .title(rider.getUserEmail())
+                                .icon(BitmapDescriptorFactory
+                                        .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                        mMap.addMarker(options);
+                    }
+                    Log.d(TAG,"onEventRiderLocations: size is : "+ riderRequestsArrayList.size());
+                }
+            }
+        });
     }
 }
