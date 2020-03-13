@@ -55,7 +55,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".DriverMapActivity" />
-        <activity android:name=".LoginSignupActivity" />
         <activity android:name=".RiderMapActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".RiderSuggestPrice" />
