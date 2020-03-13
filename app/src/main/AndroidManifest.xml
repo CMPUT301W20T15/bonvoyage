@@ -63,6 +63,5 @@
         <activity android:name=".SignInPhoneActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SignInEmailActivity" />
-    </application>
-
+    </application
 </manifest>
