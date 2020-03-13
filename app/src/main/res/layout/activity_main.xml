@@ -6,22 +6,17 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    >
+    <include layout="@layout/menu_toolbar"/>
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="#fff" />
+        app:layout_constraintTop_toTopOf="parent">
 
-        <include layout="@layout/activity_driver_map" />
-        <include layout="@layout/activity_rider_home" />
-
-        <include layout="@layout/driver_layout" />
-
+        <include layout="@layout/map"/>
         <include layout="@layout/rider_layout" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
