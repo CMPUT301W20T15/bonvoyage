@@ -60,4 +60,4 @@
         android:layout_height="wrap_content"
         android:text="COMPLETE TRIP"
         android:id="@+id/ds_complete_btn"/>
-</>
+</LinearLayout>
