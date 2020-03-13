@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/splash_page_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_page" />
+
+    <TextView
+        android:id="@+id/BonVovage_Splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="top|center"
+        android:text="BonVovage"
+        android:textColor="#FFFFFF"
+        android:textSize="60dp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/signInEmailButton"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/BonVovage_Splash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:backgroundTint="#1A237E"
+        android:fontFamily="@font/roboto_bold"
+        android:onClick="signInEmailClicked"
+        android:text="SIGN IN WITH EMAIL"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/signInPhoneButton"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signInEmailButton"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#327CAE"
+        android:fontFamily="@font/roboto_bold"
+        android:onClick="signInPhoneClicked"
+        android:text="SIGN IN WITH PHONE"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/signInPhoneButton"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#3DA1AE"
+        android:fontFamily="@font/roboto_bold"
+        android:hapticFeedbackEnabled="false"
+        android:onClick="signUpClicked"
+        android:text="SIGN UP AS A NEW USER"
+        android:textColor="#FFFFFF" />
+
+
+</RelativeLayout>

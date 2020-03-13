@@ -1,6 +1,5 @@
 package com.example.bonvoyage;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,9 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -30,12 +26,12 @@ public class SignInEmailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in_email);
+        setContentView(R.layout.user_sign_in);
 
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
-        btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
+        //btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
 
         // FOR TESTINGS
         mAuth = FirebaseAuth.getInstance();
@@ -73,7 +69,7 @@ public class SignInEmailActivity extends AppCompatActivity {
                 toastMessage("Fill in all fields");
             }
         });
-
+        /* FOR SIGNING OUT
         btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +77,9 @@ public class SignInEmailActivity extends AppCompatActivity {
                 toastMessage("Signing out...");
             }
         });
+        */
 
+        /* FOR GOING BACK TO LOGIN SCREEN
         backToLoginScreen = findViewById(R.id.BackButton);
         backToLoginScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +87,7 @@ public class SignInEmailActivity extends AppCompatActivity {
                 goToLoginScreen(v);
             }
         });
-
+        */
     }
     public void goToLoginScreen(View view){
         Intent intent = new Intent(this, LoginSignupActivity.class);
