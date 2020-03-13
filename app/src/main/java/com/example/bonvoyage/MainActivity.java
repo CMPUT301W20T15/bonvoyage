@@ -21,11 +21,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.firestore.auth.User;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static final int ERROR_DIALOG_REQUEST = 9001;
-    private User currentUser;
     ListView riderList;
     ArrayAdapter<String> riderAdapter;
     ArrayList<String> riderDataList;
@@ -40,48 +39,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-
-        riderList = findViewById(R.id.rider_list);
-        riderDataList = new ArrayList<>();
-        riderDataList.add("user1");
-        riderDataList.add("user2");
-
-        riderAdapter = new RidersAvailableList(this, riderDataList);
-        riderList.setAdapter(riderAdapter);
-
-        currentUser = new User("test", "rider");
     }
 
-    @Override
-    public void onClick(View v) {
 
-        if (currentUser.getUserType().equals("rider")) {
-            ConstraintLayout riderView = findViewById(R.id.rider_layout);
-            riderView.setVisibility(View.VISIBLE);
-        } else if (currentUser.getUserType().equals("driver")) {
-            ConstraintLayout driverView = findViewById(R.id.driver_layout);
-            driverView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void init() {
-        currentUser = new User("test", "rider");
+    private void init(){
+        Rider currentUser = new Rider("jane", "doe", "abc", "780296664", "abcd");
         if (currentUser.getUserType().equals("rider")) {
             Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
             startActivity(intent);
+            ConstraintLayout riderView = findViewById(R.id.rider_layout);
+            riderView.setVisibility(View.VISIBLE);
         } else if (currentUser.getUserType().equals("driver")) {
             Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
             startActivity(intent);
+            ConstraintLayout driverView = findViewById(R.id.driver_layout);
+            driverView.setVisibility(View.VISIBLE);
         }
-
-//        Button btnMap = (Button) findViewById(R.id.map_id);
-//        btnMap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this,DriverMapActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     public boolean isServicesOK() {

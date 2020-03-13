@@ -1,16 +1,33 @@
 <resources>
     <string name="app_name">BonVoyage</string>
+    <string name="google_maps_API_key">AIzaSyBPFTzh_rgXi82JRZJIv6avzYYynm-7aPs</string>
 
+    <!--Activity titles-->
     <string name="title_activity_rider_home">Bon Voyage</string>
     <string name="title_activity_rider_map">Map</string>
 
-    <string name="google_maps_API_key">AIzaSyBPFTzh_rgXi82JRZJIv6avzYYynm-7aPs</string>
+    <!--Map related strings-->
     <string name="current_location_hint">Current Location</string>
     <string name="destination_location_hint">Add Destination</string>
     <string name="button_continue">Continue</string>
+
+    <!--Menu strings-->
     <string name="my_trips">My Trips</string>
     <string name="payments">Payments</string>
     <string name="settings">Settings</string>
     <string name="help">Help</string>
     <string name="home">Home</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="phone_code">Send SMS Code</string>
+    <string name="sms_code">SMS Code</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
 </resources>
