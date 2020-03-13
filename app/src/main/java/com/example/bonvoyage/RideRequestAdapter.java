@@ -1,6 +1,7 @@
 package com.example.bonvoyage;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.rider_list_item,parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.driver_list_item,parent,false);
         }
         final RideRequest rideRequest = rideRequestArrayList.get(position);
         TextView name = view.findViewById(R.id.contact_name);
@@ -48,6 +49,8 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
             @Override
             public void onClick(View view) {
                 //PASS TO NEXT FRAGMENT HERE
+                Intent intent = new Intent(context, DriverStatusActivity.class);
+                context.startActivity(intent);
                 Log.d("TEST ACCEPT", "WORKING");
             }
         });
