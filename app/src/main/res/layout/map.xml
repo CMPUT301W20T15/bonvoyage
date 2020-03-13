@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,8 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:context=".MapActivity">
 
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <fragment
             android:id="@+id/map_driver"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             tools:context=".MapActivity" />
 
         <RelativeLayout
-            android:id="@+id/search_layout"
+            android:id="@+id/search_box"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
@@ -34,7 +34,6 @@
             <ImageView
                 android:id="@+id/ic_magnify"
                 android:layout_width="15dp"
-                android:visibility="gone"
                 android:layout_height="15dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
@@ -49,7 +48,6 @@
                 android:layout_toRightOf="@+id/ic_magnify"
                 android:background="@null"
                 android:hint="Search"
-                android:visibility="gone"
                 android:imeOptions="actionSearch"
                 android:textColor="#000"
                 android:textSize="15sp"/>
@@ -59,7 +57,7 @@
             android:id="@+id/ic_gps"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/search_layout"
+            android:layout_below="@+id/search_box"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"

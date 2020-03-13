@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
@@ -19,13 +20,10 @@ public class DriverMapActivity extends MapActivity {
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
 
-//        ConstraintLayout driverView = findViewById(R.id.driver_layout);
-//        driverView.setVisibility(View.VISIBLE);
-
         inputSearch = findViewById(R.id.endLocation);
-        ImageView magnifyingIcon = findViewById(R.id.ic_magnify);
-        magnifyingIcon.setVisibility(View.VISIBLE);
-        inputSearch.setVisibility(View.VISIBLE);
+//        ImageView magnifyingIcon = findViewById(R.id.ic_magnify);
+//        magnifyingIcon.setVisibility(View.VISIBLE);
+//        inputSearch.setVisibility(View.VISIBLE);
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {

@@ -17,9 +17,6 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <include layout="@layout/map"/>
-
         <include layout="@layout/rider_layout" />
-
-
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

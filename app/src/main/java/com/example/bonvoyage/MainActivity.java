@@ -37,20 +37,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
 
-        currentUser = new Rider("jane", "doe", "abc", "780296664","abcd");
-
-
-        if (currentUser.getUserType().equals("driver")) {
-
-        }
-        else if (currentUser.getUserType().equals("x")) {
-            ConstraintLayout driverView = findViewById(R.id.driver_layout);
-            driverView.setVisibility(View.VISIBLE);
-        }
     }
 
     private void init(){
-        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+//        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+        Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
         startActivity(intent);
     }
 
