@@ -1,12 +1,14 @@
 package com.example.bonvoyage;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -16,21 +18,35 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bonvoyage.models.RiderRequests;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,7 +58,19 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = googleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.driver_style));
 
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
 
@@ -73,16 +101,36 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private FirebaseFirestore mDatabase;
+
+    private ListenerRegistration mRiderListEventListener;
+
+    private ListView riderList;
+    private ArrayAdapter<RiderRequests> riderLocationArrayAdapter;
+    private ArrayList<RiderRequests> riderRequestsArrayList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_driver_map);
+        riderList = findViewById(R.id.rider_list_view);
+        riderLocationArrayAdapter = new RiderRequestsAdapter(DriverMapActivity.this, riderRequestsArrayList);
+        riderList.setAdapter(riderLocationArrayAdapter);
+
         mSearchText = (EditText) findViewById(R.id.input_search);
         mGps = (ImageView) findViewById(R.id.ic_gps);
+        mDatabase = FirebaseFirestore.getInstance();
         getLocationPermission();
-    }
 
+        riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RiderRequests selectedRider = (RiderRequests) adapterView.getItemAtPosition(i);
+                riderLocationArrayAdapter.notifyDataSetChanged();
+            }
+        });
+    }
     private void init(){
         Log.d(TAG, "init: initializing");
 
@@ -95,7 +143,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
 
                     //execute our method for searching
-                    geoLocate();
+                    geoLocate(mMap,mSearchText);
                 }
 
                 return false;
@@ -113,7 +161,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         hideSoftKeyboard();
     }
 
-    private void geoLocate(){
+    private void geoLocate(GoogleMap mMap, EditText mSearchText){
         Log.d(TAG, "geoLocate: geolocating");
 
         String searchString = mSearchText.getText().toString();
@@ -131,9 +179,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-
+            mMap.clear();
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
-                    address.getAddressLine(0));
+                    address.getAddressLine(0),mMap);
         }
     }
 
@@ -152,11 +200,15 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
-
+                            MarkerOptions options = new MarkerOptions()
+                                    .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
+                                    .title("Current Location")
+                                    .icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+                            mMap.addMarker(options);
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM,
-                                    "My Location");
-
+                                    "My Location",mMap);
                         }else{
                             Log.d(TAG, "onComplete: current location is null");
                             Toast.makeText(DriverMapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
@@ -169,14 +221,16 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom, String title){
+    private void moveCamera(LatLng latLng, float zoom, String title, GoogleMap mMap){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
         if(!title.equals("My Location")){
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
-                    .title(title);
+                    .title(title)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
             mMap.addMarker(options);
         }
 
@@ -186,8 +240,45 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_driver);
-
         mapFragment.getMapAsync(DriverMapActivity.this);
+        getRiderLocations();
+
+    }
+    private void getRiderLocations(){
+        CollectionReference riderRef = mDatabase
+                .collection("RiderRequests");
+        mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e!= null){
+                    Log.e(TAG, "onEventRiderLocations: list failed");
+                    return;
+                }
+                riderRequestsArrayList.clear();
+                riderRequestsArrayList = new ArrayList<>();
+                if (queryDocumentSnapshots!= null){
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        RiderRequests rider = doc.toObject(RiderRequests.class);
+                        riderRequestsArrayList.add(rider);
+                        riderLocationArrayAdapter.add(rider);
+                        GeoPoint startGeopoint = rider.getStartGeopoint();
+                        GeoPoint endGeopoint = rider.getEndGeopoint();
+                        Log.d(TAG,rider.toString());
+                        LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
+                        MarkerOptions options = new MarkerOptions()
+                                .position(rider_position)
+                                .title(rider.getUserEmail())
+                                .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                        mMap.addMarker(options);
+                    }
+                    Log.d(TAG,"onEventRiderLocations: size is : "+ riderRequestsArrayList.size());
+                }
+            }
+        });
+    }
+    private void plotRiders(ArrayList<RiderRequests> riderRequestsArrayList){
+
     }
 
     private void getLocationPermission(){
@@ -240,4 +331,5 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
+
 }
