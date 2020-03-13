@@ -43,7 +43,7 @@
         android:layout_alignLeft="@+id/BonVovage_Splash"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/roboto_bold"
         android:text="SIGN UP"
         android:textSize="20dp" />
@@ -129,7 +129,6 @@
         android:layout_marginLeft="40dp"
         android:backgroundTint="#1A237E"
         android:text="CONFIRM REGISTRATION"
-        android:textColor="#FFFFFF"
-        android:onClick="True" />
+        android:textColor="#FFFFFF" />
 
 </RelativeLayout>
