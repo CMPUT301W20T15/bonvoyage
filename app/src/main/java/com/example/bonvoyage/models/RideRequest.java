@@ -4,7 +4,7 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date;
 
-public class RiderRequests {
+public class RideRequest {
     private GeoPoint startGeopoint;
     private GeoPoint endGeopoint;
     private @ServerTimestamp Date timestamp;
@@ -15,7 +15,7 @@ public class RiderRequests {
     private String lastName;
     private float cost;
 
-    public RiderRequests(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName, float cost){
+    public RideRequest(GeoPoint startGeopoint, GeoPoint endGeopoint, Date timestamp, String userEmail, String status, String phoneNumber, String firstName, String lastName, float cost){
         this.startGeopoint = startGeopoint;
         this.endGeopoint = endGeopoint;
         this.timestamp = timestamp;
@@ -35,7 +35,7 @@ public class RiderRequests {
         this.cost = cost;
     }
 
-    public RiderRequests(){
+    public RideRequest(){
 
     }
 
