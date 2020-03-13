@@ -15,5 +15,10 @@
     <item
         android:id="@+id/menu_item_help"
         android:title="@string/help" />
+<<<<<<< HEAD
 </menu>
+=======
+
+</menu> 
+>>>>>>> f995589b0551075675094cebceafee06f8453eb5
 

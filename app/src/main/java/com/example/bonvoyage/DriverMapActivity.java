@@ -239,7 +239,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_driver);
         mapFragment.getMapAsync(DriverMapActivity.this);
         getRiderLocations();
 

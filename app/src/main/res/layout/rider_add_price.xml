@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#9da1c7"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--    <fragment-->
+<!--        android:id="@+id/map_rider"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_height="match_parent"-->
+<!--        tools:context=".RiderMapActivity" />-->
+
+    <RelativeLayout
+        android:layout_width="376dp"
+        android:layout_height="180dp"
+        android:layout_marginLeft="20dp"
+
+        android:layout_marginTop="120dp">
+
+        <TextView
+            android:id="@+id/origin_location"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_alignBottom="@+id/ending_location"
+            android:layout_marginBottom="75dp"
+            android:background="#FFFFFF"
+            android:clickable="false"
+            android:focusable="false"
+            android:gravity="center_horizontal"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="20dp"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/ending_location"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="75dp"
+            android:background="#FFFFFF"
+            android:focusable="false"
+            android:gravity="center_horizontal"
+            android:inputType="none"
+            android:paddingHorizontal="5dp"
+            android:paddingTop="20dp"
+            android:textAlignment="center"
+            android:textColor="#000000" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="376dp"
+        android:layout_height="280dp"
+        android:layout_marginLeft="20dp"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:layout_width="345dp"
+            android:layout_height="147dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:text="the price is so and so"
+            android:padding="20dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:id="@+id/price_info"
+            android:textSize="20dp"
+            android:layout_marginTop="34dp"
+             />
+
+        <EditText
+            android:layout_width="257dp"
+            android:layout_height="58dp"
+            android:layout_alignParentStart="true"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="22dp"
+            android:layout_marginLeft="22dp"
+            android:layout_marginBottom="35dp"
+            android:layout_weight="3"
+            android:fadingEdge="horizontal|vertical"
+            android:id="@+id/price_edit"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/approve"
+            android:layout_width="83dp"
+
+            android:layout_height="58dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            android:layout_marginBottom="35dp"
+            android:layout_weight="1"
+            android:padding="13dp"
+            android:src="@drawable/ic_check_circle_black_24dp" />
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/submit_req"
+        android:layout_width="376dp"
+        android:layout_height="67dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:background="#1a237e"
+        android:text="REQUEST DRIVER"
+        android:textColor="#FFFFFF" />
+
+
+</LinearLayout>
