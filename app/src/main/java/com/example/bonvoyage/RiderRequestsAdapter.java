@@ -31,22 +31,28 @@ public class RiderRequestsAdapter extends ArrayAdapter<RiderRequests> {
         if (view == null){
             view = LayoutInflater.from(context).inflate(R.layout.rider_list_item,parent,false);
         }
-        RiderRequests riderRequests = riderRequestsArrayList.get(position);
-        TextView user_name = view.findViewById(R.id.contact_name);
-        TextView driver_cost = view.findViewById(R.id.drive_cost);
-        ImageButton expandBtn = (ImageButton)view.findViewById(R.id.expand_button);
+        final RiderRequests riderRequests = riderRequestsArrayList.get(position);
+        TextView name = view.findViewById(R.id.contact_name);
+        TextView driverCost = view.findViewById(R.id.drive_cost);
+        TextView userEmail = view.findViewById(R.id.rider_email);
+        TextView userPhone = view.findViewById(R.id.rider_phone);
+        Button acceptBtn = (Button)view.findViewById(R.id.driver_accept);
 
-        String rider_name = riderRequests.getFirstName() + " " +riderRequests.getLastName();
-        float ride_amount = riderRequests.getCost();
-        user_name.setText(rider_name);
-        driver_cost.setText(Float.toString(ride_amount));
-        expandBtn.setOnClickListener(new View.OnClickListener() {
+        String riderName = riderRequests.getFirstName() + " " +riderRequests.getLastName();
+        String email = riderRequests.getUserEmail();
+        String phone = riderRequests.getPhoneNumber();
+        float rideCost = riderRequests.getCost();
+        name.setText(riderName);
+        driverCost.setText(Float.toString(rideCost));
+        userEmail.setText(email);
+        userPhone.setText(phone);
+        acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("HI", "HIIII");
+                //PASS TO NEXT FRAGMENT HERE
+                Log.d("TEST ACCEPT", "WORKING");
             }
         });
-
         return view;
     }
 
