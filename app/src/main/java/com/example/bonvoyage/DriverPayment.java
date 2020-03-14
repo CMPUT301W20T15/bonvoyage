@@ -52,6 +52,7 @@ public class DriverPayment extends AppCompatActivity {
             public void onClick(View v) {
                 if (intentData.length() > 0) {
                     startActivity(new Intent(DriverPayment.this, Activity.class));  // Set firebase save function in the second argument
+                    startActivity(new Intent(DriverPayment.this, RiderMapActivity.class));  // Sets Rider side to rider home
                 } else {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                 }
