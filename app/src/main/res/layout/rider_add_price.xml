@@ -47,8 +47,7 @@
                 android:layout_weight="3"
                 android:fadingEdge="horizontal|vertical"
                 android:textSize="20sp"
-                android:hint="20.00"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent" />
 
