@@ -34,4 +34,8 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_in_with_email">SIGN IN WITH EMAIL</string>
+    <string name="sign_in_with_phone">SIGN IN WITH PHONE</string>
+    <string name="suggested_payment"><![CDATA[The suggested fare for your trip is %1$d You must enter at least this much in order to request a driver.]]></string>
 </resources>
