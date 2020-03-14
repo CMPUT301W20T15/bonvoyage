@@ -22,12 +22,18 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * SMSActivity begins right after SignInPhoneActivity
+ * Prompts the user to enter their SMS verification code to sucessfully sign into
+ * their account.
+ * Source code used: https://firebase.google.com/docs/auth/android/phone-auth.
+ */
 public class SMSActivity extends AppCompatActivity {
+    //Instance variables
     private String smsID;
     private ProgressBar smsProgressBar;
     private EditText smsEditText;
     private Button submitSMSBtn;
-
     private static final String TAG = "SMSActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -70,11 +76,20 @@ public class SMSActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * verifyCode checks if the SMS code entered matches the one on their account.
+     * @param smsCode
+     */
     private void verifyCode(String smsCode) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(smsID, smsCode);
         signInWithCredential(credential);
     }
 
+    /**
+     * signInWithCredential facilitates Phone sign in, if the correct phone number and
+     * verification code is entered the user will be signed in.
+     * @param credential
+     */
     private void signInWithCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -89,6 +104,10 @@ public class SMSActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * sendVerifcationCode will send the SMS code to the user.
+     * @param phone
+     */
     private void sendVerificationCode(String phone) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phone,
@@ -98,6 +117,11 @@ public class SMSActivity extends AppCompatActivity {
                 mCallBack);
     }
 
+    /**
+     * PhoneAuthProvider from Google's Firebase to verify the phone number
+     * and verifcation code.
+     * Source:
+     */
     private PhoneAuthProvider.OnVerificationStateChangedCallbacks
             mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
@@ -120,6 +144,10 @@ public class SMSActivity extends AppCompatActivity {
             toastMessage(e.getMessage() + "VERIFICATION FAILED");
         }
     };
+    /**
+     * toastMessage generates a toast message.
+     * @param message
+     */
     public void toastMessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
