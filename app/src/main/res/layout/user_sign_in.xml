@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash_page_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/splash_page" />
+
+    <TextView
+        android:id="@+id/BonVovage_Splash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/roboto_bold"
+        android:gravity="top|center"
+        android:text="BonVovage"
+        android:textColor="#FFFFFF"
+        android:textSize="60dp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/whiteBox"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/BonVovage_Splash"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        app:srcCompat="@drawable/white_backgroundroundcorner" />
+
+    <TextView
+        android:id="@+id/sign_in_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/BonVovage_Splash"
+        android:layout_alignStart="@+id/BonVovage_Splash"
+        android:layout_alignLeft="@+id/BonVovage_Splash"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="110dp"
+        android:fontFamily="@font/roboto_bold"
+        android:text="SIGN IN"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sign_in_title"
+        android:layout_alignStart="@+id/sign_in_title"
+        android:layout_alignLeft="@+id/sign_in_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginTop="25dp"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
+        android:maxLines="1" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/email"
+        android:layout_alignStart="@+id/sign_in_title"
+        android:layout_alignLeft="@+id/sign_in_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="25dp"
+        android:hint="Password"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:inputType="textPassword"
+        android:maxLines="1" />
+
+    <Button
+        android:id="@+id/email_sign_in_button"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_alignStart="@+id/password"
+        android:layout_alignLeft="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="#1A237E"
+        android:fontFamily="@font/roboto_bold"
+        android:text="Sign In"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.bonvoyage.RiderMapActivity"
+    tools:showIn="@layout/activity_main"
+    android:id="@+id/rider_layout_home"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
+
+    <fragment
+        android:id="@+id/map_rider"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_height="match_parent"
+        tools:context=".RiderMapActivity" />
+
+
+<!--    <RelativeLayout-->
+<!--        android:layout_height="320dp"-->
+<!--        android:layout_marginTop="420dp"-->
+<!--        android:layout_width="370dp"-->
+<!--        android:layout_marginLeft="20dp">-->
+
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:hint="Start Location"-->
+<!--            android:textAlignment="center"-->
+<!--            android:layout_height="75dp"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:background="#FFFFFF"-->
+<!--            android:clickable="true"-->
+<!--            android:id="@+id/current_location"-->
+<!--            android:paddingHorizontal="5dp"-->
+<!--            android:gravity="center_horizontal"-->
+<!--            android:focusable="false" />-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:hint="Add Destination"-->
+<!--            android:paddingTop="20dp"-->
+<!--            android:layout_height="75dp"-->
+<!--            android:inputType="none"-->
+<!--            android:focusable="false"-->
+<!--            android:textAlignment="center"-->
+<!--            android:background="#FFFFFF"-->
+<!--            android:textColor="#000000"-->
+<!--            android:id="@+id/add_destination"-->
+<!--            android:layout_marginTop="75dp"-->
+<!--            android:paddingHorizontal="5dp"-->
+<!--            android:gravity="center_horizontal" />-->
+
+<!--        <Button-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="75dp"-->
+<!--            android:text="Continue"-->
+<!--            android:id="@+id/continue_req"-->
+<!--            android:background="#1a237e"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:layout_marginTop="185dp">-->
+<!--        </Button>-->
+<!--    </RelativeLayout>-->
+</RelativeLayout>
