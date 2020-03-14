@@ -1,9 +1,11 @@
 package com.example.bonvoyage;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.location.Address;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,6 +28,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class RiderMapActivity extends MapActivity {
@@ -33,6 +36,7 @@ public class RiderMapActivity extends MapActivity {
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
     private TextView currentLocationBox;
+    private Button continueButton;
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     @Override
@@ -47,7 +51,7 @@ public class RiderMapActivity extends MapActivity {
         currentLocationBox = findViewById(R.id.startLocation);
         currentLocationBox.setOnClickListener(v -> setCurrentLocation());
 
-        Button continueButton = findViewById(R.id.continueButton);
+        continueButton = findViewById(R.id.continueButton);
         continueButton.setVisibility(View.GONE);
         continueButton.setOnClickListener(v -> continueToPayment());
         continueButton.setEnabled(false);
@@ -65,7 +69,7 @@ public class RiderMapActivity extends MapActivity {
                     if (address != null) {
                         continueButton.setEnabled(true);
                         continueButton.setVisibility(View.VISIBLE);
-                        endLocation = new GeoPoint(address.getLatitude(), address.getLatitude());
+                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
 
                 }
@@ -81,25 +85,26 @@ public class RiderMapActivity extends MapActivity {
 
     }
 
-    private void setDestinationLocation() {
-        Log.d(TAG, "Updated destination location");
-        getDeviceLocation();
-        // TODO: update in database
-        // TODO: draw line
-        // TODO: disable button if desintation not set
-        // TODO: calculate destination amount
-        // TODO: set address
-    }
-
     private void continueToPayment() {
+        double distance = calculateDistance(startLocation, endLocation);
+        EditText priceEdit = findViewById(R.id.price_edit);
+        double cost = distance * 2.5;
+        priceEdit.setText(String.format(Locale.CANADA, "%.2f",cost));
+
+        String priceText = String.format(getString(R.string.suggested_payment), cost);
+
+        TextView priceInfo = findViewById(R.id.price_info);
+        priceInfo.setText(priceText);
+
         createPricingFragment();
+        
         Log.d(TAG, "Start location: " + startLocation.getLatitude()
                 + ", " + startLocation.getLongitude());
         Log.d(TAG, "Destination location: " + endLocation.getLatitude()
                 + ", " + endLocation.getLongitude());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        Map<String, Object> tripInformation = new HashMap<>();
-        tripInformation.put("cost", 10.00);
+        HashMap<String, Object> tripInformation = new HashMap<>();
+        tripInformation.put("cost", cost);
         tripInformation.put("endGeopoint", endLocation);
         tripInformation.put("startGeopoint", startLocation);
         tripInformation.put("firstName", "Test");
@@ -107,19 +112,44 @@ public class RiderMapActivity extends MapActivity {
         tripInformation.put("phoneNumber", "17801234567");
         tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
-
-        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "bob@gmail.com");
-
+        Bundle rideInfo = new Bundle();
+        rideInfo.putSerializable("HashMap",tripInformation);
+        pricingFragment.setArguments(rideInfo);
+        continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
     }
 
 
     void createPricingFragment() {
         currentLocationBox.setOnClickListener(null);
         destinationLocationBox.setOnClickListener(null);
+        destinationLocationBox.setEnabled(false);
 
         pricingFragment.getView().setVisibility(View.VISIBLE);
 
 
+    }
+    private double calculateDistance(GeoPoint start, GeoPoint end) {
+        Log.d(TAG, "Destination location: " + endLocation.getLatitude()
+                + ", " + endLocation.getLongitude());
+        double long1 = Math.toRadians(start.getLongitude());
+        double lat1 = Math.toRadians(start.getLatitude());
+        double lat2 = Math.toRadians(end.getLatitude());
+        double long2 = Math.toRadians(end.getLongitude());
+
+        double dlong = long2 - long1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlong / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 6371;
+
+        // calculate the result
+        return(c * r);
     }
 
 }
