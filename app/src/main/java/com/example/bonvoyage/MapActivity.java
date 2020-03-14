@@ -333,6 +333,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return address;
     }
 
+    /**
+     * getRiderLocations plots the current ride requests on the map in cyan.
+     * @param mRiderListEventListener
+     * @param mDatabase
+     * @param riderLocationArrayAdapter
+     * @param rideRequestArrayList
+     */
     public void getRiderLocations(ListenerRegistration mRiderListEventListener, FirebaseFirestore mDatabase, ArrayAdapter<RideRequest> riderLocationArrayAdapter, ArrayList<RideRequest> rideRequestArrayList){
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");

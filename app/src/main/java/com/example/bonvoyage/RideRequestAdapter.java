@@ -17,6 +17,10 @@ import com.example.bonvoyage.models.RideRequest;
 
 import java.util.ArrayList;
 
+/**
+ * RideRequestAdapter handles each listview items and contains the ride requests from riders, taken from firebase
+ * to communicate with the driver.
+ */
 public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     private ArrayList<RideRequest> rideRequestArrayList;
     private Context context;
@@ -25,6 +29,15 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         this.rideRequestArrayList = rideRequestArrayList;
         this.context = context;
     }
+
+    /**
+     * getView handles all the RideRequest objects contained in the array adpter and implements
+     * access to the views for DriverMapActivity.
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return View
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         View view = convertView;
         if (view == null){
@@ -45,6 +58,8 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         driverCost.setText(Float.toString(rideCost));
         userEmail.setText(email);
         userPhone.setText(phone);
+
+        //OnClickListener for each Accept Button for each of the RideRequests shown in the listview.
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

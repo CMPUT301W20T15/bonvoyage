@@ -14,19 +14,25 @@ import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 
-
+/**
+ * DriverMapActivity extends MapActvity --> specialization for the Driver user class.
+ * DriverMapActivity implements the homescreen for the driver user.
+ */
 public class DriverMapActivity extends MapActivity {
-
     private static final String TAG = "DriverMapActivity";
     private EditText inputSearch;
 
+    //Instances
     private ListenerRegistration mRiderListEventListener;
-
     private ListView riderList;
     private ArrayAdapter<RideRequest> riderLocationArrayAdapter;
     private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
     private FirebaseFirestore mDatabase;
 
+    /**
+     * onMapReady sets the Map View, along with the associated Listview and EditText.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -41,6 +47,9 @@ public class DriverMapActivity extends MapActivity {
 //        ImageView magnifyingIcon = findViewById(R.id.ic_magnify);
 //        magnifyingIcon.setVisibility(View.VISIBLE);
 //        inputSearch.setVisibility(View.VISIBLE);
+        /**
+         * Allows driver to search for a different location.
+         */
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {

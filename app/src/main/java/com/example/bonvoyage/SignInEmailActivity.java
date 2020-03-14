@@ -13,16 +13,22 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * SignInEmailActivity provides email sign in functionality for our app.
+ * Once a user has used the email to create an account, they cannot create
+ * another account with the same email. (Unique username implementation.
+ * Source code: https://firebase.google.com/docs/auth/android/email-link-auth
+ */
 public class SignInEmailActivity extends AppCompatActivity {
+    //Instance variables
     private static final String TAG = "SignInEmailActivity";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
     private EditText mEmail, mPassword;
     private Button btnSignIn, btnSignOut;
     private Button backToLoginScreen;
-
     private FirebaseHandler firebaseHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +45,11 @@ public class SignInEmailActivity extends AppCompatActivity {
 
         firebaseHandler = new FirebaseHandler();
 
-        // SHOULD BE CHANGED
+        /**
+         * Checks whether the User is a rider or a driver, and directs them to their respective
+         * home activities.
+         */
+        // TODO: SHOULD BE CHANGED IN LATER VERSION
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null){
@@ -60,6 +70,10 @@ public class SignInEmailActivity extends AppCompatActivity {
             }
         };
 
+        /**
+         * If no email or password is entered (empty fields) prompts the user to fill out all fields
+         * with a toast message.
+         */
         btnSignIn.setOnClickListener(view -> {
             String email = mEmail.getText().toString();
             String pass = mPassword.getText().toString();
@@ -108,6 +122,10 @@ public class SignInEmailActivity extends AppCompatActivity {
             mAuth.removeAuthStateListener(mAuthListener);
         }
     }
+    /**
+     * toastMessage generates a toast message.
+     * @param message
+     */
     public void toastMessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
