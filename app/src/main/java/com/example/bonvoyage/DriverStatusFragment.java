@@ -34,7 +34,8 @@ public class DriverStatusFragment extends Fragment {
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-
+                new DriverPayment();    //Call driver payment
+                new RiderPaymentFragment();     //Call rider payment fragment to display for QR Code
             }
         });
 
