@@ -1,5 +1,6 @@
 package com.example.bonvoyage.models;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -27,11 +28,11 @@ public class RideRequest implements Parcelable {
         this.endGeopoint = endGeopoint;
         this.timestamp = timestamp;
         this.userEmail = userEmail;
-        this.status = status;
         this.phoneNumber = phoneNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.cost = cost;
+        this.status = status;
     }
 
 
@@ -161,15 +162,18 @@ public class RideRequest implements Parcelable {
 
     protected RideRequest(Parcel in) {
         userEmail = in.readString();
-        startGeopoint = new GeoPoint(in.readDouble(), in.readDouble());
-        endGeopoint = new GeoPoint(in.readDouble(), in.readDouble());
+        Double startGeopointLatitude = in.readDouble();
+        Double startGeopointLongitude = in.readDouble();
+        Double endGeopointLatitude = in.readDouble();
+        Double endGeopointLongitude = in.readDouble();
         timestamp = new Date(in.readLong());
         firstName = in.readString();
         lastName = in.readString();
         phoneNumber = in.readString();
         cost = in.readFloat();
         status = in.readString();
-
+        startGeopoint = new GeoPoint(startGeopointLatitude,startGeopointLongitude);
+        endGeopoint = new GeoPoint(endGeopointLatitude, endGeopointLongitude);
     }
 
 
