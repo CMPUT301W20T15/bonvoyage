@@ -59,16 +59,6 @@ before_install:
   # Accept sdk licenses
   - yes | sdkmanager "platforms;android-29"
 
-  # Get gradle
-  - chmod +x gradlew
-  - wget https://services.gradle.org/distributions/gradle-5.3-bin.zip
-  - unzip -qq gradle-5.3-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-5.3
-  - export PATH=$GRADLE_HOME/bin:$PATH
-
-  # Build the project
-  - gradle -v
-
   # Start the emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
