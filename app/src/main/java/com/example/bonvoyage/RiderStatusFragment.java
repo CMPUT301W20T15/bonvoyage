@@ -103,7 +103,7 @@ public class RiderStatusFragment extends Fragment {
             }
         });
 
-        
+
         driver_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
