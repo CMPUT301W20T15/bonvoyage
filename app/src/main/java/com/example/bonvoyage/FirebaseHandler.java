@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,6 +30,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * This class handles the firebase cloud service that is updated live with the applciation
+ */
 public class FirebaseHandler {
     private static FirebaseHandler instance = null;
     private String TAG = "Firebase";
@@ -45,8 +49,16 @@ public class FirebaseHandler {
         }
         return instance;
     }
+    public FirebaseUser getCurrentUser(){
+        return FirebaseAuth.getInstance().getCurrentUser();
+    }
 
-
+    /**
+     * If the user exists, the user is logged on to the app
+     * @param email     the user's email
+     * @param password  the user's password
+     * @param activity  the activity to display a toast
+     */
     public void loginUser(String email, String password, SignInEmailActivity activity) {
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
@@ -63,10 +75,56 @@ public class FirebaseHandler {
                 });
     }
 
-    public FirebaseUser getCurrentUser(){
-        return FirebaseAuth.getInstance().getCurrentUser();
+    /**
+     * Communicates with the firestore to make a transaction between rider and driver
+     * @param rider         a rider that will pay the rider
+     * @param driver        a driver that will get paid
+     * @param payment_fee   the amount that the rider agreed to pay
+     */
+    public void userTransaction(Rider rider, Driver driver, float payment_fee){
+        // Adding money to the driver's wallet
+        DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
+        driver.addMoneyToWallet(payment_fee);
+        driverRef
+                .update("wallet", driver.getWallet())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Updated driver wallet!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Failed updating driver wallet", e);
+                    }
+                });
+
+        // Removing money from the rider's wallet
+        DocumentReference riderRef = db.collection("riders").document(rider.getEmail());
+        rider.takeMoneyFromWallet(payment_fee);
+        riderRef
+                .update("wallet", rider.getWallet())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Updated rider wallet!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Failed updating rider wallet", e);
+                    }
+                });
+
     }
 
+    /**
+     * Checks if the user is a driver or not a driver
+     * @param email     email of the user
+     * @return          true if they are a driver, false if they are not a driver
+     */
     public Boolean checkIfUserIsDriver(String email){
         final Boolean[] driver = {false};
         db = FirebaseFirestore.getInstance();
@@ -88,6 +146,10 @@ public class FirebaseHandler {
         return driver[0];
     }
 
+    /**
+     * Gets the available riderrequests
+     * @return      the list of available rider requests
+     */
     public ArrayList<RideRequest> getAvailableRiderRequest(){
         final ArrayList<RideRequest> riderRequestList = new ArrayList<>();
         ListenerRegistration riderRequestRefListener;
@@ -116,6 +178,11 @@ public class FirebaseHandler {
         return riderRequestList;
     }
 
+    /**
+     * Adds a new rider request to the firestore database in realtime
+     * @param request_details   the details (location, rider, fee, etc.) of the ride request
+     * @param unique_id         the rider's email
+     */
     public void addNewRideRequestToDatabase(Map request_details, final String unique_id){
         db = FirebaseFirestore.getInstance();
         db.collection("RiderRequests")
@@ -135,6 +202,12 @@ public class FirebaseHandler {
                 });
     }
 
+    /**
+     * Adds a new user to the database (in sync with authentication)
+     * @param user          a map of the user's information
+     * @param unique_id     the user's email
+     * @param userType      the type of user they are (driver or rider)
+     */
     public void addNewUserToDatabase(Map user, final String unique_id, String userType){
         db = FirebaseFirestore.getInstance();
         db.collection(userType)
@@ -154,6 +227,14 @@ public class FirebaseHandler {
                 });
     }
 
+    /**
+     * Creates a new user in the authentication of the data base
+     * @param email
+     * @param password
+     * @param mAuth
+     * @param view
+     * @param signUpActivity
+     */
     public void createNewUserToDatabase(String email, String password, FirebaseAuth mAuth,
                                         SignUpActivity view, final SignUpActivity signUpActivity) {
         mAuth.createUserWithEmailAndPassword(email, password)

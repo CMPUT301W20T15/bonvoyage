@@ -75,9 +75,9 @@ public class SignUpActivity extends AppCompatActivity {
         newPhoneNumber = signUpPhoneNumber.getText().toString();
         newPassword = signUpPassword.getText().toString();
         if (userType.equals("rider")) {
-            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword);
+            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, 0);
         } else {
-            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword);
+            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, 0);
         }
 
     }
@@ -126,6 +126,7 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("email_address", user.getEmail());
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
+        user_map.put("wallet", user.getWallet());
 
         firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
         firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
