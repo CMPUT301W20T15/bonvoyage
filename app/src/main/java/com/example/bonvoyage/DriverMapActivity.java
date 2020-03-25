@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * DriverMapActivity extends MapActvity --> specialization for the Driver user class.
  * DriverMapActivity implements the homescreen for the driver user.
  */
-public class DriverMapActivity extends MapActivity {
+public class DriverMapActivity extends MapActivity implements RideRequestAdapter.RideRequestAdapterListener {
     private static final String TAG = "DriverMapActivity";
     private EditText inputSearch;
 
@@ -28,6 +28,7 @@ public class DriverMapActivity extends MapActivity {
     private ArrayAdapter<RideRequest> riderLocationArrayAdapter;
     private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
     private FirebaseFirestore mDatabase;
+    private DriverStatusFragment driverStatusFragment;
 
     /**
      * onMapReady sets the Map View, along with the associated Listview and EditText.
@@ -65,5 +66,11 @@ public class DriverMapActivity extends MapActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onRideSelected() {
+        driverStatusFragment = new DriverStatusFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.driver_status_container, driverStatusFragment, "DRIVER STATUS").commit();
     }
 }
