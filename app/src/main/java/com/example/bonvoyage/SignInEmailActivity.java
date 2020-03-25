@@ -45,6 +45,7 @@ public class SignInEmailActivity extends AppCompatActivity {
 
         firebaseHandler = new FirebaseHandler();
 
+        firebaseHandler.getOfflineRideRequest();
         /**
          * Checks whether the User is a rider or a driver, and directs them to their respective
          * home activities.

@@ -18,12 +18,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -47,6 +49,7 @@ public class FirebaseHandler {
         if (instance == null){
             instance = new  FirebaseHandler();
         }
+
         return instance;
     }
     public FirebaseUser getCurrentUser(){
@@ -121,6 +124,32 @@ public class FirebaseHandler {
     }
 
     /**
+     * TODO needs to be worked on for offline interaction
+     */
+    public void getOfflineRideRequest(){
+        db = FirebaseFirestore.getInstance();
+        db.collection("RiderRequests")
+                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen error", e);
+                            return;
+                        }
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            if (change.getType() == DocumentChange.Type.ADDED) {
+                                Log.d(TAG, "New ride request:" + change.getDocument().getData());
+                            }
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d(TAG, "Data fetched from " + source);
+                        }
+                    }
+                });
+    }
+
+    /**
      * Checks if the user is a driver or not a driver
      * @param email     email of the user
      * @return          true if they are a driver, false if they are not a driver
@@ -177,7 +206,6 @@ public class FirebaseHandler {
 
         return riderRequestList;
     }
-
     /**
      * Adds a new rider request to the firestore database in realtime
      * @param request_details   the details (location, rider, fee, etc.) of the ride request
