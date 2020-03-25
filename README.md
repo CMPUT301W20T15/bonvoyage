@@ -1,18 +1,31 @@
 # BonVoyage
 ![](https://raw.githubusercontent.com/CMPUT301W20T15/bonvoyage/master/doc/UI_Mockups_Images/BonVoyage_Banner.PNG)
 
-One Paragraph of project description goes here
+Bon Voyage is developed as a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil.
+
+On ride completion, drivers and riders use QR generated codes to complete payments.
+
+
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Please download the apk file <a href="">here</a> to run this on your android device.
+
+The entire project can be downloaded from the master branch for running, developing and testing purposes. 
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+Android system requirements:
 
 ```
-Give examples
+API: 16 or higher
+
+```
+
+Android Studio requirements:
+```
+Java SDK compatibility: 1.8
+
 ```
 
 ### Installing
@@ -35,7 +48,15 @@ End with an example of getting some data out of the system or using it for a lit
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+If project is run on Android Studio, previously defined tests are provided in the src java folder
+
+UI Testing with Robotium:
+
+```
+bonvoyage\app\src\androidTest\java\com\example\bonvoyage\
+```
+
+
 
 ### Break down into end to end tests
 
