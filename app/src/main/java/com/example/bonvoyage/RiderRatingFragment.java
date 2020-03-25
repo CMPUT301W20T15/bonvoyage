@@ -46,11 +46,17 @@ public class RiderRatingFragment extends DialogFragment {
 
         rating_complete_btn = view.findViewById(R.id.rating_complete_btn);
 
+        if (rating.getNumStars() == 0) {
+            rating_complete_btn.setText("Skip");
+        } else {
+            rating_complete_btn.setText("Back to Home");
+        }
+
         rating_complete_btn.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(this, RiderMapActivity.class));
+                new RiderMapActivity();
             }
         });
 
