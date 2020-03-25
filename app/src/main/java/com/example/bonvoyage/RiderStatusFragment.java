@@ -2,7 +2,9 @@ package com.example.bonvoyage;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -41,13 +43,27 @@ public class RiderStatusFragment extends Fragment {
     View contact_layout;
     Button textBtn;
     Button callBtn;
+    Button emailBtn;
 
 
     View rating_layout;
     RatingBar driver_rating;
 
     TextView exitBtn;
+    private RiderStatusListener statusListener;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        statusListener = (RiderStatusListener) context;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        addRiderStatusListener();
+    }
 
     @Nullable
     @Override
@@ -62,6 +78,7 @@ public class RiderStatusFragment extends Fragment {
         contact_layout = view.findViewById(R.id.rs_contact);
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
         rating_layout = view.findViewById(R.id.rs_rate_driver);
         driver_rating = rating_layout.findViewById(R.id.rating);
         exitBtn = view.findViewById(R.id.rs_exitBtn);
@@ -90,6 +107,17 @@ public class RiderStatusFragment extends Fragment {
             }
         });
 
+        emailBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Uri email_uri = Uri.parse("mailto:testdriver@gmail.com");
+                Intent email_intent = new Intent(Intent.ACTION_SENDTO, email_uri);
+                email_intent.putExtra("mail_body", "Hello");
+                startActivity(email_intent);
+            }
+        });
+
 
         driver_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -98,6 +126,27 @@ public class RiderStatusFragment extends Fragment {
             }
         });
 
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statusListener.onCancelRide();
+            }
+        });
+
         return view;
+    }
+
+    private void addRiderStatusListener(){
+        getView().setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                statusListener.onCancelRide();
+            }
+        });
+    }
+
+    // This interface is used to interact with RiderMapActivity
+    public interface RiderStatusListener {
+        void onCancelRide();
     }
 }
