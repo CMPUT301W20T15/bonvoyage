@@ -15,17 +15,16 @@ The entire project can be downloaded from the master branch for running, develop
 
 ### Prerequisites
 
-Android system requirements:
+Android device requirements:
 
 ```
 API: 16 or higher
-
 ```
 
 Android Studio requirements:
+
 ```
 Java SDK compatibility: 1.8
-
 ```
 
 ### Installing
@@ -56,33 +55,22 @@ UI Testing with Robotium:
 bonvoyage\app\src\androidTest\java\com\example\bonvoyage\
 ```
 
-
+Unit Testing with JUnit
+```
+bonvoyage\app\src\test\java\com\example\bonvoyage\
+```
 
 ### Break down into end to end tests
 
 Explain what these tests test and why
 
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [GoogleMaps API](https://developers.google.com/maps/documentation) - The maps api used
+* [Robotium](https://github.com/RobotiumTech/robotium) - Intent Testing
+* [FireBase](https://firebase.google.com/) - Used to generate/retrieve database to store user information
+* [QRGenerator](https://github.com/androidmads/QRGenerator) - Used to generate QR Codes
 
 ## Contributing
 
@@ -96,7 +84,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/your/project/contributors) for full contribution in this project
 
 ## License
 
