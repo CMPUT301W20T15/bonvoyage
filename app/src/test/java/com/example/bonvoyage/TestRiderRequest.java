@@ -30,6 +30,7 @@ public class TestRiderRequest {
         return new RideRequest(startLocation,endLocation,timestamp,userEmail,status,
                 phoneNumber,firstName,lastName,cost);
     }
+    //Test comment
     @Test
     public void TestGeopoint() {
         RideRequest rideRequest = mockRideRequest();
