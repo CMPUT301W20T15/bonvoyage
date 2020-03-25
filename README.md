@@ -81,8 +81,12 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 ## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Nasiv Adhikari**  - [anasiv](https://github.com/anasiv)
+* **Joe Ha**           - [jha8](https://github.com/jha8)
+* **Debangana Ghosh**  - [orackle](https://github.com/orackle)
+* **Nick Anderson**    - [nick98anderson](https://github.com/nick98anderson)
+* **Nicole Hagerman**  - [nicolelisa](https://github.com/nicolelisa)
+* **Nomar Chavez**     - [nmrchvz](https://github.com/nmrchvz)
 
 See also the list of [contributors](https://github.com/your/project/contributors) for full contribution in this project
 
