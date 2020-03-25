@@ -19,12 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        androidTest {
-            java.srcDirs = ['androidTest/java']
-        }
 
-    }
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
