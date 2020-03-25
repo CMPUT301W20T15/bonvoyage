@@ -52,7 +52,7 @@ public class DriverPayment extends AppCompatActivity {
             public void onClick(View v) {
                 if (intentData.length() > 0) {
                     startActivity(new Intent(DriverPayment.this, DriverPostPayment.class));  // calls post payment to handle the paymet updates for the driver
-                    startActivity(new Intent(DriverPayment.this, RiderMapActivity.class));  // Sets Rider side rating and update payment
+                    startActivity(new Intent(DriverPayment.this, RiderPostPayment.class));  // Sets Rider side rating and update payment
                 } else {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                 }
