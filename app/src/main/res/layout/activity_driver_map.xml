@@ -25,6 +25,10 @@
                 android:id="@+id/map"
                 tools:context=".MapsActivity"
                 android:name="com.google.android.gms.maps.SupportMapFragment" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/driver_status_container"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

@@ -44,13 +44,13 @@
                 android:id="@+id/input_search"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
+                android:layout_marginLeft="0dp"
                 android:layout_toRightOf="@+id/ic_magnify"
                 android:background="@null"
                 android:hint="Search"
                 android:imeOptions="actionSearch"
                 android:textColor="#000"
-                android:textSize="15sp"/>
+                android:textSize="15sp" />
         </RelativeLayout>
 
         <ImageView
