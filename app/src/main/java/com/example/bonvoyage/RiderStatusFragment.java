@@ -41,6 +41,7 @@ public class RiderStatusFragment extends Fragment {
     View contact_layout;
     Button textBtn;
     Button callBtn;
+    Button emailBtn;
 
 
     View rating_layout;
@@ -62,6 +63,7 @@ public class RiderStatusFragment extends Fragment {
         contact_layout = view.findViewById(R.id.rs_contact);
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
         rating_layout = view.findViewById(R.id.rs_rate_driver);
         driver_rating = rating_layout.findViewById(R.id.rating);
         exitBtn = view.findViewById(R.id.rs_exitBtn);
@@ -87,6 +89,17 @@ public class RiderStatusFragment extends Fragment {
                 Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
                 sms_intent.putExtra("sms_body", "Hello");
                 startActivity(sms_intent);
+            }
+        });
+
+        emailBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Uri email_uri = Uri.parse("mailto:testdriver@gmail.com");
+                Intent email_intent = new Intent(Intent.ACTION_SENDTO, email_uri);
+                email_intent.putExtra("mail_body", "Hello");
+                startActivity(email_intent);
             }
         });
 
