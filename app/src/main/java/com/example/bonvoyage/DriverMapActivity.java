@@ -113,7 +113,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private ArrayAdapter<RideRequest> riderLocationArrayAdapter;
     private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
     private FirebaseHandler mFirebaseHandler;
-    private ArrayList<RideRequest> riderRequestList;
+    //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
 
 
     @Override
@@ -248,10 +248,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.driver_map);
         mapFragment.getMapAsync(DriverMapActivity.this);
-        //getRiderLocations();
+        getRiderLocations();
 
     }
     private void getRiderLocations(){
+        /*
         riderRequestList = mFirebaseHandler.getAvailableRiderRequest();
         for (int i = 0; i < riderRequestList.size(); i++){
             RideRequest rider = riderRequestList.get(i);
@@ -266,6 +267,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                             .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
             mMap.addMarker(options);
         }
+        */
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -275,13 +277,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                rideRequestArrayList.clear();
-                rideRequestArrayList = new ArrayList<>();
+                //rideRequestArrayList.clear();
+                //rideRequestArrayList = new ArrayList<>();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
                         rideRequestArrayList.add(rider);
-                        riderLocationArrayAdapter.add(rider);
+                        //riderLocationArrayAdapter.add(rider);
                         GeoPoint startGeopoint = rider.getStartGeopoint();
                         GeoPoint endGeopoint = rider.getEndGeopoint();
                         Log.d(TAG,rider.toString());
