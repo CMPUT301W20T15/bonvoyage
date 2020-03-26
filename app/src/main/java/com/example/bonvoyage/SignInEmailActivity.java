@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * SignInEmailActivity provides email sign in functionality for our app.
@@ -29,6 +32,8 @@ public class SignInEmailActivity extends AppCompatActivity {
     private Button backToLoginScreen;
     private FirebaseHandler firebaseHandler;
 
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,7 @@ public class SignInEmailActivity extends AppCompatActivity {
         mAuth.signOut();
 
         firebaseHandler = new FirebaseHandler();
-
+        db = FirebaseFirestore.getInstance();
         /**
          * Checks whether the User is a rider or a driver, and directs them to their respective
          * home activities.
@@ -56,14 +61,24 @@ public class SignInEmailActivity extends AppCompatActivity {
                 Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
                 toastMessage("Successfully signed in with: "+user.getEmail());
                 // GO TO THE DRIVER HOME PAGE IS THEY ARE A DRIVER, LIKEWISE WITH A RIDER
-                if (firebaseHandler.checkIfUserIsDriver(user.getEmail())){
-                    Intent intent = new Intent(this, DriverMapActivity.class);
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(this, RiderMapActivity.class);
-                    startActivity(intent);
-                }
 
+                DocumentReference docRef = db.collection("drivers").document(user.getEmail());
+                docRef.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "Document exists!");
+                            Intent intent = new Intent(this, DriverMapActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Log.d(TAG, "Document does not exist!");
+                            Intent intent = new Intent(this, RiderMapActivity.class);
+                            startActivity(intent);
+                        }
+                    } else {
+                        Log.d(TAG, "Failed with: ", task.getException());
+                    }
+                });
             }else {
                 Log.d(TAG,"onAuthStateChanged:signed_out");
                 toastMessage("Successfully signed out");
