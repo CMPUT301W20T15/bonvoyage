@@ -34,8 +34,4 @@ public abstract class User {
         return password;
     }
 
-    // this is for testing only
-    public String getUserType() {
-        return "driver";
-    }
 }

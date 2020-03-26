@@ -13,8 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Locale;
+
+import static java.lang.Math.round;
 
 
 public class RiderPricingFragment extends Fragment {
@@ -38,8 +41,10 @@ public class RiderPricingFragment extends Fragment {
             Bundle bundle = this.getArguments();
             FirebaseHandler firebaseHandler = new FirebaseHandler();
             if (bundle != null) {
+                DecimalFormat df = new DecimalFormat("#.00");
+
                 HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
-                float newCost = Float.parseFloat(priceEdit.getText().toString());
+                float newCost = Float.parseFloat(df.format(priceEdit.getText()).toString());
                 tripData.put("cost", newCost);
                 firebaseHandler.addNewRideRequestToDatabase(tripData, "hello@gmail.com");
             }

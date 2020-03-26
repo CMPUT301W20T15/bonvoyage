@@ -1,9 +1,5 @@
 package com.example.bonvoyage;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,21 +11,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Objects;
 
 public class RiderMapActivity extends MapActivity {
 
@@ -37,6 +32,8 @@ public class RiderMapActivity extends MapActivity {
     private EditText destinationLocationBox;
     private TextView currentLocationBox;
     private Button continueButton;
+    String first_name = "";
+    String last_name = "";
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     @Override
@@ -71,9 +68,7 @@ public class RiderMapActivity extends MapActivity {
                         continueButton.setVisibility(View.VISIBLE);
                         endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
-
                 }
-
                 return false;
             }
         });
@@ -82,12 +77,12 @@ public class RiderMapActivity extends MapActivity {
     private void setCurrentLocation() {
         Log.d(TAG, "Updated current location");
         getDeviceLocation();
-
     }
 
     private void continueToPayment() {
         double distance = calculateDistance(startLocation, endLocation);
         EditText priceEdit = findViewById(R.id.price_edit);
+
         double cost = distance * 2.5;
         priceEdit.setText(String.format(Locale.CANADA, "%.2f",cost));
 
@@ -104,12 +99,34 @@ public class RiderMapActivity extends MapActivity {
                 + ", " + endLocation.getLongitude());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         HashMap<String, Object> tripInformation = new HashMap<>();
+
+
+        FirebaseUser user = firebaseHandler.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("riders").document("testrider@gmail.com");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    if (!Objects.requireNonNull(documentSnapshot.getString("first_name")).isEmpty()) {
+                        first_name = documentSnapshot.getString("first_name");
+                    }
+                    if (!Objects.requireNonNull(documentSnapshot.getString("last_name")).isEmpty()) {
+                        last_name = documentSnapshot.getString("last_name");
+                    }
+                } else {
+                    Log.d(TAG, "No user found with that email");
+                }
+            }
+        });
+
         tripInformation.put("cost", cost);
         tripInformation.put("endGeopoint", endLocation);
         tripInformation.put("startGeopoint", startLocation);
-        tripInformation.put("firstName", "Test");
-        tripInformation.put("lastName", "User");
-        tripInformation.put("phoneNumber", "17801234567");
+        tripInformation.put("firstName", first_name);
+        tripInformation.put("lastName", last_name);
+        tripInformation.put("phoneNumber", user.getPhoneNumber());
+        tripInformation.put("email", user.getEmail());
         tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
         Bundle rideInfo = new Bundle();
