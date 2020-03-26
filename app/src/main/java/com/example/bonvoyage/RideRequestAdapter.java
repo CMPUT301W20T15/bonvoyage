@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     private ArrayList<RideRequest> rideRequestArrayList;
     private Context context;
-    private RideRequestAdapterListener requestListener;
+    //private RideRequestAdapterListener requestListener;
     public RideRequestAdapter(Context context, ArrayList<RideRequest> rideRequestArrayList){
         super(context,0, rideRequestArrayList);
         this.rideRequestArrayList = rideRequestArrayList;
@@ -65,15 +65,16 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
             @Override
             public void onClick(View view) {
                 //PASS TO NEXT FRAGMENT HERE
-                requestListener.onRideSelected();
+                //requestListener.onRideSelected();
                 Log.d("TEST ACCEPT", "WORKING");
             }
         });
         return view;
     }
-
+    /*
     public interface RideRequestAdapterListener{
         void onRideSelected();
     }
+     */
 
 }
