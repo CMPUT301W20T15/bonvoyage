@@ -47,6 +47,7 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO
                 //PASS TO NEXT FRAGMENT HERE
                 Log.d("TEST ACCEPT", "WORKING");
             }

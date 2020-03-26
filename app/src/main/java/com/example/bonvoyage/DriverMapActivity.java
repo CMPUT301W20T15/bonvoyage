@@ -11,10 +11,13 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,6 +42,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.maps.model.LatLng;
@@ -56,11 +61,61 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener{
+    private static final String TAG = "MapActivity";
+
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final float DEFAULT_ZOOM = 15f;
+
+    //widgets
+    private EditText mSearchText;
+    private ImageView mGps;
+
+    //vars
+    private Boolean mLocationPermissionsGranted = false;
+    private GoogleMap mMap;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private FirebaseFirestore mDatabase;
+
+    private ListenerRegistration mRiderListEventListener;
+
+    private ListView riderList;
+    private ArrayAdapter<RideRequest> riderLocationArrayAdapter;
+    private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
+    private FirebaseHandler mFirebaseHandler;
+    private Location currentLocation;
+    //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_driver_map);
+        riderList = findViewById(R.id.rider_list_view);
+        riderLocationArrayAdapter = new RideRequestAdapter(DriverMapActivity.this, rideRequestArrayList);
+        riderList.setAdapter(riderLocationArrayAdapter);
+        mFirebaseHandler = new FirebaseHandler();
+
+        mSearchText = (EditText) findViewById(R.id.input_search);
+        mGps = (ImageView) findViewById(R.id.ic_gps);
+        mDatabase = FirebaseFirestore.getInstance();
+        getLocationPermission();
+
+        riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RideRequest selectedRider = (RideRequest) adapterView.getItemAtPosition(i);
+                riderLocationArrayAdapter.notifyDataSetChanged();
+            }
+        });
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
+        //mMap.setOnPolylineClickListener(DriverMapActivity.this);
         mMap.setOnInfoWindowClickListener(DriverMapActivity.this);
         try {
             // Customise the styling of the base map using a JSON object defined
@@ -88,55 +143,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
             init();
         }
-    }
-
-    private static final String TAG = "MapActivity";
-
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
-
-    //widgets
-    private EditText mSearchText;
-    private ImageView mGps;
-
-    //vars
-    private Boolean mLocationPermissionsGranted = false;
-    private GoogleMap mMap;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-    private FirebaseFirestore mDatabase;
-
-    private ListenerRegistration mRiderListEventListener;
-
-    private ListView riderList;
-    private ArrayAdapter<RideRequest> riderLocationArrayAdapter;
-    private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
-    private FirebaseHandler mFirebaseHandler;
-    //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_map);
-        riderList = findViewById(R.id.rider_list_view);
-        riderLocationArrayAdapter = new RideRequestAdapter(DriverMapActivity.this, rideRequestArrayList);
-        riderList.setAdapter(riderLocationArrayAdapter);
-        mFirebaseHandler = new FirebaseHandler();
-
-        mSearchText = (EditText) findViewById(R.id.input_search);
-        mGps = (ImageView) findViewById(R.id.ic_gps);
-        mDatabase = FirebaseFirestore.getInstance();
-        getLocationPermission();
-
-        riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RideRequest selectedRider = (RideRequest) adapterView.getItemAtPosition(i);
-                riderLocationArrayAdapter.notifyDataSetChanged();
-            }
-        });
     }
     private void init(){
         Log.d(TAG, "init: initializing");
@@ -206,7 +212,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     public void onComplete(@NonNull Task task) {
                         if(task.isSuccessful()){
                             Log.d(TAG, "onComplete: found location!");
-                            Location currentLocation = (Location) task.getResult();
+                            currentLocation = (Location) task.getResult();
                             MarkerOptions options = new MarkerOptions()
                                     .position(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()))
                                     .title("Current Location")
@@ -282,19 +288,21 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
-                        rideRequestArrayList.add(rider);
-                        //riderLocationArrayAdapter.add(rider);
-                        GeoPoint startGeopoint = rider.getStartGeopoint();
-                        GeoPoint endGeopoint = rider.getEndGeopoint();
-                        Log.d(TAG,rider.toString());
-                        LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
-                        MarkerOptions options = new MarkerOptions()
-                                .position(rider_position)
-                                .title(rider.getFirstName())
-                                .snippet("Amount: " + rider.getCost())
-                                .icon(BitmapDescriptorFactory
-                                        .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                        mMap.addMarker(options);
+                        //rideRequestArrayList.add(rider);
+                        if (rider.getStatus().equals("available")){
+                            riderLocationArrayAdapter.add(rider);
+                            GeoPoint startGeopoint = rider.getStartGeopoint();
+                            //GeoPoint endGeopoint = rider.getEndGeopoint();
+                            Log.d(TAG,rider.toString());
+                            LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
+                            MarkerOptions options = new MarkerOptions()
+                                    .position(rider_position)
+                                    .title(rider.getCostString())
+                                    .snippet(rider.getRideInformation())
+                                    .icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                            mMap.addMarker(options);
+                        }
                     }
                     Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());
                 }
@@ -360,6 +368,8 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             marker.hideInfoWindow();
         }
         else{
+            LatLng pickUpLocation = marker.getPosition();
+            drawPolyline(pickUpLocation);
             final AlertDialog.Builder builder = new AlertDialog.Builder(DriverMapActivity.this);
             builder.setMessage(marker.getSnippet())
                     .setCancelable(true)
@@ -377,4 +387,19 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             alert.show();
         }
     }
+    public void drawPolyline(LatLng latLng){
+        LatLng start = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        Polyline line = mMap.addPolyline(new PolylineOptions()
+                .add(start,latLng)
+                .width(20).color(ContextCompat.getColor(DriverMapActivity.this,R.color.quantum_cyan)).geodesic(true));
+        line.setClickable(true);
+    }
+    /*
+    @Override
+    public void onPolylineClick(Polyline polyline) {
+        Log.d("POLYLINE","HIIII");
+        polyline.setColor(ContextCompat.getColor(DriverMapActivity.this,R.color.quantum_cyan));
+        polyline.setZIndex(1);
+    }
+     */
 }
