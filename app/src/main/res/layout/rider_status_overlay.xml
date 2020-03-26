@@ -25,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:id="@+id/rs_title"/>
 
         <include layout="@layout/profile_preview_layout"
             android:id="@+id/rs_profile"

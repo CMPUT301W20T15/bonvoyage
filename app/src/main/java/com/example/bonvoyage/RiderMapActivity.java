@@ -69,11 +69,11 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
 
-                    if (address != null) {
+                    //if (address != null) {
                     continueButton.setVisibility(View.VISIBLE);
                     continueButton.setEnabled(true);
                     endLocation = new GeoPoint(53.523220, -113.526321);
-                    }
+                    //}
 
                 }
 
@@ -113,7 +113,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         tripInformation.put("firstName", "Test");
         tripInformation.put("lastName", "User");
         tripInformation.put("phoneNumber", "17801234567");
-        tripInformation.put("status", "available");
+        tripInformation.put("status", "Trip Requested");
         tripInformation.put("timestamp", timestamp);
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
@@ -127,8 +127,9 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                 continueButton.setVisibility(View.GONE);
                 currentLocationBox.setVisibility(View.GONE);
                 destinationLocationBox.setVisibility(View.GONE);
-                createStatusFragment();
-
+                riderStatusFragment = new RiderStatusFragment();
+                riderStatusFragment.setArguments(rideInfo);
+                getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
             }
         });
     }
@@ -169,8 +170,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
 
 
     private void createStatusFragment(){
-        riderStatusFragment = new RiderStatusFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+
     }
 
 
