@@ -59,7 +59,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
     public User setUpUser(){
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword;
-        final int newWallet;
 
         // Find the objects that hold the user's inputted information
         signUpFirstName = findViewById(R.id.signUpFirstName);
@@ -75,11 +74,10 @@ public class SignUpActivity extends AppCompatActivity {
         newEmail = signUpEmail.getText().toString();
         newPhoneNumber = signUpPhoneNumber.getText().toString();
         newPassword = signUpPassword.getText().toString();
-        newWallet = 100;
         if (userType.equals("rider")) {
-            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
+            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword);
         } else {
-            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
+            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword);
         }
 
     }
@@ -128,7 +126,6 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("email_address", user.getEmail());
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
-        user_map.put("wallet", user.getWallet());
 
         firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
         firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase

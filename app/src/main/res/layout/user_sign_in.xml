@@ -13,14 +13,14 @@
         android:src="@drawable/splash_page" />
 
     <TextView
-        android:id="@+id/BonVoyage_Splash"
+        android:id="@+id/BonVovage_Splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto_bold"
         android:gravity="top|center"
-        android:text="BonVoyage"
+        android:text="BonVovage"
         android:textColor="#FFFFFF"
         android:textSize="60dp"
         android:textStyle="bold" />
@@ -29,7 +29,7 @@
         android:id="@+id/whiteBox"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@id/BonVoyage_Splash"
+        android:layout_below="@id/BonVovage_Splash"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         app:srcCompat="@drawable/white_backgroundroundcorner" />
@@ -38,9 +38,9 @@
         android:id="@+id/sign_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/BonVoyage_Splash"
-        android:layout_alignStart="@+id/BonVoyage_Splash"
-        android:layout_alignLeft="@+id/BonVoyage_Splash"
+        android:layout_below="@+id/BonVovage_Splash"
+        android:layout_alignStart="@+id/BonVovage_Splash"
+        android:layout_alignLeft="@+id/BonVovage_Splash"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="110dp"
