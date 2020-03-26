@@ -50,7 +50,7 @@ public class DriverMapActivity extends MapActivity implements RideRequestAdapter
 //        inputSearch.setVisibility(View.VISIBLE);
         /**
          * Allows driver to search for a different location.
-         */
+         *
         inputSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -66,6 +66,7 @@ public class DriverMapActivity extends MapActivity implements RideRequestAdapter
                 return false;
             }
         });
+         */
     }
 
     @Override

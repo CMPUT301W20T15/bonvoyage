@@ -59,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
     public User setUpUser(){
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword;
+        final int newWallet;
 
         // Find the objects that hold the user's inputted information
         signUpFirstName = findViewById(R.id.signUpFirstName);
@@ -74,10 +75,11 @@ public class SignUpActivity extends AppCompatActivity {
         newEmail = signUpEmail.getText().toString();
         newPhoneNumber = signUpPhoneNumber.getText().toString();
         newPassword = signUpPassword.getText().toString();
+        newWallet = 100;
         if (userType.equals("rider")) {
-            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, 0);
+            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
         } else {
-            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, 0);
+            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
         }
 
     }

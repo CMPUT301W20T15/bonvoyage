@@ -10,9 +10,9 @@ public abstract class User {
     private String email;
     private String phonenumber;
     private String password;
-    private float wallet;
+    private int wallet;
 
-    public User(String firstname, String lastname, String email, String phonenumber, String password, float wallet) {
+    public User(String firstname, String lastname, String email, String phonenumber, String password, int wallet){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -39,6 +39,9 @@ public abstract class User {
 
     public String getPassword() {
         return password;
+    }
+    public int getWallet() {
+        return wallet;
     }
 
     public float getWallet() {
