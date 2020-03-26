@@ -40,6 +40,9 @@ public abstract class User {
     public String getPassword() {
         return password;
     }
+    public int getWallet() {
+        return wallet;
+    }
 
     public float getWallet() {
         return wallet;
