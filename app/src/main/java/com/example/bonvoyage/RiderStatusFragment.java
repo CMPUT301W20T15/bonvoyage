@@ -118,7 +118,11 @@ public class RiderStatusFragment extends Fragment {
 
         try {
             List<Address> startAddress = geo.getFromLocation(start.getLatitude(), start.getLongitude(), 1);
-            Log.d(TAG, "*****START ADDRESS***" + startAddress.toString());
+            String address = startAddress.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            List<Address> endAddress = geo.getFromLocation(end.getLatitude(), end.getLongitude(), 1);
+            String endAddressLine = endAddress.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+            current_location.setText(address);
+            destination_location.setText(endAddressLine);
         } catch (IOException e) {
             Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
         }

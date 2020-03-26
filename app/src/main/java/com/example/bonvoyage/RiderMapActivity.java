@@ -69,11 +69,11 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
 
-                    //if (address != null) {
+                    if (address != null) {
                     continueButton.setVisibility(View.VISIBLE);
                     continueButton.setEnabled(true);
-                    endLocation = new GeoPoint(53.523220, -113.526321);
-                    //}
+                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    }
 
                 }
 
