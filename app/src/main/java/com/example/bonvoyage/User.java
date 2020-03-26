@@ -10,13 +10,15 @@ public abstract class User {
     private String email;
     private String phonenumber;
     private String password;
+    private int wallet;
 
-    public User(String firstname, String lastname, String email, String phonenumber, String password){
+    public User(String firstname, String lastname, String email, String phonenumber, String password, int wallet){
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phonenumber = phonenumber;
         this.password = password;
+        this.wallet = wallet;
     }
     public String getFirstname() {
         return firstname;
@@ -32,6 +34,9 @@ public abstract class User {
     }
     public String getPassword() {
         return password;
+    }
+    public int getWallet() {
+        return wallet;
     }
 
     // this is for testing only
