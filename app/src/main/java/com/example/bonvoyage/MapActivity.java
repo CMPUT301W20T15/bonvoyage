@@ -102,8 +102,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firebaseHandler = new FirebaseHandler();
-        Toolbar myToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
         // map the mapFragment to the map element in the xml
 //        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_rider);
 //        mapFragment.getMapAsync(MapActivity.this);
@@ -287,7 +287,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void styleMap(){
         boolean success = mMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
-                        this, R.raw.driver_style));
+                        this, R.raw.style_json));
         try{
             if (!success) {
                 Log.e("TAG", "Style parsing failed.");
