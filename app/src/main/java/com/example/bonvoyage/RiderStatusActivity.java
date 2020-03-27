@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class RiderStatusActivity extends AppCompatActivity {
     TextView title;
@@ -40,10 +39,6 @@ public class RiderStatusActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rider_status_overlay);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
-
-
         profile_preview = findViewById(R.id.rs_profile);
         profile_name = profile_preview.findViewById(R.id.rs_profile_name);
         profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
