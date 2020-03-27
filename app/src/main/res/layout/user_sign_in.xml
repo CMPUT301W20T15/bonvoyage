@@ -43,7 +43,7 @@
         android:layout_alignLeft="@+id/BonVoyage_Splash"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/roboto_bold"
         android:text="SIGN IN"
         android:textSize="20dp" />

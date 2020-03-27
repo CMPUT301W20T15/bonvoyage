@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,8 +23,10 @@ public class SignUpActivity extends AppCompatActivity {
     String TAG = "SignUpActivity";
     private FirebaseAuth mAuth;
     private Button signUpConfirmButton;
-    private EditText signUpFirstName, signUpLastName, signUpEmail, signUpPhoneNumber, signUpPassword;
+    private EditText signUpFirstName, signUpLastName, signUpEmail, signUpPhoneNumber,
+            signUpPassword, signUpRePassword;
     private CheckBox signUpUserIsDriver;
+    private ProgressBar inProgress;
     private String userType = "riders";
 
     @Override
@@ -31,17 +34,20 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_sign_up);
         mAuth = FirebaseAuth.getInstance();
-
-        User model = setUpUser();
-        SignUpActivity view = new SignUpActivity();
         firebaseHandler = new FirebaseHandler();
+        inProgress = findViewById(R.id.progressBar);
+
+        inProgress.setVisibility(View.INVISIBLE);
 
         signUpConfirmButton = findViewById(R.id.signUpConfirmButton);
         signUpConfirmButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+                inProgress.setVisibility(View.VISIBLE);
                 User user = setUpUser();
                 createNewUserAccount(user);
+                //firebaseHandler.sendVerificationEmail(user.getEmail());
+                //inProgress.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -57,8 +63,9 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
     public User setUpUser(){
-        final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword;
+        final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newRePassword;
         final int newWallet;
 
         // Find the objects that hold the user's inputted information
@@ -67,6 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpEmail = findViewById(R.id.signUpEmail);
         signUpPhoneNumber = findViewById(R.id.signUpPhoneNumber);
         signUpPassword = findViewById(R.id.signUpPassword);
+        signUpRePassword = findViewById(R.id.signUpRePassword);
 
         /* Transform the information into strings to be stored into the Cloud Firestore and
             the Authentication of Fire Base */
@@ -75,11 +83,19 @@ public class SignUpActivity extends AppCompatActivity {
         newEmail = signUpEmail.getText().toString();
         newPhoneNumber = signUpPhoneNumber.getText().toString();
         newPassword = signUpPassword.getText().toString();
-        newWallet = 100;
-        if (userType.equals("rider")) {
-            return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
-        } else {
-            return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
+        newRePassword = signUpRePassword.getText().toString();
+
+        if (newPassword.equals(newRePassword)){
+            newWallet = 100;
+            if (userType.equals("rider")) {
+                return new Rider(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
+            } else {
+                return new Driver(newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newWallet);
+            }
+        }else{
+            Toast.makeText(SignUpActivity.this, "Passwords do not match.",
+                    Toast.LENGTH_LONG).show();
+            return null;
         }
 
     }
@@ -134,7 +150,8 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
     }
 
-    public void displayToastMessage(Boolean success){
+    public void displayAuthToastMessage(Boolean success){
+        inProgress = findViewById(R.id.progressBar);
         if (success == null){
             return;
         } else if (success == true){
@@ -144,6 +161,20 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (success == false){
             Log.d(TAG, "createUserWithEmail:failure");
             Toast.makeText(SignUpActivity.this, "Authentication failed.",
+                    Toast.LENGTH_SHORT).show();
+        }
+        inProgress.setVisibility(View.INVISIBLE);
+    }
+    public void displayVerificationToastMessage(Boolean success){
+        if (success == null){
+            return;
+        } else if (success == true){
+            Log.d(TAG, "Verification:success");
+            Toast.makeText(SignUpActivity.this, "Verification Successsful.",
+                    Toast.LENGTH_SHORT).show();
+        } else if (success == false){
+            Log.d(TAG, "Verification:failure");
+            Toast.makeText(SignUpActivity.this, "Verification failed.",
                     Toast.LENGTH_SHORT).show();
         }
     }

@@ -28,8 +28,7 @@ public class SignInEmailActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
-    private Button btnSignIn, btnSignOut;
-    private Button backToLoginScreen;
+    private Button btnSignIn;
     private FirebaseHandler firebaseHandler;
 
     private FirebaseFirestore db;
@@ -42,6 +41,7 @@ public class SignInEmailActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
+
         //btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
 
         // FOR TESTINGS
@@ -120,11 +120,6 @@ public class SignInEmailActivity extends AppCompatActivity {
             }
         });
         */
-    }
-
-    public void goToLoginScreen(View view){
-        Intent intent = new Intent(this, LoginSignupActivity.class);
-        startActivity(intent);
     }
 
     @Override
