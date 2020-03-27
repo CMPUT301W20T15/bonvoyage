@@ -2,6 +2,7 @@ package com.example.bonvoyage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -48,7 +49,8 @@ public class DrawerWrapper {
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        Toast.makeText(context, "change now", Toast.LENGTH_SHORT).show();
+                        Intent changeProfile = new Intent();
+
                         return false;
                     }
                 })

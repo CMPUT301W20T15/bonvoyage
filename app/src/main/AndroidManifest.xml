@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.bonvoyage" >
+    package="com.example.bonvoyage">
     <!-- uses-permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -24,9 +24,8 @@
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true" >
-        <activity android:name=".ChangeUserProfile" >
-        </activity>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ChangeUserProfile"></activity>
         <!-- uses-library -->
         <uses-library
             android:name="org.apache.http.legacy"
@@ -40,9 +39,8 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" /> <!-- activities -->
-        <activity android:name=".MainActivity" >
-        </activity>
-        <activity android:name=".LoginSignupActivity" >
+        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".LoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
