@@ -48,6 +48,7 @@ public class DrawerWrapper {
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        Toast.makeText(context, "change now", Toast.LENGTH_SHORT).show();
                         return false;
                     }
                 })

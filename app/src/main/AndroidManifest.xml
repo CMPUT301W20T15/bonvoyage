@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.bonvoyage">
-
-    <!--uses-permission-->
+    package="com.example.bonvoyage" >
+    <!-- uses-permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CALL_DIAL" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET" tools:remove="android:maxSdkVersion" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!--uses-feature-->
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:remove="android:maxSdkVersion" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- uses-feature -->
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature
         android:name="android.hardware.camera"
@@ -25,14 +24,13 @@
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-
-        <!--uses-library-->
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".ChangeUserProfile" >
+        </activity>
+        <!-- uses-library -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-
-        <!--meta-data-->
+            android:required="false" /> <!-- meta-data -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_API_key" />
@@ -41,15 +39,13 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="barcode" />
-
-        <!--activities-->
-        <activity android:name=".MainActivity">
+            android:value="barcode" /> <!-- activities -->
+        <activity android:name=".MainActivity" >
         </activity>
-
-        <activity android:name=".LoginSignupActivity">
+        <activity android:name=".LoginSignupActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -62,7 +58,7 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SMSActivity" />
         <activity android:name=".SplashPageActivity" />
-        <activity android:name=".RiderStatusActivity"/>
-
+        <activity android:name=".RiderStatusActivity" />
     </application>
+
 </manifest>
