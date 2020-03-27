@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-//        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
-        Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
+        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+        //Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
         startActivity(intent);
     }
 

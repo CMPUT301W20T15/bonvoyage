@@ -287,7 +287,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void styleMap(){
         boolean success = mMap.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
-                        this, R.raw.style_json));
+                        this, R.raw.driver_style));
         try{
             if (!success) {
                 Log.e("TAG", "Style parsing failed.");
