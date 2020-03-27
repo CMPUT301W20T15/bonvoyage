@@ -12,14 +12,14 @@
         android:src="@drawable/splash_page" />
 
     <TextView
-        android:id="@+id/BonVovage_Splash"
+        android:id="@+id/BonVoyage_Splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
         android:fontFamily="@font/roboto_bold"
         android:gravity="top|center"
-        android:text="BonVovage"
+        android:text="BonVoyage"
         android:textColor="#FFFFFF"
         android:textSize="60dp"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:id="@+id/signInEmailButton"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/BonVovage_Splash"
+        android:layout_below="@id/BonVoyage_Splash"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="200dp"
         android:backgroundTint="#1A237E"
