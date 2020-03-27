@@ -112,10 +112,12 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         tripInformation.put("firstName", "Test");
         tripInformation.put("lastName", "User");
         tripInformation.put("phoneNumber", "17801234567");
-        tripInformation.put("status", "Trip Requested");
+        tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
+        tripInformation.put("userEmail", "testrider@gmail.com");
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
+        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
         pricingFragment.setArguments(rideInfo);
         //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
         continueButton.setOnClickListener(new View.OnClickListener() {

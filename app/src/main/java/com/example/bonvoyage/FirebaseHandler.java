@@ -230,6 +230,85 @@ public class FirebaseHandler {
                 });
     }
 
+    public void addInProgressRideRequest(Map request_details, final String unique_id){
+        db = FirebaseFirestore.getInstance();
+        db.collection("InProgressRiderRequests")
+                .document(unique_id)
+                .set(request_details)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Document added with ID: " + unique_id);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+    }
+
+
+    public void updateRideRequestStatus(final String id, String status){
+        db = FirebaseFirestore.getInstance();
+        db.collection("RiderRequests").document(id).update("status", status)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "Document succesfully updated with id: " + id);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "Document with id "+ id + " failed to update");
+                    }
+                });
+    }
+
+    public void addDriverToRideRequest(FirebaseUser driver, final String id){
+        db = FirebaseFirestore.getInstance();
+        db.collection("RiderRequests").document(id).update("driverEmail", driver.getEmail())
+        .addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Driver added succesfully");
+            }
+        })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, "Driver not added");
+            }
+        });
+    }
+
+    public Driver getCurrentDriver(FirebaseUser driver){
+        final Driver[] t = new Driver[1];
+        String id = driver.getEmail();
+
+        db = FirebaseFirestore.getInstance();
+
+        DocumentReference driverRef = db.collection("drivers").document(id);
+
+
+        driverRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Driver currentDriver = documentSnapshot.toObject(Driver.class);
+                t[0] = currentDriver;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+        });
+
+        return t[0];
+    }
+
     /**
      * Adds a new user to the database (in sync with authentication)
      * @param user          a map of the user's information

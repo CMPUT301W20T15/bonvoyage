@@ -41,7 +41,7 @@ public class RiderPricingFragment extends Fragment {
                 HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
                 float newCost = Float.parseFloat(priceEdit.getText().toString());
                 tripData.put("cost", newCost);
-                firebaseHandler.addNewRideRequestToDatabase(tripData, "hello@gmail.com");
+                firebaseHandler.addNewRideRequestToDatabase(tripData, "testrider@gmail.com");
             }
         }
 

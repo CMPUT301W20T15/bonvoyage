@@ -33,8 +33,11 @@ import androidx.fragment.app.Fragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
@@ -47,8 +50,6 @@ import static com.google.android.gms.vision.L.TAG;
 
 public class RiderStatusFragment extends Fragment {
     private static final String TAG = "RiderStatusFragment";
-
-
 
     TextView title;
 
@@ -73,6 +74,8 @@ public class RiderStatusFragment extends Fragment {
     TextView exitBtn;
     private RiderStatusListener statusListener;
     private FirebaseFirestore db;
+    private String driver_phone = "";
+    private String driver_email = "";
 
 
     @Override
@@ -93,10 +96,10 @@ public class RiderStatusFragment extends Fragment {
         Bundle bundle = getArguments();
         HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
         String tripStatus = tripData.get("status").toString();
-        Log.d(TAG, tripStatus+"TITLE");
         View view = inflater.inflate(R.layout.rider_status_overlay, container, false);
+
         title = view.findViewById(R.id.rs_title);
-        title.setText(tripStatus);
+        title.setText("Trip requested");
 
         profile_preview = view.findViewById(R.id.rs_profile);
         profile_preview.setVisibility(View.GONE);
@@ -109,6 +112,48 @@ public class RiderStatusFragment extends Fragment {
         location_layout = view.findViewById(R.id.rs_location);
         current_location = location_layout.findViewById(R.id.startLocation);
         destination_location = location_layout.findViewById(R.id.endLocation);
+
+        contact_layout = view.findViewById(R.id.rs_contact);
+        contact_layout.setVisibility(View.GONE);
+        callBtn = contact_layout.findViewById(R.id.rs_call_btn);
+
+        textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+
+        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
+
+        rating_layout = view.findViewById(R.id.rs_rate_driver);
+        driver_rating = rating_layout.findViewById(R.id.rating);
+        exitBtn = view.findViewById(R.id.rs_exitBtn);
+
+        db = FirebaseFirestore.getInstance();
+        DocumentReference statusRef = db.collection("RiderRequests").document(tripData.get("userEmail").toString());
+
+
+        statusRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot.get("status").equals("accepted")){
+                    profile_preview.setVisibility(View.VISIBLE);
+                    title.setText("Your Driver is on their way!");
+                    contact_layout.setVisibility(View.VISIBLE);
+                    exitBtn.setVisibility(View.GONE);
+                    profile_name.setText(documentSnapshot.getString("driver_name"));
+                    driver_email = documentSnapshot.getString("driver_email");
+                    driver_phone = documentSnapshot.getString("driver_phone");
+                    callBtn.setVisibility(View.VISIBLE);
+                    textBtn.setVisibility(View.VISIBLE);
+                }
+                else if(documentSnapshot.get("status").equals("inProgress")){
+                    title.setText("Ride in progress!");
+                    callBtn.setVisibility(View.GONE);
+                    textBtn.setVisibility(View.GONE);
+                }
+                else if(documentSnapshot.getString("status").equals("complete")){
+
+                }
+            }
+        });
+
 
         Geocoder geo = new Geocoder(RiderStatusFragment.this.getContext());
 
@@ -127,24 +172,12 @@ public class RiderStatusFragment extends Fragment {
             Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
         }
 
-        contact_layout = view.findViewById(R.id.rs_contact);
-        contact_layout.setVisibility(View.GONE);
-        callBtn = contact_layout.findViewById(R.id.rs_call_btn);
-        callBtn.setVisibility(View.GONE);
-        textBtn = contact_layout.findViewById(R.id.rs_text_btn);
-        textBtn.setVisibility(View.GONE);
-        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
-        emailBtn.setVisibility(View.GONE);
-        rating_layout = view.findViewById(R.id.rs_rate_driver);
-        driver_rating = rating_layout.findViewById(R.id.rating);
-        exitBtn = view.findViewById(R.id.rs_exitBtn);
-
         callBtn.setOnClickListener(new View.OnClickListener() {
         
             public void onClick(View v) {
                 try {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:" + "4034026524"));
+                    callIntent.setData(Uri.parse("tel:" + driver_phone));
                     startActivity(callIntent);
                 } catch (ActivityNotFoundException activityException) {
                     Log.e("Calling a Phone Number", "Call failed", activityException);
@@ -156,7 +189,7 @@ public class RiderStatusFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Uri sms_uri = Uri.parse("smsto:4034026524");
+                Uri sms_uri = Uri.parse("smsto:"+driver_phone);
                 Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
                 sms_intent.putExtra("sms_body", "Hello");
                 startActivity(sms_intent);
@@ -193,27 +226,6 @@ public class RiderStatusFragment extends Fragment {
     }
 
 
-    public void getCurrentRideRequest(String email){
-        db = FirebaseFirestore.getInstance();
-        DocumentSnapshot requestDetails;
-        Task<DocumentSnapshot> requestRef = db.collection("RiderRequest").document(email).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-
-                        }else{
-
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-    }
 
 
 
