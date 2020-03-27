@@ -2,7 +2,9 @@ package com.example.bonvoyage;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -48,7 +50,20 @@ public class RiderStatusFragment extends Fragment {
     RatingBar driver_rating;
 
     TextView exitBtn;
+    private RiderStatusListener statusListener;
 
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        statusListener = (RiderStatusListener) context;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        addRiderStatusListener();
+    }
 
     @Nullable
     @Override
@@ -111,6 +126,27 @@ public class RiderStatusFragment extends Fragment {
             }
         });
 
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                statusListener.onCancelRide();
+            }
+        });
+
         return view;
+    }
+
+    private void addRiderStatusListener(){
+        getView().setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                statusListener.onCancelRide();
+            }
+        });
+    }
+
+    // This interface is used to interact with RiderMapActivity
+    public interface RiderStatusListener {
+        void onCancelRide();
     }
 }

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,7 +32,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class RiderMapActivity extends MapActivity {
+public class RiderMapActivity extends MapActivity implements RiderStatusFragment.RiderStatusListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
@@ -39,11 +40,11 @@ public class RiderMapActivity extends MapActivity {
     private Button continueButton;
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
+    RiderStatusFragment riderStatusFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
-        pricingFragment = (RiderPricingFragment)
-                getSupportFragmentManager().findFragmentById(R.id.rider_add_price);
+        pricingFragment = (RiderPricingFragment) getSupportFragmentManager().findFragmentById(R.id.rider_add_price);
         pricingFragment.getView().setVisibility(View.GONE);
         ConstraintLayout riderView = findViewById(R.id.rider_layout);
         riderView.setVisibility(View.VISIBLE);
@@ -66,10 +67,11 @@ public class RiderMapActivity extends MapActivity {
 
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
+
                     if (address != null) {
-                        continueButton.setEnabled(true);
-                        continueButton.setVisibility(View.VISIBLE);
-                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    continueButton.setVisibility(View.VISIBLE);
+                    continueButton.setEnabled(true);
+                    endLocation = new GeoPoint(53.523220, -113.526321);
                     }
 
                 }
@@ -115,7 +117,19 @@ public class RiderMapActivity extends MapActivity {
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
         pricingFragment.setArguments(rideInfo);
-        continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pricingFragment.updatePrice();
+                pricingFragment.getView().setVisibility(View.GONE);
+                continueButton.setVisibility(View.GONE);
+                currentLocationBox.setVisibility(View.GONE);
+                destinationLocationBox.setVisibility(View.GONE);
+                createStatusFragment();
+
+            }
+        });
     }
 
 
@@ -150,6 +164,20 @@ public class RiderMapActivity extends MapActivity {
 
         // calculate the result
         return(c * r);
+    }
+
+
+    private void createStatusFragment(){
+        riderStatusFragment = new RiderStatusFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+    }
+
+
+    @Override
+    public void onCancelRide() {
+        Log.d(TAG, "onCancelRide: test ");
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+
     }
 
 }
