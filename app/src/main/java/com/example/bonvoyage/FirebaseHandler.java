@@ -80,11 +80,10 @@ public class FirebaseHandler {
 
     /**
      * Communicates with the firestore to make a transaction between rider and driver
-     * @param rider         a rider that will pay the rider
      * @param driver        a driver that will get paid
      * @param payment_fee   the amount that the rider agreed to pay
      */
-    public void userTransaction(Rider rider, Driver driver, float payment_fee){
+    public void driverTransaction(Driver driver, float payment_fee){
         // Adding money to the driver's wallet
         DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
         driver.addMoneyToWallet(payment_fee);
@@ -103,6 +102,14 @@ public class FirebaseHandler {
                     }
                 });
 
+    }
+
+    /**
+     * Communicates with the firestore to make a transaction between rider and driver
+     * @param rider         a rider that will pay the rider
+     * @param payment_fee   the amount that the rider agreed to pay
+     */
+    public void riderTransaction(Rider rider, float payment_fee){
         // Removing money from the rider's wallet
         DocumentReference riderRef = db.collection("riders").document(rider.getEmail());
         rider.takeMoneyFromWallet(payment_fee);
@@ -176,7 +183,7 @@ public class FirebaseHandler {
     }
 
     /**
-     * Gets the available riderrequests
+     * Gets the available rider requests
      * @return      the list of available rider requests
      */
     public ArrayList<RideRequest> getAvailableRiderRequest(){
@@ -228,6 +235,31 @@ public class FirebaseHandler {
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
+    }
+
+    /**
+     * Gets the cost of ride
+     * @param unique_id     the unique id of the ride in question
+     * @return              the cost of the ride in question
+     */
+    public float getCostOfRideFromDatabase(final String unique_id) {
+        db = FirebaseFirestore.getInstance();
+        final float[] cost = {0};
+        DocumentReference docRef = db.collection("InProgressRiderRequests")
+                .document(unique_id);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e!=null){
+                    Log.e(TAG,  "Unable to find cost of ride");
+                    return;
+                }
+                if (documentSnapshot != null){
+                        cost[0] = documentSnapshot.toObject(RideRequest.class).getCost();
+                }
+            }
+        });
+        return cost[0];
     }
 
     /**
