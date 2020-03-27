@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BonVoyage</string>
+    <string name="app_name">Bon Voyage</string>
     <string name="google_maps_API_key">AIzaSyBPFTzh_rgXi82JRZJIv6avzYYynm-7aPs</string>
 
     <!--Activity titles-->
@@ -38,4 +38,9 @@
     <string name="sign_in_with_email">SIGN IN WITH EMAIL</string>
     <string name="sign_in_with_phone">SIGN IN WITH PHONE</string>
     <string name="suggested_payment">The suggested fare for your trip is $%1$.2f You must enter at least this much in order to request a driver.</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_wallet">Wallet</string>
+    <string name="nav_trips">Trip History</string>
+    <string name="nav_logout">Logout</string>
 </resources>
