@@ -1,6 +1,7 @@
 package com.example.bonvoyage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -27,6 +28,9 @@ public class RiderSuggestPrice extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rider_add_price);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
         text_given = findViewById(R.id.price_info);
         propose = findViewById(R.id.price_edit);
         verify = findViewById(R.id.approve);
