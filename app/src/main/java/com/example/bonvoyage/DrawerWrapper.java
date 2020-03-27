@@ -7,12 +7,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 public class DrawerWrapper {
 
@@ -32,8 +36,28 @@ public class DrawerWrapper {
     DrawerWrapper(Activity activity, Context context, Toolbar toolbar) {
         //create the drawer and remember the `Drawer` result object
 
+        AccountHeader headerResult = new AccountHeaderBuilder()
+                .withActivity(activity)
+                .withHeaderBackground(R.drawable.header)
+                .addProfiles(
+                        new ProfileDrawerItem()
+                                .withName("Jane Doe")
+                                .withEmail("testrider@gmail.com")
+                                .withIcon(activity.getResources().getDrawable(R.drawable.profile))
+                )
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
+                        return false;
+                    }
+                })
+                .build();
+
+
+
         Drawer result = new DrawerBuilder()
                 .withActivity(activity)
+                .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
                 .addDrawerItems(
                         item1,
@@ -46,11 +70,12 @@ public class DrawerWrapper {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         // do something with the clicked item :D
-
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Clicked " + position, Toast.LENGTH_SHORT).show();
                         return true;
                     }
                 })
                 .build();
+
+
     }
 }
