@@ -24,7 +24,7 @@
     <color name="Black">#000 </color>
 
 
-    <color name="material_drawer_dark_background">#303030</color>
+    <color name="material_drawer_dark_background">#B4301167</color>
     <!-- MaterialDrawer DEFAULT DARK text / items colors -->
     <color name="material_drawer_dark_primary_text">#DEFFFFFF</color>
     <color name="material_drawer_dark_primary_icon">#8AFFFFFF</color>
@@ -34,7 +34,7 @@
     <!-- MaterialDrawer DEFAULT DARK drawer colors -->
     <color name="material_drawer_dark_selected">#1F2196F3</color>
     <color name="material_drawer_dark_selected_legacy">#202020</color>
-    <color name="material_drawer_dark_selected_text">@color/material_drawer_primary</color>
+    <color name="material_drawer_dark_selected_text">@color/material_drawer_primary_light</color>
     <color name="material_drawer_dark_header_selection_text">#FFFFFFFF</color>
     <color name="material_drawer_dark_header_selection_subtext">#B3FFFFFF</color>
 </resources>
