@@ -31,8 +31,7 @@ public class DriverStatusActivity extends AppCompatActivity {
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                new DriverPayment();    // Call driver payment Scanner
-                new RiderPaymentFragment();     // Call rider payment fragment to display for QR Code
+                //Update the status request
             }
         });
 
