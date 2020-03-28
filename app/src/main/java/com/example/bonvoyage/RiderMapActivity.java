@@ -1,9 +1,5 @@
 package com.example.bonvoyage;
 
-import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.location.Address;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,30 +11,33 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.io.IOException;
-import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Objects;
 
-public class RiderMapActivity extends MapActivity {
+public class RiderMapActivity extends MapActivity implements RiderStatusFragment.RiderStatusListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
     private TextView currentLocationBox;
     private Button continueButton;
+    String first_name = "";
+    String last_name = "";
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
+    RiderStatusFragment riderStatusFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -66,14 +65,13 @@ public class RiderMapActivity extends MapActivity {
 
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
+
                     if (address != null) {
-                        continueButton.setEnabled(true);
-                        continueButton.setVisibility(View.VISIBLE);
-                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    continueButton.setVisibility(View.VISIBLE);
+                    continueButton.setEnabled(true);
+                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
-
                 }
-
                 return false;
             }
         });
@@ -82,12 +80,12 @@ public class RiderMapActivity extends MapActivity {
     private void setCurrentLocation() {
         Log.d(TAG, "Updated current location");
         getDeviceLocation();
-
     }
 
     private void continueToPayment() {
         double distance = calculateDistance(startLocation, endLocation);
         EditText priceEdit = findViewById(R.id.price_edit);
+
         double cost = distance * 2.5;
         priceEdit.setText(String.format(Locale.CANADA, "%.2f",cost));
 
@@ -104,18 +102,55 @@ public class RiderMapActivity extends MapActivity {
                 + ", " + endLocation.getLongitude());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         HashMap<String, Object> tripInformation = new HashMap<>();
+
+
+        FirebaseUser user = firebaseHandler.getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("riders").document("testrider@gmail.com");
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    if (!Objects.requireNonNull(documentSnapshot.getString("first_name")).isEmpty()) {
+                        first_name = documentSnapshot.getString("first_name");
+                    }
+                    if (!Objects.requireNonNull(documentSnapshot.getString("last_name")).isEmpty()) {
+                        last_name = documentSnapshot.getString("last_name");
+                    }
+                } else {
+                    Log.d(TAG, "No user found with that email");
+                }
+            }
+        });
+
         tripInformation.put("cost", cost);
         tripInformation.put("endGeopoint", endLocation);
         tripInformation.put("startGeopoint", startLocation);
-        tripInformation.put("firstName", "Test");
-        tripInformation.put("lastName", "User");
-        tripInformation.put("phoneNumber", "17801234567");
+        tripInformation.put("firstName", first_name);
+        tripInformation.put("lastName", last_name);
+        tripInformation.put("phoneNumber", user.getPhoneNumber());
+        tripInformation.put("email", user.getEmail());
         tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
+        tripInformation.put("userEmail", "testrider@gmail.com");
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
+        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
         pricingFragment.setArguments(rideInfo);
-        continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pricingFragment.updatePrice();
+                pricingFragment.getView().setVisibility(View.GONE);
+                continueButton.setVisibility(View.GONE);
+                currentLocationBox.setVisibility(View.GONE);
+                destinationLocationBox.setVisibility(View.GONE);
+                riderStatusFragment = new RiderStatusFragment();
+                riderStatusFragment.setArguments(rideInfo);
+                getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+            }
+        });
     }
 
 
@@ -150,6 +185,17 @@ public class RiderMapActivity extends MapActivity {
 
         // calculate the result
         return(c * r);
+    }
+
+    @Override
+    public void onCancelRide() {
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+
+    }
+
+    @Override
+    public void onRideComplete() {
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
     }
 
 }
