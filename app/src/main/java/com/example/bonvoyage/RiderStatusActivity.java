@@ -49,6 +49,7 @@ public class RiderStatusActivity extends AppCompatActivity {
         callBtn = contact_layout.findViewById(R.id.rs_call_btn);
         textBtn = contact_layout.findViewById(R.id.rs_text_btn);
         emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
+        rating_layout = findViewById(R.id.rs_rate_driver);
         driver_rating = rating_layout.findViewById(R.id.rating);
         exitBtn = findViewById(R.id.rs_exitBtn);
 

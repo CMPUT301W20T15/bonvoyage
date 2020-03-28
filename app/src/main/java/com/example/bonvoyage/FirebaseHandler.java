@@ -320,8 +320,4 @@ public class FirebaseHandler {
                     }
                 });
     }
-
-
-
-
 }

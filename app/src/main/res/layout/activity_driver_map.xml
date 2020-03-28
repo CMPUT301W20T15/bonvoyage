@@ -12,8 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="100"
-        android:background="@color/White"
-        android:id="@+id/linear_map_containter">
+        android:background="@color/White">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -29,9 +28,7 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/driver_status_container"
-                android:layout_centerVertical="true"
-                />
+                android:id="@+id/driver_status_container"/>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"

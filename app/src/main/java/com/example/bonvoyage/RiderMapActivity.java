@@ -72,7 +72,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                     if (address != null) {
                     continueButton.setVisibility(View.VISIBLE);
                     continueButton.setEnabled(true);
-                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    endLocation = new GeoPoint(53.523220, -113.526321);
                     }
 
                 }
@@ -115,10 +115,8 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         tripInformation.put("phoneNumber", "17801234567");
         tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
-        tripInformation.put("userEmail", "testrider@gmail.com");
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
-        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
         pricingFragment.setArguments(rideInfo);
         //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
         continueButton.setOnClickListener(new View.OnClickListener() {
@@ -129,9 +127,8 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                 continueButton.setVisibility(View.GONE);
                 currentLocationBox.setVisibility(View.GONE);
                 destinationLocationBox.setVisibility(View.GONE);
-                riderStatusFragment = new RiderStatusFragment();
-                riderStatusFragment.setArguments(rideInfo);
-                getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+                createStatusFragment();
+
             }
         });
     }
@@ -170,15 +167,18 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         return(c * r);
     }
 
-    @Override
-    public void onCancelRide() {
-        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
 
+    private void createStatusFragment(){
+        riderStatusFragment = new RiderStatusFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
     }
 
+
     @Override
-    public void onRideComplete() {
+    public void onCancelRide() {
+        Log.d(TAG, "onCancelRide: test ");
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+
     }
 
 }
