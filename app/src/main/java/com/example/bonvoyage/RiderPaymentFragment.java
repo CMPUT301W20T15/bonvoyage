@@ -8,6 +8,7 @@ package com.example.bonvoyage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,35 +17,47 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class RiderPaymentFragment extends DialogFragment{
 
-    String riderName = "Jane Doe";  // should be set to blank at the end
-    String amount = "27.00";   // should be cleared for the end
+    private FirebaseHandler firebaseHandler;
+    private FirebaseFirestore db;
+
+    Rider rider;
+    float cost;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.payment_fragment_layout, null);
 
+        FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                rider = documentSnapshot.toObject(Rider.class);
+                cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
+            }
+        });
+
         QRGenerate gen = new QRGenerate();    // calls the generator to generate the QR code
-        gen.generateQR(amount);
+        gen.generateQR(String.valueOf(cost));
 
         // for the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
                 .setTitle("Your ride is complete!")
-                .setMessage(riderName + "will scan your QR code below to process your payment of $" + amount).create();
+                .setMessage(rider + "will scan your QR code below to process your payment of $" + cost).create();
 
     }
 
-    // Sets the amount that should be converted to QR code format
-    public void setAmount(String val) {
-        amount = val;
-    }
-
-    // to set the name
-    public void setName(String name) {
-        riderName = name;
-    }
 }
