@@ -4,17 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -22,7 +17,6 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -46,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init(){
-//        Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
+        //Intent intent = new Intent(MainActivity.this, DriverMapActivity.class);
         Intent intent = new Intent(MainActivity.this, RiderMapActivity.class);
         startActivity(intent);
     }

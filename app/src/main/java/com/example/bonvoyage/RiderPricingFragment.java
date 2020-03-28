@@ -13,8 +13,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Locale;
+
+import static java.lang.Math.round;
 
 
 public class RiderPricingFragment extends Fragment {
@@ -22,6 +25,18 @@ public class RiderPricingFragment extends Fragment {
     private static String requestId = "hello@gmail.com";
     private EditText priceEdit;
 
+        public void updatePrice() {
+            Bundle bundle = this.getArguments();
+            FirebaseHandler firebaseHandler = new FirebaseHandler();
+            if (bundle != null) {
+                DecimalFormat df = new DecimalFormat("#.00");
+
+                HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
+                float newCost = Float.parseFloat(df.format(priceEdit.getText()).toString());
+                tripData.put("cost", newCost);
+                firebaseHandler.addNewRideRequestToDatabase(tripData, "hello@gmail.com");
+            }
+        }
     private static final String TAG = "RiderPricingFragment";
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
@@ -35,17 +50,6 @@ public class RiderPricingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         priceEdit = view.findViewById(R.id.price_edit);
-    }
-
-    public void updatePrice() {
-        Bundle bundle = this.getArguments();
-        FirebaseHandler firebaseHandler = new FirebaseHandler();
-        if (bundle != null) {
-            HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
-            float newCost = Float.parseFloat(priceEdit.getText().toString());
-            tripData.put("cost", newCost);
-            firebaseHandler.addNewRideRequestToDatabase(tripData, requestId);
-        }
     }
 
     public void setRequestId(String requestId) {
