@@ -5,18 +5,22 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.util.Log;
+
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ChangeUserProfile extends AppCompatActivity {
@@ -28,6 +32,7 @@ public class ChangeUserProfile extends AppCompatActivity {
     private FirebaseHandler firebaseHandler;
     private  FirebaseFirestore db;
     private  FirebaseAuth mAuth;
+
 
     private FirebaseAuth.AuthStateListener mAuthListener;
     private String userType = "riders";
@@ -48,6 +53,7 @@ public class ChangeUserProfile extends AppCompatActivity {
         tb = findViewById(R.id.change_button);
         mAuth = FirebaseAuth.getInstance();
 
+
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         if (user != null){
@@ -66,6 +72,7 @@ public class ChangeUserProfile extends AppCompatActivity {
         }else{
             Log.d(TAG, "User does not exist");
         }
+
 
 //        boolean answer = firebaseHandler.checkIfUserIsDriver(firebaseUser.getDisplayName());
 //        String type_user;
