@@ -67,7 +67,7 @@ public class SignInEmailActivity extends AppCompatActivity {
             if (user != null){
                 //TO CHECK IF THEY VERIFIED THEIR EMAIL
                 //mAuth.getCurrentUser().isEmailVerified()
-                if (mAuth.getCurrentUser().isEmailVerified()) {
+                if (true) {
                     // GO TO THE DRIVER HOME PAGE IS THEY ARE A DRIVER, LIKEWISE WITH A RIDER
                     Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
                     toastMessage("Successfully signed in with: "+user.getEmail());
