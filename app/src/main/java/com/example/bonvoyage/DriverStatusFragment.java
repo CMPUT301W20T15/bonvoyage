@@ -56,9 +56,6 @@ public class DriverStatusFragment extends Fragment {
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                getActivity().startActivity(new Intent(getActivity(), DriverPayment.class));    // Call driver payment Scanner
-                getActivity().startActivity(new Intent(getActivity(), RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
-
                 driverStatusListener.onRideComplete();
             }
         });
