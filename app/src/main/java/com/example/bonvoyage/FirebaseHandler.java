@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,6 +63,7 @@ public class FirebaseHandler {
      * @param password  the user's password
      * @param activity  the activity to display a toast
      */
+
     public void loginUser(String email, String password, SignInEmailActivity activity) {
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
@@ -88,6 +90,7 @@ public class FirebaseHandler {
      */
     public void driverTransaction(Driver driver, float payment_fee){
         // Adding money to the driver's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
         driver.addMoneyToWallet(payment_fee);
         driverRef
@@ -114,6 +117,7 @@ public class FirebaseHandler {
      */
     public void riderTransaction(Rider rider, float payment_fee){
         // Removing money from the rider's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference riderRef = db.collection("riders").document(rider.getEmail());
         rider.takeMoneyFromWallet(payment_fee);
         riderRef
@@ -272,6 +276,8 @@ public class FirebaseHandler {
      * @param userType      the type of user they are (driver or rider)
      */
     public void addNewUserToDatabase(Map user, final String unique_id, String userType){
+        Log.d(TAG, "THIS");
+
         db = FirebaseFirestore.getInstance();
         db.collection(userType)
                 .document(unique_id)
@@ -306,12 +312,16 @@ public class FirebaseHandler {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, updalay a mete UI with the signed-in user's information
-                            signUpActivity.displayToastMessage(true);
+                            signUpActivity.displayAuthToastMessage(true);
                         } else {
                             // If sign in fails, dispssage to the user.
-                            signUpActivity.displayToastMessage(false);
+                            signUpActivity.displayAuthToastMessage(false);
                         }
                     }
                 });
     }
+
+
+
+
 }

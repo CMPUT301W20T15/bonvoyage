@@ -17,6 +17,7 @@ public class DriverPostPayment extends AppCompatActivity {
 
     protected void onCreateView(Bundle savedInstanceState) {
         FirebaseUser fb_driver = firebaseHandler.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("drivers").document(fb_driver.getEmail());
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

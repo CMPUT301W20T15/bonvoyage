@@ -43,7 +43,7 @@
         android:layout_alignLeft="@+id/BonVoyage_Splash"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/roboto_bold"
         android:text="SIGN UP"
         android:textSize="20dp" />
@@ -106,7 +106,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="40dp"
         android:inputType="textPassword"
-        android:hint="Re-enter Password [NOT IMPLEMENTED]" />
+        android:hint="Re-enter Password" />
 
 
     <CheckBox
@@ -130,5 +130,16 @@
         android:backgroundTint="#1A237E"
         android:text="CONFIRM REGISTRATION"
         android:textColor="#FFFFFF" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="#00FFFFFF"
+        android:indeterminateTint="@color/White"
+        android:forceDarkAllowed="false" />
 
 </RelativeLayout>
