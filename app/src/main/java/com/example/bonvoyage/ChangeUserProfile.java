@@ -1,5 +1,6 @@
 package com.example.bonvoyage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -68,7 +70,7 @@ public class ChangeUserProfile extends AppCompatActivity {
                     String email = documentSnapshot.getString("email_address");
                     String phone = documentSnapshot.getString("phone_number");
                     change_email.setText(email);
-                    change_name.setText(String.format(first_name + " "+last_name));
+                    change_name.setText(String.format(first_name + "    " +last_name));
                     change_number.setText(phone);
                     change_email.setFocusable(false);
                     change_name.setFocusable(false);
@@ -119,13 +121,26 @@ public class ChangeUserProfile extends AppCompatActivity {
                     String first_name = name.substring(0, name.indexOf(" "));
                     String last_name = name.substring(name.indexOf(" ")+1);
                     DocumentReference docRef = db.collection("riders").document(user.getEmail());
-                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    docRef
+                            .update("first_name", first_name,
+                                    "last_name", last_name,
+                                    "email_address", email,
+                                    "phone_number", number)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "User information updated!");
+                                    Toast.makeText(ChangeUserProfile.this,"User information updated!",Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Failed to update user information", e);
+                                    Toast.makeText(ChangeUserProfile.this,"Failed to update user information",Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-                            //implement
-                        }
-                    });
                 }
             }
         });
