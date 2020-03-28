@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class SplashPageActivity extends AppCompatActivity {
 
@@ -13,7 +16,8 @@ public class SplashPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_splash_page);
-        getSupportActionBar().hide();
+
+//        getSupportActionBar().hide();
         RelativeLayout splash_screen = (RelativeLayout) findViewById(R.id.splash_page_layout);
 
         splash_screen.setOnClickListener(new View.OnClickListener() {
