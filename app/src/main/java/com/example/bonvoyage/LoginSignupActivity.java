@@ -19,31 +19,31 @@ public class LoginSignupActivity extends AppCompatActivity {
         setContentView(R.layout.user_login);
         ImageView bvlogo = findViewById(R.id.bvlogo);
         ImageView bgApp = findViewById(R.id.bgApp2);
-        bgApp.animate().translationY(-1000).setDuration(1300).setStartDelay(2000);
+        bvlogo.animate().translationX(200);
+        bgApp.animate().translationY(-1200).setDuration(1000).setStartDelay(2000);
         ImageView signInEmail =findViewById(R.id.signInEmailButton);
         ImageView SignInPhone = findViewById(R.id.signInPhoneButton);
         ImageView SignUp = findViewById(R.id.signUpButton);
         bvlogo.animate()
-                .translationY(420)
-                .translationX(400)
+                .translationY(400)
                 .alpha(1.0f)
                 .setDuration(2000)
                 .setStartDelay(3000);
         signInEmail.animate()
-                .translationY(-600)
+                .translationY(-700)
                 .alpha(1.0f)
-                .setDuration(1000)
+                .setDuration(500)
                 .setStartDelay(4000);
         SignInPhone.animate()
-                .translationY(-400)
+                .translationY(-500)
                 .alpha(1.0f)
-                .setDuration(1000)
-                .setStartDelay(4000);
+                .setDuration(500)
+                .setStartDelay(4500);
         SignUp.animate()
-                .translationY(-200)
+                .translationY(-300)
                 .alpha(1.0f)
-                .setDuration(1000)
-                .setStartDelay(4000);
+                .setDuration(500)
+                .setStartDelay(5000);
 
 
     }
