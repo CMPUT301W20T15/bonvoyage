@@ -299,11 +299,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 //rideRequestArrayList.clear();
                 //rideRequestArrayList = new ArrayList<>();
+                riderLocationArrayAdapter.clear();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
                         //rideRequestArrayList.add(rider);
                         if (rider.getStatus().equals("available")){
+                            //rideRequestArrayList.add(rider);
                             riderLocationArrayAdapter.add(rider);
                             GeoPoint startGeopoint = rider.getStartGeopoint();
                             //GeoPoint endGeopoint = rider.getEndGeopoint();
