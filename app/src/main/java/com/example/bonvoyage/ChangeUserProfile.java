@@ -57,20 +57,27 @@ public class ChangeUserProfile extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         if (user != null){
-            Log.d(TAG, "User exists " + user.getEmail());
 
             DocumentReference docRef = db.collection("riders").document(user.getEmail());
             docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    //DocumentSnapeShot is the object that holds the fields of data
+                    //DocumentSnapShot is the object that holds the fields of data
                     String first_name = documentSnapshot.getString("first_name");
-                    // Example
-                    Log.d(TAG, "First name " + first_name);
+                    String last_name = documentSnapshot.getString("last_name");
+                    String email = documentSnapshot.getString("email_address");
+                    String phone = documentSnapshot.getString("phone_number");
+                    change_email.setText(email);
+                    change_name.setText(String.format(first_name + " "+last_name));
+                    change_number.setText(phone);
+                    change_email.setFocusable(false);
+                    change_name.setFocusable(false);
+                    change_number.setFocusable(false);
+
                 }
             });
         }else{
-            Log.d(TAG, "User does not exist");
+            Toast.makeText(ChangeUserProfile.this,"User does not exist", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -99,12 +106,26 @@ public class ChangeUserProfile extends AppCompatActivity {
         tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Toast.makeText(getApplicationContext(),"Edit", Toast.LENGTH_SHORT).show();
-                    //get values
-                    // The toggle is enabled
+                    change_email.setFocusableInTouchMode(true);
+                    change_name.setFocusableInTouchMode(true);
+                    change_number.setFocusableInTouchMode(true);
                 } else {
-                    Toast.makeText(getApplicationContext(),"Save", Toast.LENGTH_SHORT).show();
-                    // The toggle is disabled
+                    change_email.setFocusable(false);
+                    change_name.setFocusable(false);
+                    change_number.setFocusable(false);
+                    String email = change_email.getText().toString();
+                    String name = change_name.getText().toString();
+                    String number = change_number.getText().toString();
+                    String first_name = name.substring(0, name.indexOf(" "));
+                    String last_name = name.substring(name.indexOf(" ")+1);
+                    DocumentReference docRef = db.collection("riders").document(user.getEmail());
+                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+
+                            //implement
+                        }
+                    });
                 }
             }
         });
