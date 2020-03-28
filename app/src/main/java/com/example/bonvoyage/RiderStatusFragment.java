@@ -128,6 +128,7 @@ public class RiderStatusFragment extends Fragment {
                 else if (documentSnapshot.getString("status").equals("complete")){
                     db.collection("RiderRequests").document(tripData.get("rider_email").toString()).delete();
                     db.collection("CompletedRiderRequests").add(tripData);
+                    getActivity().startActivity(new Intent(getActivity(), RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
                     statusListener.onRideComplete();
                 }
             }
