@@ -262,7 +262,7 @@ public class FirebaseHandler {
                     return;
                 }
                 if (documentSnapshot != null){
-                        cost[0] = documentSnapshot.toObject(RideRequest.class).getCost();
+                    cost[0] = documentSnapshot.toObject(RideRequest.class).getCost();
                 }
             }
         });
