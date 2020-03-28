@@ -434,6 +434,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
+        startActivity(new Intent(DriverMapActivity.this, DriverPayment.class));    // Call driver payment Scanner
 
     }
 

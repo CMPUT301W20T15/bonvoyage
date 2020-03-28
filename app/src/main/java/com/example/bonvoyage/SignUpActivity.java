@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.hbb20.CountryCodePicker;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     public FirebaseHandler firebaseHandler;
 
     String TAG = "SignUpActivity";
+    private CountryCodePicker ccp;
     private FirebaseAuth mAuth;
     private Button signUpConfirmButton;
     private EditText signUpFirstName, signUpLastName, signUpEmail, signUpPhoneNumber,
@@ -85,19 +87,21 @@ public class SignUpActivity extends AppCompatActivity {
         inProgress.setVisibility(View.VISIBLE);
 
         // Find the objects that hold the user's inputted information
+        ccp = (CountryCodePicker) findViewById(R.id.ccp_sign_up);
         signUpFirstName = findViewById(R.id.signUpFirstName);
         signUpLastName = findViewById(R.id.signUpLastName);
         signUpEmail = findViewById(R.id.signUpEmail);
         signUpPhoneNumber = findViewById(R.id.signUpPhoneNumber);
         signUpPassword = findViewById(R.id.signUpPassword);
         signUpRePassword = findViewById(R.id.signUpRePassword);
+        ccp.registerCarrierNumberEditText(signUpPhoneNumber);
 
         /* Transform the information into strings to be stored into the Cloud Firestore and
             the Authentication of Fire Base */
         newFirstName = signUpFirstName.getText().toString();
         newLastName = signUpLastName.getText().toString();
         newEmail = signUpEmail.getText().toString();
-        newPhoneNumber = signUpPhoneNumber.getText().toString();
+        newPhoneNumber = ccp.getFullNumberWithPlus();
         newPassword = signUpPassword.getText().toString();
         newRePassword = signUpRePassword.getText().toString();
 
@@ -136,7 +140,7 @@ public class SignUpActivity extends AppCompatActivity {
             inProgress.setVisibility(View.INVISIBLE);
             return;
         }
-        if (user.getPhonenumber().length() > 11 || user.getPhonenumber().length() < 9){
+        if (user.getPhonenumber().equals("")){
             Toast.makeText(SignUpActivity.this, "Invalid Phone Number.",
                     Toast.LENGTH_LONG).show();
             inProgress.setVisibility(View.INVISIBLE);

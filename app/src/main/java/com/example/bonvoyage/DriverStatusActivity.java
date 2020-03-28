@@ -33,7 +33,6 @@ public class DriverStatusActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 startActivity(new Intent(DriverStatusActivity.this, DriverPayment.class));    // Call driver payment Scanner
-                startActivity(new Intent(DriverStatusActivity.this, RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
             }
         });
 
