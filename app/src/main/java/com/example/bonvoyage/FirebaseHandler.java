@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,30 +63,34 @@ public class FirebaseHandler {
      * @param password  the user's password
      * @param activity  the activity to display a toast
      */
+
     public void loginUser(String email, String password, SignInEmailActivity activity) {
         mAuth = FirebaseAuth.getInstance();
         mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(activity, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithEmail:failure", task.getException());
-                        activity.toastMessage("Authentication failed.");
+                .addOnCompleteListener(activity, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            activity.toastMessage("Authentication failed.");
+                        }
                     }
                 });
     }
 
     /**
      * Communicates with the firestore to make a transaction between rider and driver
-     * @param rider         a rider that will pay the rider
      * @param driver        a driver that will get paid
      * @param payment_fee   the amount that the rider agreed to pay
      */
-    public void userTransaction(Rider rider, Driver driver, float payment_fee){
+    public void driverTransaction(Driver driver, float payment_fee){
         // Adding money to the driver's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
         driver.addMoneyToWallet(payment_fee);
         driverRef
@@ -103,7 +108,16 @@ public class FirebaseHandler {
                     }
                 });
 
+    }
+
+    /**
+     * Communicates with the firestore to make a transaction between rider and driver
+     * @param rider         a rider that will pay the rider
+     * @param payment_fee   the amount that the rider agreed to pay
+     */
+    public void riderTransaction(Rider rider, float payment_fee){
         // Removing money from the rider's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference riderRef = db.collection("riders").document(rider.getEmail());
         rider.takeMoneyFromWallet(payment_fee);
         riderRef
@@ -176,7 +190,7 @@ public class FirebaseHandler {
     }
 
     /**
-     * Gets the available riderrequests
+     * Gets the available rider requests
      * @return      the list of available rider requests
      */
     public ArrayList<RideRequest> getAvailableRiderRequest(){
@@ -231,12 +245,39 @@ public class FirebaseHandler {
     }
 
     /**
+     * Gets the cost of ride
+     * @param unique_id     the unique id of the ride in question
+     * @return              the cost of the ride in question
+     */
+    public float getCostOfRideFromDatabase(final String unique_id) {
+        db = FirebaseFirestore.getInstance();
+        final float[] cost = {0};
+        DocumentReference docRef = db.collection("InProgressRiderRequests")
+                .document(unique_id);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e!=null){
+                    Log.e(TAG,  "Unable to find cost of ride");
+                    return;
+                }
+                if (documentSnapshot != null){
+                    cost[0] = documentSnapshot.toObject(RideRequest.class).getCost();
+                }
+            }
+        });
+        return cost[0];
+    }
+
+    /**
      * Adds a new user to the database (in sync with authentication)
      * @param user          a map of the user's information
      * @param unique_id     the user's email
      * @param userType      the type of user they are (driver or rider)
      */
     public void addNewUserToDatabase(Map user, final String unique_id, String userType){
+        Log.d(TAG, "THIS");
+
         db = FirebaseFirestore.getInstance();
         db.collection(userType)
                 .document(unique_id)
@@ -271,10 +312,10 @@ public class FirebaseHandler {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, updalay a mete UI with the signed-in user's information
-                            signUpActivity.displayToastMessage(true);
+                            signUpActivity.displayAuthToastMessage(true);
                         } else {
                             // If sign in fails, dispssage to the user.
-                            signUpActivity.displayToastMessage(false);
+                            signUpActivity.displayAuthToastMessage(false);
                         }
                     }
                 });
