@@ -91,6 +91,7 @@ public class SignInEmailActivity extends AppCompatActivity {
                     });
                 }else{
                     toastMessage("Please verify your email address.");
+                    inProgress.setVisibility(View.INVISIBLE);
                 }
             }else {
                 Log.d(TAG,"onAuthStateChanged:signed_out");
@@ -108,6 +109,7 @@ public class SignInEmailActivity extends AppCompatActivity {
             String pass = mPassword.getText().toString();
             if (!email.equals("") && !pass.equals("")){
                 firebaseHandler.loginUser(email, pass, SignInEmailActivity.this);
+                inProgress.setVisibility(View.INVISIBLE);
             }else {
                 toastMessage("Fill in all fields");
             }
