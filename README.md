@@ -87,7 +87,7 @@ write about our process in a short bulleted para
 * **Nicole Hagerman**  - [nicolelisa](https://github.com/nicolelisa)
 * **Nomar Chavez**     - [nmrchvz](https://github.com/nmrchvz)
 
-See also the list of [contributors](https://github.com/your/project/contributors) for full contribution in this project
+See also the [wiki](https://github.com/CMPUT301W20T15/bonvoyage/wiki) for full contribution in this project
 
 ## License
 ```Copyright 2018 
