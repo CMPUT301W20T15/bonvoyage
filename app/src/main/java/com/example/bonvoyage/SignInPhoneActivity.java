@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
@@ -24,6 +25,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.hbb20.CountryCodePicker;
 
 import java.util.concurrent.TimeUnit;
@@ -49,6 +53,8 @@ public class SignInPhoneActivity extends AppCompatActivity {
     private PhoneAuthProvider.ForceResendingToken mResendToken;
     private ProgressDialog loadingBar;
 
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,7 @@ public class SignInPhoneActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mAuth.setLanguageCode("it");
         loadingBar = new ProgressDialog(SignInPhoneActivity.this);
+        db = FirebaseFirestore.getInstance();
 
 
 
@@ -157,6 +164,8 @@ public class SignInPhoneActivity extends AppCompatActivity {
         //Intent intent = new Intent(SignInPhoneActivity.this,DriverMapActivity.this);
         //startActivity(intent);
         //finish();
+        //db = FirebaseFirestore.getInstance();
+        //mAuth.getCurrentUser().linkWithCredential()
         toastMessage("Pass to next activity");
     }
     /**
