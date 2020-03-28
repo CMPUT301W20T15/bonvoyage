@@ -18,7 +18,9 @@ import java.util.Locale;
 
 
 public class RiderPricingFragment extends Fragment {
+    private static String requestId = "hello@gmail.com";
     private EditText priceEdit;
+
     private static final String TAG = "RiderPricingFragment";
 
 
@@ -44,8 +46,14 @@ public class RiderPricingFragment extends Fragment {
             float newCost = Float.parseFloat(priceEdit.getText().toString());
             tripData.put("cost", newCost);
             firebaseHandler.addNewRideRequestToDatabase(tripData, requestId);
-
-
         }
+    }
 
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public static String getRequestId() {
+        return requestId;
+    }
 }
