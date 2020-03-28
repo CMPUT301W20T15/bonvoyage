@@ -1,5 +1,5 @@
 # BonVoyage
-![](https://github.com/CMPUT301W20T15/bonvoyage/blob/header-patch/doc/UI_Mockups_Images/header2.png)
+![](https://github.com/CMPUT301W20T15/bonvoyage/blob/header-patch/doc/UI_Mockups_Images/header4.png)
 
 Bon Voyage is developed as a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil.
 
