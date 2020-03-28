@@ -46,15 +46,10 @@ public class SignUpActivity extends AppCompatActivity {
         signUpConfirmButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                inProgress.setVisibility(View.VISIBLE);
                 User user = setUpUser();
                 createNewUserAccount(user);
-
-                //firebaseHandler.sendVerificationEmail(user.getEmail());
-                //inProgress.setVisibility(View.INVISIBLE);
             }
         });
-
         signUpUserIsDriver = findViewById(R.id.signUpUserIsDriver);
         signUpUserIsDriver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
     public void sendVerificationEmail(){
         mAuth.getCurrentUser()
                 .sendEmailVerification()
@@ -81,9 +77,12 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+
     public User setUpUser(){
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newRePassword;
         final int newWallet;
+        inProgress = findViewById(R.id.progressBar);
+        inProgress.setVisibility(View.VISIBLE);
 
         // Find the objects that hold the user's inputted information
         signUpFirstName = findViewById(R.id.signUpFirstName);
@@ -112,19 +111,10 @@ public class SignUpActivity extends AppCompatActivity {
         }else{
             Toast.makeText(SignUpActivity.this, "Passwords do not match.",
                     Toast.LENGTH_LONG).show();
+            inProgress.setVisibility(View.INVISIBLE);
             return null;
         }
 
-    }
-
-    /**
-     * When the go button is pressed, it will change the existing activity into the login screen
-     * activity
-     * @param view  the current view of the activity
-     */
-    public void goToLoginScreen(View view) {
-        Intent intent = new Intent(this, LoginSignupActivity.class);
-        startActivity(intent);
     }
 
     /**
@@ -152,13 +142,13 @@ public class SignUpActivity extends AppCompatActivity {
             inProgress.setVisibility(View.INVISIBLE);
             return;
         }
-
         if (user.getPassword().length() < 6 && user.getPassword().length() > 0){
             Toast.makeText(SignUpActivity.this, "Password length must be greater than 6.",
                     Toast.LENGTH_LONG).show();
             inProgress.setVisibility(View.INVISIBLE);
             return;
         }
+
         // Create a new user with a first and last name, email, phone number, and password
         Map<String, Object> user_map = new HashMap<>();
         user_map.put("first_name", user.getFirstname());
@@ -168,8 +158,10 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("password", user.getPassword());
         user_map.put("wallet", user.getWallet());
 
-        firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this); // Adds it to the Authentication of Firebase
-        firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType); // Adds it to the Cloud Firestore of Firebase
+        // Adds it to the Authentication of Firebase
+        firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this);
+        // Adds it to the Cloud Firestore of Firebase
+        firebaseHandler.addNewUserToDatabase(user_map, user.getEmail(), userType);
     }
 
     public void displayAuthToastMessage(Boolean success){
@@ -177,17 +169,20 @@ public class SignUpActivity extends AppCompatActivity {
         if (success == null){
             return;
         } else if (success == true){
+            // If the user successfully created a new account, we send them a email verification
             sendVerificationEmail();
             Log.d(TAG, "createUserWithEmail:success");
             Toast.makeText(SignUpActivity.this, "Authentication Successsful. Check email for verification",
                     Toast.LENGTH_LONG).show();
             Intent intent = new Intent(this, LoginSignupActivity.class);
             startActivity(intent);
+            inProgress.setVisibility(View.INVISIBLE);
         } else if (success == false){
+            // If the user fails to make a new account
             Log.d(TAG, "createUserWithEmail:failure");
             Toast.makeText(SignUpActivity.this, "Authentication failed.",
                     Toast.LENGTH_SHORT).show();
+            inProgress.setVisibility(View.INVISIBLE);
         }
-        inProgress.setVisibility(View.INVISIBLE);
     }
 }

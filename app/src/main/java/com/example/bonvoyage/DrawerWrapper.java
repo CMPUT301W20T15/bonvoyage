@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -81,8 +82,11 @@ public class DrawerWrapper {
                             case 3:
                                 Intent tripHistory = new Intent(context,TripHistoryActivity.class);
                                 activity.startActivity(tripHistory);
-
-
+                            case 4:
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                Intent loginPage = new Intent(context, LoginSignupActivity.class);
+                                mAuth.signOut();
+                                activity.startActivity(loginPage);
                         }
                         return true;
                     }
