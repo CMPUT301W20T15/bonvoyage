@@ -5,15 +5,18 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ChangeUserProfile extends AppCompatActivity {
@@ -25,6 +28,12 @@ public class ChangeUserProfile extends AppCompatActivity {
     private FirebaseHandler firebaseHandler;
     private  FirebaseFirestore db;
     private  FirebaseAuth mAuth;
+
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private String userType = "riders";
+    private FirebaseUser user;
+    String TAG = "UserProfile";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,16 +48,25 @@ public class ChangeUserProfile extends AppCompatActivity {
         tb = findViewById(R.id.change_button);
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
-        if(firebaseUser!=null){
-            Toast.makeText(getApplicationContext(),"not null", Toast.LENGTH_SHORT).show();
-            String name = firebaseUser.getDisplayName().toString();
-            Toast.makeText(getApplicationContext(),name, Toast.LENGTH_LONG).show();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        db = FirebaseFirestore.getInstance();
+        if (user != null){
+            Log.d(TAG, "User exists " + user.getEmail());
 
+            DocumentReference docRef = db.collection("riders").document(user.getEmail());
+            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    //DocumentSnapeShot is the object that holds the fields of data
+                    String first_name = documentSnapshot.getString("first_name");
+                    // Example
+                    Log.d(TAG, "First name " + first_name);
+                }
+            });
+        }else{
+            Log.d(TAG, "User does not exist");
         }
-        else {
-            Toast.makeText(getApplicationContext(), "probably null", Toast.LENGTH_SHORT).show();
-        }
+
 //        boolean answer = firebaseHandler.checkIfUserIsDriver(firebaseUser.getDisplayName());
 //        String type_user;
 //        String fetch_email, fetch_name, fetch_number;
