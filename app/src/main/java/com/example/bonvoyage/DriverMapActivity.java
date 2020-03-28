@@ -435,7 +435,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
         startActivity(new Intent(DriverMapActivity.this, DriverPayment.class));    // Call driver payment Scanner
-        startActivity(new Intent(DriverMapActivity.this, RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
 
     }
 
