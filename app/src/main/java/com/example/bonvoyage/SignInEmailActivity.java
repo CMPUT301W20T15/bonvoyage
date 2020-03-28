@@ -43,9 +43,9 @@ public class SignInEmailActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
-        inProgress = findViewById(R.id.progressBar);
-
-        inProgress.setVisibility(View.INVISIBLE);
+//        inProgress = findViewById(R.id.progressBar);
+//
+//        inProgress.setVisibility(View.INVISIBLE);
         //btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
 
         // FOR TESTING
