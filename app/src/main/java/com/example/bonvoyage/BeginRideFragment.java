@@ -18,8 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
@@ -97,11 +100,24 @@ public class BeginRideFragment extends Fragment {
             }
         });
 
+
+        db = FirebaseFirestore.getInstance();
+        DocumentReference requestRef = db.collection("RiderRequests").document(requestInfo.get("rider_email").toString());
+        requestRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot.getString("status").equals("canceled")){
+
+                }
+            }
+        });
+
         return view;
     }
 
     public interface BeginRideListener{
         void onBeginRide(Bundle request_info);
+        void onRideCanceled();
     }
 
 }

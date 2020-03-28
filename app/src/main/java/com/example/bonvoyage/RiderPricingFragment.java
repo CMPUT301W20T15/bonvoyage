@@ -18,12 +18,11 @@ import java.util.Locale;
 
 
 public class RiderPricingFragment extends Fragment {
+
     private static String requestId = "hello@gmail.com";
     private EditText priceEdit;
 
     private static final String TAG = "RiderPricingFragment";
-
-
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
     @Override
@@ -45,7 +44,7 @@ public class RiderPricingFragment extends Fragment {
             HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
             float newCost = Float.parseFloat(priceEdit.getText().toString());
             tripData.put("cost", newCost);
-            firebaseHandler.addNewRideRequestToDatabase(tripData, requestId);
+            firebaseHandler.addNewRideRequestToDatabase(tripData, tripData.get("userEmail").toString());
         }
     }
 
