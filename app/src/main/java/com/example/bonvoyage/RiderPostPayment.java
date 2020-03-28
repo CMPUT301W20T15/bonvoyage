@@ -17,6 +17,7 @@ public class RiderPostPayment extends AppCompatActivity {
 
     protected void onCreateView(Bundle savedInstanceState) {
         FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
+        db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

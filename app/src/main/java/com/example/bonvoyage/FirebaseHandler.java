@@ -90,6 +90,7 @@ public class FirebaseHandler {
      */
     public void driverTransaction(Driver driver, float payment_fee){
         // Adding money to the driver's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
         driver.addMoneyToWallet(payment_fee);
         driverRef
@@ -116,6 +117,7 @@ public class FirebaseHandler {
      */
     public void riderTransaction(Rider rider, float payment_fee){
         // Removing money from the rider's wallet
+        db = FirebaseFirestore.getInstance();
         DocumentReference riderRef = db.collection("riders").document(rider.getEmail());
         rider.takeMoneyFromWallet(payment_fee);
         riderRef
