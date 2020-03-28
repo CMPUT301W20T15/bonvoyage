@@ -1,5 +1,5 @@
 # BonVoyage
-![](https://raw.githubusercontent.com/CMPUT301W20T15/bonvoyage/master/doc/UI_Mockups_Images/BonVoyage_Banner.PNG)
+![](https://github.com/CMPUT301W20T15/bonvoyage/blob/master/doc/UI_Mockups_Images/header4.png)
 
 Bon Voyage is developed as a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil.
 
@@ -87,7 +87,7 @@ write about our process in a short bulleted para
 * **Nicole Hagerman**  - [nicolelisa](https://github.com/nicolelisa)
 * **Nomar Chavez**     - [nmrchvz](https://github.com/nmrchvz)
 
-See also the list of [contributors](https://github.com/your/project/contributors) for full contribution in this project
+See also the [wiki](https://github.com/CMPUT301W20T15/bonvoyage/wiki) for full contribution in this project
 
 ## License
 ```Copyright 2018 
