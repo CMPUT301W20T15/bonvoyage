@@ -238,6 +238,8 @@ public class FirebaseHandler {
      * @param userType      the type of user they are (driver or rider)
      */
     public void addNewUserToDatabase(Map user, final String unique_id, String userType){
+        Log.d(TAG, "THIS");
+
         db = FirebaseFirestore.getInstance();
         db.collection(userType)
                 .document(unique_id)
@@ -276,34 +278,6 @@ public class FirebaseHandler {
                         } else {
                             // If sign in fails, dispssage to the user.
                             signUpActivity.displayAuthToastMessage(false);
-                        }
-                    }
-                });
-    }
-
-    public void sendVerificationEmail(String email){
-        ActionCodeSettings actionCodeSettings =
-                ActionCodeSettings.newBuilder()
-                        // URL you want to redirect back to. The domain (www.example.com) for this
-                        // URL must be whitelisted in the Firebase Console.
-                        .setUrl("https://bonvoyage-c715f.firebaseapp.com/__/auth/action?mode=%3Caction%3E&oobCode=%3Ccode%3E")
-                        // This must be true
-                        .setHandleCodeInApp(true)
-                        .setIOSBundleId("com.example.ios")
-                        .setAndroidPackageName(
-                                "com.example.android",
-                                true, /* installIfNotAvailable */
-                                "12"    /* minimumVersion */)
-                        .build();
-
-        mAuth.sendSignInLinkToEmail(email, actionCodeSettings)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Email sent.");
-                        }else{
-                            Log.d(TAG, "Failed to send email");
                         }
                     }
                 });

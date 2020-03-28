@@ -1,5 +1,6 @@
 package com.example.bonvoyage;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.HashMap;
@@ -46,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity {
                 inProgress.setVisibility(View.VISIBLE);
                 User user = setUpUser();
                 createNewUserAccount(user);
+
                 //firebaseHandler.sendVerificationEmail(user.getEmail());
                 //inProgress.setVisibility(View.INVISIBLE);
             }
@@ -63,7 +67,20 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
-
+    public void sendVerificationEmail(){
+        mAuth.getCurrentUser()
+                .sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "Email sent.");
+                        }else{
+                            Log.d(TAG, "Failed to send email.");
+                        }
+                    }
+                });
+    }
     public User setUpUser(){
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newRePassword;
         final int newWallet;
@@ -117,24 +134,29 @@ public class SignUpActivity extends AppCompatActivity {
      * to use the transformed data.
      */
     public void createNewUserAccount(User user){
+        inProgress = findViewById(R.id.progressBar);
         if (user == null){
+            inProgress.setVisibility(View.INVISIBLE);
             return;
         }
         if (user.getFirstname().isEmpty() || user.getLastname().isEmpty() || user.getEmail().isEmpty() ||
                 user.getPhonenumber().isEmpty() || user.getPassword().isEmpty()){
             Toast.makeText(SignUpActivity.this, "All subject fields must be filled in.",
                     Toast.LENGTH_LONG).show();
+            inProgress.setVisibility(View.INVISIBLE);
             return;
         }
         if (user.getPhonenumber().length() > 11 || user.getPhonenumber().length() < 9){
             Toast.makeText(SignUpActivity.this, "Invalid Phone Number.",
                     Toast.LENGTH_LONG).show();
+            inProgress.setVisibility(View.INVISIBLE);
             return;
         }
 
         if (user.getPassword().length() < 6 && user.getPassword().length() > 0){
             Toast.makeText(SignUpActivity.this, "Password length must be greater than 6.",
                     Toast.LENGTH_LONG).show();
+            inProgress.setVisibility(View.INVISIBLE);
             return;
         }
         // Create a new user with a first and last name, email, phone number, and password
@@ -155,27 +177,17 @@ public class SignUpActivity extends AppCompatActivity {
         if (success == null){
             return;
         } else if (success == true){
+            sendVerificationEmail();
             Log.d(TAG, "createUserWithEmail:success");
-            Toast.makeText(SignUpActivity.this, "Authentication Successsful.",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignUpActivity.this, "Authentication Successsful. Check email for verification",
+                    Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, LoginSignupActivity.class);
+            startActivity(intent);
         } else if (success == false){
             Log.d(TAG, "createUserWithEmail:failure");
             Toast.makeText(SignUpActivity.this, "Authentication failed.",
                     Toast.LENGTH_SHORT).show();
         }
         inProgress.setVisibility(View.INVISIBLE);
-    }
-    public void displayVerificationToastMessage(Boolean success){
-        if (success == null){
-            return;
-        } else if (success == true){
-            Log.d(TAG, "Verification:success");
-            Toast.makeText(SignUpActivity.this, "Verification Successsful.",
-                    Toast.LENGTH_SHORT).show();
-        } else if (success == false){
-            Log.d(TAG, "Verification:failure");
-            Toast.makeText(SignUpActivity.this, "Verification failed.",
-                    Toast.LENGTH_SHORT).show();
-        }
     }
 }
