@@ -15,10 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.bonvoyage.models.RideRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,6 +33,7 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     final String TAG = "RideRequestAdapter";
@@ -36,7 +41,9 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     private Context context;
     private FirebaseFirestore db;
     private RequestListener requestListener;
+    private String driverName;
     FirebaseHandler firebaseHandler = new FirebaseHandler();
+    DatabaseReference ref;
     public RideRequestAdapter(Context context, ArrayList<RideRequest> rideRequestArrayList, RequestListener listener){
         super(context,0, rideRequestArrayList);
         this.rideRequestArrayList = rideRequestArrayList;
@@ -67,23 +74,28 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                String driverEmail = mAuth.getCurrentUser().getEmail();
                 db = FirebaseFirestore.getInstance();
-                FirebaseUser driver = firebaseHandler.getCurrentUser();
-                Toast.makeText(getContext(), driver.getEmail(), Toast.LENGTH_LONG).show();
-                DocumentReference driverRef = db.collection("drivers").document(driver.getEmail());
-
-
                 HashMap<String, Object> tripInformation = new HashMap<>();
-                driverRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                tripInformation.put("rider_email", rideRequest.getUserEmail());
+                tripInformation.put("rider_name", rideRequest.getFullName());
+                tripInformation.put("driver_email", driverEmail);
+                tripInformation.put("driver_name", "Nick Anderson");
+                tripInformation.put("startGeopoint", rideRequest.getStartGeopoint());
+                tripInformation.put("endGeopoint",rideRequest.getEndGeopoint());
+                tripInformation.put("timestamp", rideRequest.getTimestamp());
+                tripInformation.put("cost", rideRequest.getCost());
+                tripInformation.put("status", "accepted");
+                db = FirebaseFirestore.getInstance();
+                String riderEmail = Objects.requireNonNull(tripInformation.get("rider_email")).toString();
+                db.collection("RiderRequests").document(riderEmail).update(tripInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists()){
-                            if(documentSnapshot.getString("first_name") != null){
-                                Log.d(TAG, documentSnapshot.getString("first_name"));
-                            }
-                            tripInformation.put("driver_name", documentSnapshot.getString("first_name") + documentSnapshot.getString("last_name"));
-                            tripInformation.put("phone_number", documentSnapshot.getString("phone_number"));
-                        }
+                    public void onSuccess(Void aVoid) {
+                        Bundle rideInfo = new Bundle();
+                        rideInfo.putSerializable("HashMap", tripInformation);
+                        requestListener.onRequestAccepted(rideInfo);
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -91,25 +103,6 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
                         Log.d(TAG, e.getMessage());
                     }
                 });
-
-
-                tripInformation.put("rider_email", rideRequest.getUserEmail());
-                tripInformation.put("rider_name", rideRequest.getFullName());
-                tripInformation.put("driver_email", driver.getEmail());
-                tripInformation.put("startGeopoint", rideRequest.getStartGeopoint());
-                GeoPoint x = new GeoPoint(45,100 );
-                tripInformation.put("endGeopoint",x);
-                tripInformation.put("timestamp", rideRequest.getTimestamp());
-                tripInformation.put("cost", rideRequest.getCost());
-                tripInformation.put("status", "accepted");
-                db = FirebaseFirestore.getInstance();
-                db.collection("RiderRequest").document(rideRequest.getUserEmail()).set(tripInformation);
-                Bundle rideInfo = new Bundle();
-                rideInfo.putSerializable("HashMap", tripInformation);
-                requestListener.onRequestAccepted(rideInfo);
-
-
-                Log.d("TEST ACCEPT", "WORKING");
             }
         });
         return view;

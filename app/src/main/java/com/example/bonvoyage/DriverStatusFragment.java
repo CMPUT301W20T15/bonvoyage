@@ -27,6 +27,7 @@ public class DriverStatusFragment extends Fragment {
     FirebaseHandler firebaseHandler;
     private HashMap tripData;
     private DriverStatusListener driverStatusListener;
+    private TextView destination;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,27 +42,15 @@ public class DriverStatusFragment extends Fragment {
         TextView status = view.findViewById(R.id.ds_status_title);
         TextView name = view.findViewById(R.id.ds_riderName);
         Bundle bundle = getArguments();
-        this.tripData = (HashMap) bundle.getSerializable("HashMap");
         TextView amount = view.findViewById(R.id.ds_amount);
-        TextView destination = view.findViewById(R.id.rs_location);
+        destination = view.findViewById(R.id.rs_location);
         Button completeBtn = view.findViewById(R.id.ds_complete_btn);
 
-
+        tripData = (HashMap) bundle.getSerializable("HashMap");
         amount.setText(tripData.get("cost").toString());
-
-        Geocoder geo = new Geocoder(DriverStatusFragment.this.getContext());
-        GeoPoint end = (GeoPoint) tripData.get("endGeopoint");
-
-
-        /**
-        try {
-            List<Address> endAddress = geo.getFromLocation(end.getLatitude(), end.getLongitude(), 1);
-            String address = endAddress.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-            destination.setText(address);
-        } catch (IOException e) {
-            Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
-        }
-         */
+        status.setText(tripData.get("status").toString());
+        name.setText(tripData.get("rider_name").toString());
+        
 
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -72,6 +61,20 @@ public class DriverStatusFragment extends Fragment {
 
         return view;
     }
+
+    /*
+    public void setAddressLine(){
+        Geocoder geo = new Geocoder(DriverStatusFragment.this.getContext());
+        GeoPoint end = (GeoPoint) tripData.get("endGeopoint");
+        try {
+            List<Address> endAddress = geo.getFromLocation(end.getLatitude(), end.getLongitude(), 1);
+            String endAddressLine = endAddress.get(0).getAddressLine(0);
+            destination.setText(endAddressLine);
+        } catch (IOException e) {
+            Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
+        }
+    }*/
+
 
     public interface DriverStatusListener{
         void onRideComplete();

@@ -426,6 +426,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         driverStatusFragment.setArguments(request_info);
         getSupportFragmentManager().beginTransaction().remove(beginRideFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.driver_status_container,driverStatusFragment).commit();
+
     }
 
     @Override

@@ -169,17 +169,15 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         return(c * r);
     }
 
-
-    private void createStatusFragment(){
+    @Override
+    public void onCancelRide() {
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
 
     }
 
-
     @Override
-    public void onCancelRide() {
-        Log.d(TAG, "onCancelRide: test ");
+    public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
-
     }
 
 }

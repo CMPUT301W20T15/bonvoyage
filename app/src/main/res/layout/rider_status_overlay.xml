@@ -30,16 +30,11 @@
 
         <include layout="@layout/profile_preview_layout"
             android:id="@+id/rs_profile"
-            android:visibility="visible"/>
+            />
 
         <include layout="@layout/rider_location_layout"
-            android:id="@+id/rs_location"
-            android:visibility="visible"/>
+            android:id="@+id/rs_location" />
 
-
-        <include layout="@layout/rating_bar_layout"
-            android:id="@+id/rs_rate_driver"
-            android:visibility="gone"/>
 
         <include layout="@layout/contact_driver_layout"
             android:id="@+id/rs_contact"
