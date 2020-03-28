@@ -44,7 +44,8 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
-        pricingFragment = (RiderPricingFragment) getSupportFragmentManager().findFragmentById(R.id.rider_add_price);
+        pricingFragment = (RiderPricingFragment)
+                getSupportFragmentManager().findFragmentById(R.id.rider_add_price);
         pricingFragment.getView().setVisibility(View.GONE);
         ConstraintLayout riderView = findViewById(R.id.rider_layout);
         riderView.setVisibility(View.VISIBLE);

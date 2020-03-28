@@ -43,7 +43,7 @@
         android:layout_alignLeft="@+id/BonVoyage_Splash"
         android:layout_marginStart="0dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="100dp"
         android:fontFamily="@font/roboto_bold"
         android:text="SIGN IN"
         android:textSize="20dp" />
@@ -95,5 +95,15 @@
         android:text="Sign In"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:background="#00FFFFFF"
+        android:indeterminateTint="@color/White"
+        android:forceDarkAllowed="false" />
 
 </RelativeLayout>
