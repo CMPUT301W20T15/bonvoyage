@@ -21,6 +21,7 @@ public class RiderPricingFragment extends Fragment {
     private EditText priceEdit;
     private static final String TAG = "RiderPricingFragment";
 
+
     // The onCreateView method is called when Fragment should create its View object hierarchy,
     // either dynamically or via XML layout inflation.
     @Override
