@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#9da1c7"
-    android:id="@+id/rider_status_layout">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginHorizontal="30dp"
+    android:layout_marginHorizontal="40dp"
     android:background="#fff"
     android:layout_gravity="center_vertical"
     >
@@ -30,26 +25,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Status"
-            android:textSize="25dp"/>
+            android:textSize="25dp"
+            android:id="@+id/rs_title"/>
 
         <include layout="@layout/profile_preview_layout"
             android:id="@+id/rs_profile"
-            android:visibility="visible"/>
+            />
 
         <include layout="@layout/rider_location_layout"
-            android:id="@+id/rs_location"
-            android:visibility="visible"/>
+            android:id="@+id/rs_location" />
 
-
-        <include layout="@layout/rating_bar_layout"
-            android:id="@+id/rs_rate_driver"
-            android:visibility="gone"/>
 
         <include layout="@layout/contact_driver_layout"
             android:id="@+id/rs_contact"
             android:visibility="visible"/>
 
-        <TextView
+        <Button
             android:id="@+id/rs_exitBtn"
             android:layout_marginTop="30dp"
             android:layout_width="wrap_content"
@@ -60,4 +51,3 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>

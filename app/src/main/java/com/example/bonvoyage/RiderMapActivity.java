@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-public class RiderMapActivity extends MapActivity {
+public class RiderMapActivity extends MapActivity implements RiderStatusFragment.RiderStatusListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
@@ -36,6 +37,7 @@ public class RiderMapActivity extends MapActivity {
     String last_name = "";
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
+    RiderStatusFragment riderStatusFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -63,10 +65,11 @@ public class RiderMapActivity extends MapActivity {
 
                     //execute our method for searching
                     Address address = geoLocate(destinationLocationBox);
+
                     if (address != null) {
-                        continueButton.setEnabled(true);
-                        continueButton.setVisibility(View.VISIBLE);
-                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    continueButton.setVisibility(View.VISIBLE);
+                    continueButton.setEnabled(true);
+                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
                 }
                 return false;
@@ -129,10 +132,25 @@ public class RiderMapActivity extends MapActivity {
         tripInformation.put("email", user.getEmail());
         tripInformation.put("status", "available");
         tripInformation.put("timestamp", timestamp);
+        tripInformation.put("userEmail", "testrider@gmail.com");
         Bundle rideInfo = new Bundle();
         rideInfo.putSerializable("HashMap",tripInformation);
+        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
         pricingFragment.setArguments(rideInfo);
-        continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pricingFragment.updatePrice();
+                pricingFragment.getView().setVisibility(View.GONE);
+                continueButton.setVisibility(View.GONE);
+                currentLocationBox.setVisibility(View.GONE);
+                destinationLocationBox.setVisibility(View.GONE);
+                riderStatusFragment = new RiderStatusFragment();
+                riderStatusFragment.setArguments(rideInfo);
+                getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+            }
+        });
     }
 
 
@@ -167,6 +185,17 @@ public class RiderMapActivity extends MapActivity {
 
         // calculate the result
         return(c * r);
+    }
+
+    @Override
+    public void onCancelRide() {
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+
+    }
+
+    @Override
+    public void onRideComplete() {
+        getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
     }
 
 }
