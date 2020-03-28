@@ -60,6 +60,7 @@
         <activity android:name=".SMSActivity" />
         <activity android:name=".SplashPageActivity" />
         <activity android:name=".RiderStatusActivity" />
+        <activity android:name=".DriverPayment"/>
     </application>
 
 </manifest>
