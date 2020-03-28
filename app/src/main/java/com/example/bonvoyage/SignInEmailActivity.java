@@ -43,20 +43,13 @@ public class SignInEmailActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
-//        inProgress = findViewById(R.id.progressBar);
-//
-//        inProgress.setVisibility(View.INVISIBLE);
-        //btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
+        inProgress = findViewById(R.id.progressBar);
+        inProgress.setVisibility(View.INVISIBLE);
 
-        // FOR TESTING
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-        // FOR TESTING
-
         firebaseHandler = new FirebaseHandler();
-        //firebaseHandler.getOfflineRideRequest();
-
         db = FirebaseFirestore.getInstance();
+
         /**
          * Checks whether the User is a rider or a driver, and directs them to their respective
          * home activities.
@@ -76,12 +69,15 @@ public class SignInEmailActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                // If user is a driver
                                 Log.d(TAG, "Document exists!");
+                                inProgress.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(this, DriverMapActivity.class);
                                 startActivity(intent);
-                                inProgress.setVisibility(View.INVISIBLE);
                             } else {
+                                // If user is a rider
                                 Log.d(TAG, "Document does not exist!");
+                                inProgress.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(this, RiderMapActivity.class);
                                 startActivity(intent);
                             }
@@ -90,8 +86,9 @@ public class SignInEmailActivity extends AppCompatActivity {
                         }
                     });
                 }else{
+                    // If the email is not verified
                     toastMessage("Please verify your email address.");
-//                    inProgress.setVisibility(View.INVISIBLE);
+                    inProgress.setVisibility(View.INVISIBLE);
                 }
             }else {
                 Log.d(TAG,"onAuthStateChanged:signed_out");
@@ -104,36 +101,17 @@ public class SignInEmailActivity extends AppCompatActivity {
          * with a toast message.
          */
         btnSignIn.setOnClickListener(view -> {
-//            inProgress.setVisibility(View.VISIBLE);
+            inProgress.setVisibility(View.VISIBLE);
             String email = mEmail.getText().toString();
             String pass = mPassword.getText().toString();
+            // If the user entered a valid or invalid login information
             if (!email.equals("") && !pass.equals("")){
                 firebaseHandler.loginUser(email, pass, SignInEmailActivity.this);
-//                inProgress.setVisibility(View.INVISIBLE);
             }else {
                 toastMessage("Fill in all fields");
+                inProgress.setVisibility(View.INVISIBLE);
             }
         });
-
-        /* FOR SIGNING OUT
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                toastMessage("Signing out...");
-            }
-        });
-        */
-
-        /* FOR GOING BACK TO LOGIN SCREEN
-        backToLoginScreen = findViewById(R.id.BackButton);
-        backToLoginScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToLoginScreen(v);
-            }
-        });
-        */
     }
 
     @Override
@@ -153,6 +131,8 @@ public class SignInEmailActivity extends AppCompatActivity {
      * @param message
      */
     public void toastMessage(String message){
+        inProgress = findViewById(R.id.progressBar);
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        inProgress.setVisibility(View.INVISIBLE);
     }
 }
