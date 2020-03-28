@@ -6,9 +6,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -21,13 +24,16 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +53,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.vision.text.Line;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,8 +66,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener{
+public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, RideRequestAdapter.RequestListener, BeginRideFragment.BeginRideListener, DriverStatusFragment.DriverStatusListener {
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -85,6 +93,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private ArrayList<RideRequest> rideRequestArrayList = new ArrayList<>();
     private FirebaseHandler mFirebaseHandler;
     private Location currentLocation;
+    private Driver currentDriver;
+    private RelativeLayout mapContainer;
+    private LinearLayout linearLayoutContainer;
+    private BeginRideFragment beginRideFragment;
+    private DriverStatusFragment driverStatusFragment;
     //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
 
 
@@ -92,11 +105,12 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_map);
+        this.mapContainer = findViewById(R.id.map_container);
+        this.linearLayoutContainer = findViewById(R.id.linear_map_containter);
         riderList = findViewById(R.id.rider_list_view);
-        riderLocationArrayAdapter = new RideRequestAdapter(DriverMapActivity.this, rideRequestArrayList);
+        riderLocationArrayAdapter = new RideRequestAdapter(DriverMapActivity.this, rideRequestArrayList, this);
         riderList.setAdapter(riderLocationArrayAdapter);
         mFirebaseHandler = new FirebaseHandler();
-
         mSearchText = (EditText) findViewById(R.id.input_search);
         mGps = (ImageView) findViewById(R.id.ic_gps);
         mDatabase = FirebaseFirestore.getInstance();
@@ -285,11 +299,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 //rideRequestArrayList.clear();
                 //rideRequestArrayList = new ArrayList<>();
+                riderLocationArrayAdapter.clear();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
                         //rideRequestArrayList.add(rider);
                         if (rider.getStatus().equals("available")){
+                            //rideRequestArrayList.add(rider);
                             riderLocationArrayAdapter.add(rider);
                             GeoPoint startGeopoint = rider.getStartGeopoint();
                             //GeoPoint endGeopoint = rider.getEndGeopoint();
@@ -394,6 +410,36 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                 .width(20).color(ContextCompat.getColor(DriverMapActivity.this,R.color.quantum_cyan)).geodesic(true));
         line.setClickable(true);
     }
+
+    @Override
+    public void onRequestAccepted(Bundle request_info) {
+        beginRideFragment = new BeginRideFragment();
+        beginRideFragment.setArguments(request_info);
+        riderList.setVisibility(View.GONE);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT , 0, 100);
+        linearLayoutContainer.removeView(mapContainer);
+        linearLayoutContainer.addView(mapContainer, params);
+        getSupportFragmentManager().beginTransaction().add(R.id.driver_status_container, beginRideFragment).commit();
+    }
+
+    @Override
+    public void onBeginRide(Bundle request_info) {
+        driverStatusFragment = new DriverStatusFragment();
+        driverStatusFragment.setArguments(request_info);
+        getSupportFragmentManager().beginTransaction().remove(beginRideFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.driver_status_container,driverStatusFragment).commit();
+
+    }
+
+    @Override
+    public void onRideComplete() {
+        getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
+
+    }
+
+
+
+
     /*
     @Override
     public void onPolylineClick(Polyline polyline) {

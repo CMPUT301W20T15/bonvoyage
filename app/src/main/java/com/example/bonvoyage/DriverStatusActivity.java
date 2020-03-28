@@ -1,5 +1,6 @@
 package com.example.bonvoyage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +32,8 @@ public class DriverStatusActivity extends AppCompatActivity {
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                //Update the status request
+                startActivity(new Intent(DriverStatusActivity.this, DriverPayment.class));    // Call driver payment Scanner
+                startActivity(new Intent(DriverStatusActivity.this, RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
             }
         });
 

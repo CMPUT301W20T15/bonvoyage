@@ -12,26 +12,26 @@
         android:scaleType="fitXY"
         android:src="@drawable/splash_page" />
 
-    <TextView
+    <ImageView
         android:id="@+id/BonVoyage_Splash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto_bold"
+        android:layout_marginTop="150dp"
+
         android:gravity="top|center"
-        android:text="BonVoyage"
-        android:textColor="#FFFFFF"
-        android:textSize="60dp"
-        android:textStyle="bold" />
+        android:src="@drawable/bonvlogo" />
 
     <ImageView
         android:id="@+id/whiteBox"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/BonVoyage_Splash"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         app:srcCompat="@drawable/white_backgroundroundcorner" />
 
     <TextView
@@ -39,11 +39,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/BonVoyage_Splash"
-        android:layout_alignStart="@+id/BonVoyage_Splash"
-        android:layout_alignLeft="@+id/BonVoyage_Splash"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="50dp"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="150dp"
         android:fontFamily="@font/roboto_bold"
         android:text="SIGN IN"
         android:textSize="20dp" />
@@ -95,5 +93,16 @@
         android:text="Sign In"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="#00FFFFFF"
+            android:indeterminateTint="@color/White"
+            android:forceDarkAllowed="false" />
 
 </RelativeLayout>

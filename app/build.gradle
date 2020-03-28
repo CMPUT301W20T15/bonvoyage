@@ -37,6 +37,11 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.6.3'
 
+    implementation "com.mikepenz:materialdrawer:6.1.2"
+
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.annotation:annotation:1.1.0"
+
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
