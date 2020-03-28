@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="MaterialDrawerTheme.Light.DarkToolbar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#E3F2FD</item>
-        <item name="colorPrimaryDark">#280D82</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
