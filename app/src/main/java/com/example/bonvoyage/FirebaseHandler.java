@@ -13,24 +13,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.MetadataChanges;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -136,90 +130,6 @@ public class FirebaseHandler {
                 });
 
     }
-
-    /**
-     * TODO needs to be worked on for offline interaction
-     */
-    public void getOfflineRideRequest(){
-        db = FirebaseFirestore.getInstance();
-        db.collection("RiderRequests")
-                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen error", e);
-                            return;
-                        }
-                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
-                            if (change.getType() == DocumentChange.Type.ADDED) {
-                                Log.d(TAG, "New ride request:" + change.getDocument().getData());
-                            }
-                            String source = querySnapshot.getMetadata().isFromCache() ?
-                                    "local cache" : "server";
-                            Log.d(TAG, "Data fetched from " + source);
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Checks if the user is a driver or not a driver
-     * @param email     email of the user
-     * @return          true if they are a driver, false if they are not a driver
-     */
-    public Boolean checkIfUserIsDriver(String email){
-        final Boolean[] driver = {false};
-        db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("drivers").document(email);
-        docRef.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    Log.d(TAG, "Document exists!");
-                    driver[0] = true;
-                } else {
-                    Log.d(TAG, "Document does not exist!");
-                    driver[0] = false;
-                }
-            } else {
-                Log.d(TAG, "Failed with: ", task.getException());
-            }
-        });
-        return driver[0];
-    }
-
-    /**
-     * Gets the available rider requests
-     * @return      the list of available rider requests
-     */
-    public ArrayList<RideRequest> getAvailableRiderRequest(){
-        final ArrayList<RideRequest> riderRequestList = new ArrayList<>();
-        ListenerRegistration riderRequestRefListener;
-        db = FirebaseFirestore.getInstance();
-
-        CollectionReference riderRequestRef = db.collection("RiderRequests");
-        riderRequestRefListener = riderRequestRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                if (e!=null){
-                    Log.e(TAG,  "onEventRideRequests: list failed");
-                    return;
-                }
-                if (queryDocumentSnapshots != null){
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        RideRequest rider_detail = doc.toObject(RideRequest.class);
-                        if (rider_detail.getStatus() == "available")
-                        {
-                            riderRequestList.add(rider_detail);
-                        }
-                    }
-                }
-            }
-        });
-
-        return riderRequestList;
-    }
     /**
      * Adds a new rider request to the firestore database in realtime
      * @param request_details   the details (location, rider, fee, etc.) of the ride request
@@ -322,6 +232,31 @@ public class FirebaseHandler {
     }
 
 
+    /**
+     * TODO needs to be worked on for offline interaction
+     */
+    public void getOfflineRideRequest(){
+        db = FirebaseFirestore.getInstance();
+        db.collection("RiderRequests")
+                .addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen error", e);
+                            return;
+                        }
+                        for (DocumentChange change : querySnapshot.getDocumentChanges()) {
+                            if (change.getType() == DocumentChange.Type.ADDED) {
+                                Log.d(TAG, "New ride request:" + change.getDocument().getData());
+                            }
+                            String source = querySnapshot.getMetadata().isFromCache() ?
+                                    "local cache" : "server";
+                            Log.d(TAG, "Data fetched from " + source);
+                        }
+                    }
+                });
+    }
 
 
 }
