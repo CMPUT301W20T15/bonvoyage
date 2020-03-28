@@ -43,7 +43,7 @@ public abstract class User {
     public float getWallet() {
         return wallet;
     }
-
+    
     public void setWallet(float money) {
         this.wallet = money;
     }
