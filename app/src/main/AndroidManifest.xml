@@ -25,8 +25,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ChangeUserProfile"></activity>
-        <!-- uses-library -->
+        <activity android:name=".TripHistoryActivity"></activity>
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".ChangeUserProfile" /> <!-- uses-library -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- meta-data -->
@@ -39,7 +40,7 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" /> <!-- activities -->
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoginSignupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

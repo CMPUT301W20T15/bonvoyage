@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ChangeUserProfile">
+    <include layout="@layout/menu_toolbar"></include>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/material_drawer_dark_background"
+        android:layout_marginTop="300dp"
+        android:padding="45dp">
+
+    <EditText
+        android:id="@+id/change_name"
+        android:layout_width="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
+        android:layout_height="40dp"
+
+        android:background="#97FFFFFF"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/change_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="45dp"
+        android:background="#90FFFFFF"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+        <EditText
+            android:id="@+id/change_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="90dp"
+            android:background="#90FFFFFF"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <ToggleButton
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="150dp"
+            android:id="@+id/change_button"
+            android:layout_marginBottom="89dp"
+            android:background="#FFFFFF"
+android:textColor="#BFBC346A"
+            android:textOff="Edit"
+            android:textOn="Save" />
+
+    </RelativeLayout>
+</RelativeLayout>
