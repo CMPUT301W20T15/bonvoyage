@@ -162,6 +162,7 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("email_address", user.getEmail());
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
+        user_map.put("wallet", user.getWallet());
 
         // Adds it to the Authentication of Firebase
         firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this);

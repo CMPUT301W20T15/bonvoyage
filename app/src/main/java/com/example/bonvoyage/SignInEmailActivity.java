@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * SignInEmailActivity provides email sign in functionality for our app.
@@ -29,7 +30,7 @@ public class SignInEmailActivity extends AppCompatActivity {
     private Button btnSignIn;
     private ProgressBar inProgress;
     private FirebaseHandler firebaseHandler;
-
+    private FirebaseFirestore db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

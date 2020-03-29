@@ -25,6 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
+/**
+ * This class handles the firebase cloud service that is updated live with the applciation
+ */
+
 public class FirebaseHandler {
     private static FirebaseHandler instance = null;
     private String TAG = "Firebase";
@@ -40,6 +44,9 @@ public class FirebaseHandler {
             instance = new  FirebaseHandler();
         }
         return instance;
+    }
+    public FirebaseUser getCurrentUser() {
+        return FirebaseAuth.getInstance().getCurrentUser();
     }
 
 
@@ -199,6 +206,14 @@ public class FirebaseHandler {
                     }
                 });
     }
+    /**
+     * Creates a new user in the authentication of the data base
+     * @param email
+     * @param password
+     * @param mAuth
+     * @param view
+     * @param signUpActivity
+     */
 
     public void createNewUserToDatabase(String email, String password, FirebaseAuth mAuth,
                                         SignUpActivity view, final SignUpActivity signUpActivity) {
