@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#1A237E</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
@@ -22,4 +22,19 @@
     <color name="transparentGrey">#8f737373 </color>
     <color name="DarkGrey">#737373 </color>
     <color name="Black">#000 </color>
+
+
+    <color name="material_drawer_dark_background">#B4301167</color>
+    <!-- MaterialDrawer DEFAULT DARK text / items colors -->
+    <color name="material_drawer_dark_primary_text">#DEFFFFFF</color>
+    <color name="material_drawer_dark_primary_icon">#8AFFFFFF</color>
+    <color name="material_drawer_dark_secondary_text">#8AFFFFFF</color>
+    <color name="material_drawer_dark_hint_text">#42FFFFFF</color>
+    <color name="material_drawer_dark_divider">#1FFFFFFF</color>
+    <!-- MaterialDrawer DEFAULT DARK drawer colors -->
+    <color name="material_drawer_dark_selected">#1F2196F3</color>
+    <color name="material_drawer_dark_selected_legacy">#202020</color>
+    <color name="material_drawer_dark_selected_text">@color/material_drawer_primary_light</color>
+    <color name="material_drawer_dark_header_selection_text">#FFFFFFFF</color>
+    <color name="material_drawer_dark_header_selection_subtext">#B3FFFFFF</color>
 </resources>

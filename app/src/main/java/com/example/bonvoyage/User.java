@@ -34,6 +34,24 @@ public abstract class User {
         return password;
     }
 
+    public float getWallet() {
+        return wallet;
+    }
+    
+    public void setWallet(float money) {
+        this.wallet = money;
+    }
+
+    public void addMoneyToWallet(float money){
+        this.wallet = this.wallet + money;
+    }
+
+    public void takeMoneyFromWallet(float money){
+        if (this.wallet < money) {
+            return;
+        }
+        this.wallet = this.wallet - money;
+    }
     // this is for testing only
     public String getUserType() {
         return "driver";

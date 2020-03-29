@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,8 +26,8 @@ public class SignInEmailActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private EditText mEmail, mPassword;
-    private Button btnSignIn, btnSignOut;
-    private Button backToLoginScreen;
+    private Button btnSignIn;
+    private ProgressBar inProgress;
     private FirebaseHandler firebaseHandler;
 
     @Override
@@ -37,13 +38,13 @@ public class SignInEmailActivity extends AppCompatActivity {
         mEmail = (EditText) findViewById(R.id.email);
         mPassword = (EditText) findViewById(R.id.password);
         btnSignIn = (Button) findViewById(R.id.email_sign_in_button);
-        //btnSignOut = (Button) findViewById(R.id.email_sign_out_button);
+        inProgress = findViewById(R.id.progressBar);
+        inProgress.setVisibility(View.INVISIBLE);
 
-        // FOR TESTINGS
         mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
-
         firebaseHandler = new FirebaseHandler();
+
+        db = FirebaseFirestore.getInstance();
 
         /**
          * Checks whether the User is a rider or a driver, and directs them to their respective
@@ -53,15 +54,38 @@ public class SignInEmailActivity extends AppCompatActivity {
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null){
-                Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
-                toastMessage("Successfully signed in with: "+user.getEmail());
-                // GO TO THE DRIVER HOME PAGE IS THEY ARE A DRIVER, LIKEWISE WITH A RIDER
-                if (firebaseHandler.checkIfUserIsDriver(user.getEmail())){
-                    Intent intent = new Intent(this, DriverMapActivity.class);
-                    startActivity(intent);
+
+                //TO CHECK IF THEY VERIFIED THEIR EMAIL
+                //mAuth.getCurrentUser().isEmailVerified()
+                if (true) {
+                    // GO TO THE DRIVER HOME PAGE IS THEY ARE A DRIVER, LIKEWISE WITH A RIDER
+                    Log.d(TAG,"onAuthStateChanged:signed_in"+user.getUid());
+                    toastMessage("Successfully signed in with: "+user.getEmail());
+                    DocumentReference docRef = db.collection("drivers").document(user.getEmail());
+                    docRef.get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // If user is a driver
+                                Log.d(TAG, "Document exists!");
+                                inProgress.setVisibility(View.INVISIBLE);
+                                Intent intent = new Intent(this, DriverMapActivity.class);
+                                startActivity(intent);
+                            } else {
+                                // If user is a rider
+                                Log.d(TAG, "Document does not exist!");
+                                inProgress.setVisibility(View.INVISIBLE);
+                                Intent intent = new Intent(this, RiderMapActivity.class);
+                                startActivity(intent);
+                            }
+                        } else {
+                            Log.d(TAG, "Failed with: ", task.getException());
+                        }
+                    });
                 }else{
-                    Intent intent = new Intent(this, RiderMapActivity.class);
-                    startActivity(intent);
+                    // If the email is not verified
+                    toastMessage("Please verify your email address.");
+                    inProgress.setVisibility(View.INVISIBLE);
                 }
 
             }else {
@@ -75,39 +99,17 @@ public class SignInEmailActivity extends AppCompatActivity {
          * with a toast message.
          */
         btnSignIn.setOnClickListener(view -> {
+            inProgress.setVisibility(View.VISIBLE);
             String email = mEmail.getText().toString();
             String pass = mPassword.getText().toString();
+            // If the user entered a valid or invalid login information
             if (!email.equals("") && !pass.equals("")){
                 firebaseHandler.loginUser(email, pass, SignInEmailActivity.this);
             }else {
                 toastMessage("Fill in all fields");
+                inProgress.setVisibility(View.INVISIBLE);
             }
         });
-
-        /* FOR SIGNING OUT
-        btnSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                toastMessage("Signing out...");
-            }
-        });
-        */
-
-        /* FOR GOING BACK TO LOGIN SCREEN
-        backToLoginScreen = findViewById(R.id.BackButton);
-        backToLoginScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToLoginScreen(v);
-            }
-        });
-        */
-    }
-
-    public void goToLoginScreen(View view){
-        Intent intent = new Intent(this, LoginSignupActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -127,6 +129,8 @@ public class SignInEmailActivity extends AppCompatActivity {
      * @param message
      */
     public void toastMessage(String message){
+        inProgress = findViewById(R.id.progressBar);
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+        inProgress.setVisibility(View.INVISIBLE);
     }
 }
