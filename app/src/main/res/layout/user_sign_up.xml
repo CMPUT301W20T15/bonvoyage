@@ -24,15 +24,14 @@
         android:layout_marginRight="89dp"
         android:fontFamily="@font/roboto_bold"
         android:gravity="top|center"
-
         android:src="@drawable/bonvlogo" />
 
     <ImageView
         android:id="@+id/whiteBox2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_below="@+id/BonVoyage_Splash"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/BonVovage_Splash"
         android:layout_marginLeft="30dp"
         app:srcCompat="@drawable/white_backgroundroundcorners2" />
 
