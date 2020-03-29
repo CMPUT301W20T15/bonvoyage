@@ -81,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public User setUpUser(){
-
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newRePassword;
         final int newWallet;
         inProgress = findViewById(R.id.progressBar);
@@ -104,7 +103,6 @@ public class SignUpActivity extends AppCompatActivity {
         newEmail = signUpEmail.getText().toString();
         newPhoneNumber = ccp.getFullNumberWithPlus();
         newPassword = signUpPassword.getText().toString();
-
         newRePassword = signUpRePassword.getText().toString();
 
         if (newPassword.equals(newRePassword)){

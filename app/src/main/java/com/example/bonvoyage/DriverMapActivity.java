@@ -116,7 +116,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         mDatabase = FirebaseFirestore.getInstance();
         getLocationPermission();
 
-
         riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -163,7 +162,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         Log.d(TAG, "init: initializing");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH
@@ -334,9 +332,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION};
 
-        if(ContextCompat.checkSelfPermission(getApplicationContext(),
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-            if(ContextCompat.checkSelfPermission(getApplicationContext(),
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
                     COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 mLocationPermissionsGranted = true;
                 initMap();
@@ -377,7 +375,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void hideSoftKeyboard(){
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     @Override

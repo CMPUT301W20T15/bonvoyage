@@ -12,14 +12,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-
 import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -28,7 +26,6 @@ import java.util.Map;
 /**
  * This class handles the firebase cloud service that is updated live with the applciation
  */
-
 public class FirebaseHandler {
     private static FirebaseHandler instance = null;
     private String TAG = "Firebase";
@@ -43,12 +40,12 @@ public class FirebaseHandler {
         if (instance == null){
             instance = new  FirebaseHandler();
         }
+
         return instance;
     }
-    public FirebaseUser getCurrentUser() {
+    public FirebaseUser getCurrentUser(){
         return FirebaseAuth.getInstance().getCurrentUser();
     }
-
 
     /**
      * If the user exists, the user is logged on to the app
@@ -75,7 +72,6 @@ public class FirebaseHandler {
                     }
                 });
     }
-
 
     /**
      * Communicates with the firestore to make a transaction between rider and driver
@@ -154,7 +150,6 @@ public class FirebaseHandler {
                 });
     }
 
-
     /**
      * Gets the cost of ride
      * @param unique_id     the unique id of the ride in question
@@ -206,6 +201,7 @@ public class FirebaseHandler {
                     }
                 });
     }
+
     /**
      * Creates a new user in the authentication of the data base
      * @param email
@@ -214,7 +210,6 @@ public class FirebaseHandler {
      * @param view
      * @param signUpActivity
      */
-
     public void createNewUserToDatabase(String email, String password, FirebaseAuth mAuth,
                                         SignUpActivity view, final SignUpActivity signUpActivity) {
         mAuth.createUserWithEmailAndPassword(email, password)

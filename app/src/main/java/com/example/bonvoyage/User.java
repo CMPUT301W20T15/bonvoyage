@@ -19,26 +19,27 @@ public abstract class User {
         this.phonenumber = phonenumber;
         this.password = password;
         this.wallet = wallet;
-
     }
-
 
     public String getFirstname() {
         return firstname;
     }
+
     public String getLastname() {
         return lastname;
     }
+
     public String getEmail() {
         return email;
     }
+
     public String getPhonenumber() {
         return phonenumber;
     }
+
     public String getPassword() {
         return password;
     }
-
     public float getWallet() {
         return wallet;
     }
