@@ -113,6 +113,19 @@ public class RideRequest implements Parcelable {
         this.lastName = lastName;
     }
 
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
+    public String getCostString(){
+        return "Cost: "+ cost;
+    }
+    public String getRideInformation(){
+        return firstName + " " + lastName + "\n"
+                +"Cost: "+ cost + "\n"
+                + "Email: " + userEmail + "\n"
+                + "Phone: " + phoneNumber;
+    }
+
     @Override
     public String toString(){
         return "RideRequest{ userEmail=" + userEmail +
@@ -128,6 +141,7 @@ public class RideRequest implements Parcelable {
     // parcelling information
 
     public static final Creator<RideRequest> CREATOR = new Creator<RideRequest>() {
+
         @Override
         public RideRequest createFromParcel(Parcel in) {
             return new RideRequest(in);

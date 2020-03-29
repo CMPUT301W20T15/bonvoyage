@@ -51,8 +51,8 @@ public class DriverPayment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (intentData.length() > 0) {
-                    startActivity(new Intent(DriverPayment.this, Activity.class));  // Set firebase save function in the second argument
-                    startActivity(new Intent(DriverPayment.this, RiderMapActivity.class));  // Sets Rider side to rider home
+                    startActivity(new Intent(DriverPayment.this, DriverPostPayment.class));  // calls post payment to handle the paymet updates for the driver
+                    startActivity(new Intent(DriverPayment.this, RiderPostPayment.class));  // Sets Rider side rating and update payment
                 } else {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                 }
@@ -65,7 +65,7 @@ public class DriverPayment extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
 
         barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)

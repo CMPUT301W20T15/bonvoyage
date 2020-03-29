@@ -4,8 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Rider extends User {
 
-    public Rider(String firstname, String lastname, String email, String phonenumber, String password) {
-        super(firstname, lastname, email, phonenumber, password);
+    public Rider(String firstname, String lastname, String email, String phonenumber, String password,
+                 float wallet) {
+        super(firstname, lastname, email, phonenumber, password, wallet);
     }
     private LatLng currentLocation;
     private LatLng destinationLocation;
@@ -25,5 +26,6 @@ public class Rider extends User {
     public void setDestinationLocation(LatLng destinationLocation) {
         this.destinationLocation = destinationLocation;
     }
+
 
 }
