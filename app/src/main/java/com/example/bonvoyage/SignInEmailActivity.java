@@ -1,7 +1,8 @@
 package com.example.bonvoyage;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
