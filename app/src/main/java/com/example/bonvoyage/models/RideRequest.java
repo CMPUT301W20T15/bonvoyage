@@ -141,6 +141,7 @@ public class RideRequest implements Parcelable {
     // parcelling information
 
     public static final Creator<RideRequest> CREATOR = new Creator<RideRequest>() {
+
         @Override
         public RideRequest createFromParcel(Parcel in) {
             return new RideRequest(in);
