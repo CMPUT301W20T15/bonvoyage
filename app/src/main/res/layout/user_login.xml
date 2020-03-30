@@ -29,104 +29,52 @@
 
         <ImageView
             android:id="@+id/bvlogo"
-            android:layout_width="141dp"
-            android:layout_height="36dp"
+            android:layout_width="270dp"
+            android:layout_height="96dp"
             android:alpha="0"
+
             android:src="@drawable/bonvlogo" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="329dp"
+            android:layout_height="66dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:alpha="0"
             android:onClick="signInPhoneClicked"
             android:id="@+id/signInPhoneButton"
             android:src="@drawable/phone_option" />
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="329dp"
+            android:layout_height="66dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginLeft="60dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
             android:alpha="0"
-            android:layout_marginBottom="0dp"
             android:onClick="signInEmailClicked"
             android:id="@+id/signInEmailButton"
             android:src="@drawable/email_option" />
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:alpha="0"
+            android:id="@+id/signUpButton"
+            android:layout_width="329dp"
+            android:layout_height="66dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginBottom="0dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:alpha="0"
+
             android:onClick="signUpClicked"
-            android:id="@+id/signUpButton"
             android:src="@drawable/createacc" />
 
     </RelativeLayout>
-
-
-    <!--    <TextView-->
-<!--        android:id="@+id/BonVoyage_Splash"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="150dp"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:fontFamily="@font/roboto_bold"-->
-<!--        android:gravity="top|center"-->
-<!--        android:text="BonVoyage"-->
-<!--        android:textColor="#FFFFFF"-->
-<!--        android:textSize="60dp"-->
-<!--        android:textStyle="bold" />-->
-<!--    android:layout_below="@id/BonVoyage_Splash"-->
-
-<!--    <Button-->
-<!--        android:id="@+id/signInEmailButton"-->
-<!--        android:layout_width="320dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:layout_marginTop="200dp"-->
-<!--        android:backgroundTint="#1A237E"-->
-<!--        android:fontFamily="@font/roboto_bold"-->
-<!--        android:onClick="signInEmailClicked"-->
-<!--        android:text="SIGN IN WITH EMAIL"-->
-<!--        android:textColor="#FFFFFF" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/signInPhoneButton"-->
-<!--        android:layout_width="320dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/signInEmailButton"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:backgroundTint="#327CAE"-->
-<!--        android:fontFamily="@font/roboto_bold"-->
-<!--        android:onClick="signInPhoneClicked"-->
-<!--        android:text="SIGN IN WITH PHONE"-->
-<!--        android:textColor="#FFFFFF" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/signUpButton"-->
-<!--        android:layout_width="320dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_below="@id/signInPhoneButton"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:backgroundTint="#3DA1AE"-->
-<!--        android:fontFamily="@font/roboto_bold"-->
-<!--        android:hapticFeedbackEnabled="false"-->
-<!--        android:onClick="signUpClicked"-->
-<!--        android:text="SIGN UP AS A NEW USER"-->
-<!--        android:textColor="#FFFFFF" />-->
 
 
 </RelativeLayout>

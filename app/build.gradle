@@ -59,11 +59,16 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:19.2.1'
     implementation 'com.google.firebase:firebase-firestore:21.4.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.7'
+    //implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.7'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.1'
+
+    //Phone SMS
+    implementation 'com.firebaseui:firebase-ui-database:3.2.2'
+    implementation 'com.hbb20:ccp:2.1.9'
+    implementation 'pub.devrel:easypermissions:0.4.0'
 
 
 }
