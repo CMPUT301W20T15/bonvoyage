@@ -42,10 +42,10 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     private ArrayList<RideRequest> rideRequestArrayList;
     private Context context;
     private FirebaseFirestore db;
-    private RequestListener requestListener;
+    private DriverStatusListener requestListener;
     private FirebaseHandler firebaseHandler = new FirebaseHandler();
 
-    public RideRequestAdapter(Context context, ArrayList<RideRequest> rideRequestArrayList, RequestListener listener){
+    public RideRequestAdapter(Context context, ArrayList<RideRequest> rideRequestArrayList, DriverStatusListener listener){
         super(context,0, rideRequestArrayList);
         this.rideRequestArrayList = rideRequestArrayList;
         this.context = context;
@@ -122,16 +122,12 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
 
                     }
                 }else{
-                    Log.d("*****DOC*****", task.getException().getMessage());
+                    Log.d(TAG, task.getException().getMessage());
                 }
             }
         });
     }
 
-
-    public interface RequestListener{
-        void onRequestAccepted(Bundle request_info);
-    }
 
 
 }

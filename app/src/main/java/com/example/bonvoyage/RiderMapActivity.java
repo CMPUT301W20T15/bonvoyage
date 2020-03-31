@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-public class RiderMapActivity extends MapActivity implements RiderStatusFragment.RiderStatusListener {
+public class RiderMapActivity extends MapActivity implements RiderStatusListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;

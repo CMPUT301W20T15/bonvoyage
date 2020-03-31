@@ -18,39 +18,31 @@ public class RiderStatusActivity extends AppCompatActivity {
 
     View profile_preview;
     TextView profile_name;
-    TextView profile_sub_header;
-
-
     View location_layout;
     TextView current_location;
     TextView destination_location;
-
     View contact_layout;
     Button textBtn;
     Button callBtn;
     Button emailBtn;
-
-
     View rating_layout;
     RatingBar driver_rating;
-
     TextView exitBtn;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rider_status_overlay);
-        profile_preview = findViewById(R.id.rs_profile);
-        profile_name = profile_preview.findViewById(R.id.rs_profile_name);
-        profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
-        location_layout = findViewById(R.id.rs_location);
-        current_location = location_layout.findViewById(R.id.startLocation);
-        destination_location = location_layout.findViewById(R.id.endLocation);
-        contact_layout = findViewById(R.id.rs_contact);
-        callBtn = contact_layout.findViewById(R.id.rs_call_btn);
-        textBtn = contact_layout.findViewById(R.id.rs_text_btn);
-        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
-        driver_rating = rating_layout.findViewById(R.id.rating);
-        exitBtn = findViewById(R.id.rs_exitBtn);
+        View profile_preview = findViewById(R.id.rs_profile);
+        TextView profile_name = profile_preview.findViewById(R.id.rs_profile_name);
+        View location_layout = findViewById(R.id.rs_location);
+        TextView current_location = location_layout.findViewById(R.id.startLocation);
+        TextView destination_location = location_layout.findViewById(R.id.endLocation);
+        View contact_layout = findViewById(R.id.rs_contact);
+        Button callBtn = contact_layout.findViewById(R.id.rs_call_btn);
+        Button textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        Button emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
+        Button exitBtn = findViewById(R.id.rs_exitBtn);
 
         callBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -88,12 +80,6 @@ public class RiderStatusActivity extends AppCompatActivity {
         });
 
 
-        driver_rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                driver_rating.getRating();
-            }
-        });
 
     }
 }

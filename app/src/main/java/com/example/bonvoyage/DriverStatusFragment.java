@@ -16,7 +16,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +28,7 @@ import java.util.List;
 public class DriverStatusFragment extends Fragment {
 
     final String TAG = "DRIVER STATUS FRAGMENT";
-    FirebaseHandler firebaseHandler;
+    private FirebaseFirestore db;
     private HashMap tripData;
     private DriverStatusListener driverStatusListener;
     private TextView destination;
@@ -42,10 +45,11 @@ public class DriverStatusFragment extends Fragment {
         View view = inflater.inflate(R.layout.driver_status_overlay, container, false);
         TextView status = view.findViewById(R.id.ds_status_title);
         TextView name = view.findViewById(R.id.ds_riderName);
-        Bundle bundle = getArguments();
         TextView amount = view.findViewById(R.id.ds_amount);
         destination = view.findViewById(R.id.rs_location);
         Button completeBtn = view.findViewById(R.id.ds_complete_btn);
+
+        Bundle bundle = getArguments();
 
         tripData = (HashMap) bundle.getSerializable("HashMap");
         amount.setText(tripData.get("cost").toString());
@@ -56,6 +60,9 @@ public class DriverStatusFragment extends Fragment {
         completeBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                tripData.put("status", "complete");
+                db = FirebaseFirestore.getInstance();
+                db.collection("RiderRequests").document(tripData.get("rider_email").toString()).set(tripData);
                 driverStatusListener.onRideComplete();
             }
         });
@@ -63,7 +70,7 @@ public class DriverStatusFragment extends Fragment {
         return view;
     }
 
-    /*
+
     public void setAddressLine(){
         Geocoder geo = new Geocoder(DriverStatusFragment.this.getContext());
         GeoPoint end = (GeoPoint) tripData.get("endGeopoint");
@@ -72,13 +79,9 @@ public class DriverStatusFragment extends Fragment {
             String endAddressLine = endAddress.get(0).getAddressLine(0);
             destination.setText(endAddressLine);
         } catch (IOException e) {
-            Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
+            Log.d(TAG, e.getMessage());
         }
-    }*/
-
-
-    public interface DriverStatusListener{
-        void onRideComplete();
     }
+
 
 }

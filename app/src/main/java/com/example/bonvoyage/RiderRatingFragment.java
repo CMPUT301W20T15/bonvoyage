@@ -34,13 +34,11 @@ public class RiderRatingFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.rating_bar_layout, null);
 
-        profile_preview = view.findViewById(R.id.rs_profile);
-        profile_name = profile_preview.findViewById(R.id.rs_profile_name);
-        profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
-
-        location_layout = view.findViewById(R.id.rs_location);
-        current_location = location_layout.findViewById(R.id.startLocation);
-        destination_location = location_layout.findViewById(R.id.endLocation);
+        View profile_preview = view.findViewById(R.id.rs_profile);
+        TextView profile_name = profile_preview.findViewById(R.id.rs_profile_name);
+        View location_layout = view.findViewById(R.id.rs_location);
+        TextView current_location = location_layout.findViewById(R.id.startLocation);
+        TextView destination_location = location_layout.findViewById(R.id.endLocation);
 
         rating = view.findViewById(R.id.rating);
 
