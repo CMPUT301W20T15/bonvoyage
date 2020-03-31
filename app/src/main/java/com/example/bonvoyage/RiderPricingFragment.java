@@ -32,9 +32,10 @@ public class RiderPricingFragment extends Fragment {
                 DecimalFormat df = new DecimalFormat("#.00");
 
                 HashMap tripData = (HashMap) bundle.getSerializable("HashMap");
-                float newCost = Float.parseFloat(df.format(priceEdit.getText()).toString());
+                double inputCost = Double.parseDouble(priceEdit.getText().toString());
+                float newCost = Float.parseFloat(df.format(inputCost));
                 tripData.put("cost", newCost);
-                firebaseHandler.addNewRideRequestToDatabase(tripData, "hello@gmail.com");
+                firebaseHandler.addNewRideRequestToDatabase(tripData, firebaseHandler.getCurrentUser().getEmail());
             }
         }
     private static final String TAG = "RiderPricingFragment";
@@ -51,7 +52,7 @@ public class RiderPricingFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         priceEdit = view.findViewById(R.id.price_edit);
     }
-    
+
     public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
