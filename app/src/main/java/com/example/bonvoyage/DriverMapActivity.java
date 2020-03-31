@@ -434,6 +434,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onRideCanceled() {
         getSupportFragmentManager().beginTransaction().remove(beginRideFragment).commit();
+        riderList.setVisibility(View.VISIBLE);
+        linearLayoutContainer.removeView(mapContainer);
+        linearLayoutContainer.addView(mapContainer);
+
     }
 
     @Override

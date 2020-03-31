@@ -109,6 +109,7 @@ public class BeginRideFragment extends Fragment {
                 requestInfo.put("status", "canceled");
                 db = FirebaseFirestore.getInstance();
                 db.collection("RiderRequests").document(requestInfo.get("rider_email").toString()).set(requestInfo);
+                beginRideListener.onRideCanceled();
 
             }
         });

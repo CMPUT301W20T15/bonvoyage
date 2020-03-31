@@ -108,6 +108,7 @@ public class RiderStatusFragment extends Fragment {
 
                 else if(documentSnapshot.getString("status").equals("atStartLocation")){
                     title.setText("Rider is here!");
+                    exitBtn.setVisibility(View.GONE);
                 }
 
                 else if(documentSnapshot.getString("status").equals("inProgress")){
@@ -117,7 +118,6 @@ public class RiderStatusFragment extends Fragment {
 
                 }
                 else if(documentSnapshot.getString("status").equals("canceled")){
-                    db.collection("RiderRequests").document(tripData.get("rider_email").toString()).delete();
                     statusListener.onCancelRide();
                 }
                 else if (documentSnapshot.getString("status").equals("complete")){

@@ -84,7 +84,7 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
     }
 
 
-    public void addDriverToRequest(RideRequest rideRequest){
+    private void addDriverToRequest(RideRequest rideRequest){
         String driverEmail = firebaseHandler.getCurrentUser().getEmail();
         DocumentReference ref = firebaseHandler.getDriverRef(driverEmail);
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
