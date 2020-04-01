@@ -157,6 +157,16 @@ public class FirebaseHandler {
                 });
     }
 
+    public void deleteRideRequest(final String unique_id){
+        db = FirebaseFirestore.getInstance();
+        db.collection("RiderRequests").document(unique_id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "Document  with ID: " + unique_id);
+            }
+        });
+    }
+
     /**
      * Gets the cost of ride
      * @param unique_id     the unique id of the ride in question
@@ -165,7 +175,7 @@ public class FirebaseHandler {
     public float getCostOfRideFromDatabase(final String unique_id) {
         db = FirebaseFirestore.getInstance();
         final float[] cost = {0};
-        DocumentReference docRef = db.collection("InProgressRiderRequests")
+        DocumentReference docRef = db.collection("RiderRequests")
                 .document(unique_id);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -180,6 +190,32 @@ public class FirebaseHandler {
             }
         });
         return cost[0];
+    }
+
+    public float getRiderWallet(final String id){
+        db = FirebaseFirestore.getInstance();
+        final float[] cost = {0};
+        DocumentReference docRef = db.collection("riders")
+                .document(id);
+        docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if (e!=null){
+                    Log.e(TAG,  "Unable to find cost of ride");
+                    return;
+                }
+                if (documentSnapshot != null){
+                    String wallet = documentSnapshot.getString("wallet");
+                    cost[0] = Float.parseFloat(wallet);
+                }
+            }
+        });
+        return cost[0];
+    }
+
+    public void updateRiderWallet(final String id, float newWallet){
+        db = FirebaseFirestore.getInstance();
+        db.collection("riders").document(id).update("wallet", newWallet);
     }
 
     /**

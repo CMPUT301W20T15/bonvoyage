@@ -45,14 +45,13 @@
                         android:paddingBottom="8dp">
 
                         <TextView
-                            android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:textSize="20dp"
-                            android:text="Driver Name"
+                            android:textSize="15sp"
                             android:id="@+id/beginRide_riderName"/>
 
                         <TextView
-                            android:layout_weight="1"
+                            android:layout_weight="0.5"
+                            android:textColor="@color/green1"
                             android:text="15.83"
                             android:id="@+id/beginRide_payment"/>
                     </TableRow>
@@ -111,7 +110,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Begin Ride"
-            android:layout_marginLeft="15dp"
             android:id="@+id/beginRide_beginRideBtn" />
 
         <TableLayout

@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -96,12 +97,24 @@ public class RiderStatusFragment extends Fragment {
         statusRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
-                if(documentSnapshot.get("status").toString().equals("accepted")){
-                    String driverName = documentSnapshot.getString("driver_name");
-                    title.setText(driverName + " is on their way!");
+                if (!documentSnapshot.exists()){
+                    Log.d("DOCUMENT DELETED", "item was deleted");
+                }
+                else if(documentSnapshot.get("status").toString().equals("accepted")){
+                    String driverFirstName = documentSnapshot.get("driver_firstName").toString();
+                    String driverLastName = documentSnapshot.get("driver_lastName").toString();
+                    driverFirstName.trim();
+                    driverLastName.trim();
+                    String fullName = driverFirstName + driverLastName;
+                    String fullTitle = driverFirstName + " is on their way!";
+                    //String fullName = String.format(getString(R.string.driver_fullName), driverFirstName, driverLastName);
+                    Toast.makeText(getContext(), fullName, Toast.LENGTH_LONG).show();
+                    tripData.put("driver_firstName", driverFirstName);
+                    tripData.put("driver_lastName", driverLastName);
+                    title.setText(fullTitle);
                     profile_preview.setVisibility(View.VISIBLE);
                     profile_name.setVisibility(View.VISIBLE);
-                    profile_name.setText(driverName);
+                    profile_name.setText(fullName);
                     contact_layout.setVisibility(View.VISIBLE);
                     callBtn.setVisibility(View.VISIBLE);
                     textBtn.setVisibility(View.VISIBLE);
@@ -122,8 +135,11 @@ public class RiderStatusFragment extends Fragment {
                     statusListener.onCancelRide();
                 }
                 else if (documentSnapshot.getString("status").equals("complete")){
-                    statusListener.onRideComplete();
+                    Bundle requestInfo = new Bundle();
+                    requestInfo.putSerializable("HashMap", tripData);
+                    statusListener.onRideComplete(requestInfo);
                 }
+
             }
         });
 

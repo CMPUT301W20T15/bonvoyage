@@ -62,7 +62,7 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         TextView name = view.findViewById(R.id.contact_name);
         TextView driverCost = view.findViewById(R.id.drive_cost);
         TextView userEmail = view.findViewById(R.id.rider_email);
-        TextView userPhone = view.findViewById(R.id.rider_phone);
+        //TextView userPhone = view.findViewById(R.id.rider_phone);
         Button acceptBtn = (Button)view.findViewById(R.id.driver_accept);
 
         String riderName = rideRequest.getFirstName() + " " + rideRequest.getLastName();
@@ -72,7 +72,7 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
         name.setText(riderName);
         driverCost.setText(Float.toString(rideCost));
         userEmail.setText(email);
-        userPhone.setText(phone);
+        //userPhone.setText(phone);
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,12 +93,13 @@ public class RideRequestAdapter extends ArrayAdapter<RideRequest> {
                 if(task.isSuccessful()){
                     DocumentSnapshot document = task.getResult();
                     if(document.exists()){
-                        Log.d("*****DOC*****", "document snapshot data: " + document.getData());
                         HashMap<String, Object> tripInformation = new HashMap<>();
                         tripInformation.put("rider_email", rideRequest.getUserEmail());
-                        tripInformation.put("rider_name", rideRequest.getFirstName() + " " + rideRequest.getLastName());
+                        tripInformation.put("rider_firstName", rideRequest.getFirstName());
+                        tripInformation.put("rider_lastName", rideRequest.getLastName());
                         tripInformation.put("driver_email", document.getString("email_address"));
-                        tripInformation.put("driver_name", document.getString("first_name") + document.getString("last_name"));
+                        tripInformation.put("driver_firstName", document.getString("first_name"));
+                        tripInformation.put("driver_lastName", document.getString("last_name"));
                         tripInformation.put("startGeopoint", rideRequest.getStartGeopoint());
                         tripInformation.put("endGeopoint",rideRequest.getEndGeopoint());
                         tripInformation.put("timestamp", rideRequest.getTimestamp());

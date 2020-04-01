@@ -70,7 +70,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, DriverStatusListener, RiderPaymentListener {
+public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, DriverStatusListener {
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -454,9 +454,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     public void onRideCanceled() {
         getSupportFragmentManager().beginTransaction().remove(beginRideFragment).commit();
         riderList.setVisibility(View.VISIBLE);
-        linearLayoutContainer.removeView(mapContainer);
-        linearLayoutContainer.addView(mapContainer);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT , 0, 70);
 
+        linearLayoutContainer.removeView(mapContainer);
+        linearLayoutContainer.addView(mapContainer, 0, params);
     }
 
     @Override
@@ -470,10 +471,12 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
-    @Override
+    /*@Override
     public void onPaymentComplete() {
         Toast.makeText(this, "Payment Complete", Toast.LENGTH_LONG).show();
+
     }
+     */
 
 
     @Override

@@ -1,5 +1,9 @@
 package com.example.bonvoyage;
-public abstract class User {
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public abstract class User implements Parcelable  {
 
     // Active RideRequest
     // History
@@ -87,4 +91,27 @@ public abstract class User {
     public String getUserType() {
         return "driver";
     }
+
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(firstname);
+        out.writeString(lastname);
+        out.writeString(email);
+        out.writeString(phonenumber);
+        out.writeString(password);
+        out.writeFloat(wallet);
+
+
+    }
+
+    public User(Parcel in){
+        firstname = in.readString();
+        lastname = in.readString();
+        email = in.readString();
+        phonenumber = in.readString();
+        password = in.readString();
+        wallet = in.readFloat();
+
+    }
+
 }
