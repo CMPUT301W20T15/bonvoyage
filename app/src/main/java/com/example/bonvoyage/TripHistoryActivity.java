@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,8 @@ public class TripHistoryActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trip_history_layout);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
         tripHistory = findViewById(R.id.list_trips);
 
