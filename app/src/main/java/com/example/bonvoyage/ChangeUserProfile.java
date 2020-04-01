@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -45,6 +46,8 @@ public class ChangeUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_user_profile);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        RelativeLayout form = findViewById(R.id.form_fill);
+        form.animate().translationY(350).setStartDelay(300).setDuration(1200);
         new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
         Intent intent = getIntent();
@@ -99,11 +102,6 @@ public class ChangeUserProfile extends AppCompatActivity {
         });
 
 
-
-//        boolean answer = firebaseHandler.checkIfUserIsDriver(firebaseUser.getDisplayName());
-//        String type_user;
-//        String fetch_email, fetch_name, fetch_number;
-//        DocumentReference docRef;
 //        if(answer){
 //            type_user ="drivers";
 //        }
@@ -112,19 +110,11 @@ public class ChangeUserProfile extends AppCompatActivity {
 //            type_user = "riders";
 //        }
 //
-//        docRef = db.collection(type_user).document(firebaseUser.getEmail());
-//        fetch_email = docRef.toString();
-//        docRef = db.collection(type_user).document(firebaseUser.getPhoneNumber());
-//        fetch_number = docRef.toString();
-//        docRef = db.collection(type_user).document(firebaseUser.getDisplayName());
-//        fetch_name = docRef.toString();
-//
-//        change_email.setText(fetch_email);
-//        change_name.setText(fetch_name);
-//        change_number.setText(fetch_number);
+
         tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    change_name.setFocusable(true);
                     change_email.setFocusableInTouchMode(true);
                     change_name.setFocusableInTouchMode(true);
                     change_number.setFocusableInTouchMode(true);
@@ -157,7 +147,6 @@ public class ChangeUserProfile extends AppCompatActivity {
                                     Toast.makeText(ChangeUserProfile.this,"Failed to update user information",Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                 }
             }
         });
