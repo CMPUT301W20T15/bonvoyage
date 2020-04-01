@@ -61,40 +61,40 @@ public class TripHistoryActivity extends AppCompatActivity{
                     userType = "rider_email";
                 }
             }
-        });
-        Log.d(TAG, userType + " " + user.getEmail());
-        tripHistoryArrayList.clear();
-        db.collection("CompletedRiderRequests")
-                .whereEqualTo(userType, user.getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()){
-                            for (QueryDocumentSnapshot document : task.getResult()){
-                                tripHistoryArrayList.add(document);
+
+            tripHistoryArrayList.clear();
+            db.collection("CompletedRiderRequests")
+                    .whereEqualTo(userType, user.getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()){
+                                for (QueryDocumentSnapshot document : task.getResult()){
+                                    tripHistoryArrayList.add(document);
+                                }
+                            }else{
+                                Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        }else{
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
 
-        tripHistoryArrayAdapter = new TripHistoryAdapter(TripHistoryActivity.this, tripHistoryArrayList);
-        tripHistory.setAdapter(tripHistoryArrayAdapter);
+            tripHistoryArrayAdapter = new TripHistoryAdapter(TripHistoryActivity.this, tripHistoryArrayList);
+            tripHistory.setAdapter(tripHistoryArrayAdapter);
 
-        final CollectionReference collectionReference = db.collection("CompletedRiderRequests");
-        collectionReference
-                .whereEqualTo(userType, user.getEmail())
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                @Override
-                public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
-                    tripHistoryArrayList.clear();
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
-                        tripHistoryArrayList.add(doc);
-                    }
-                    tripHistoryArrayAdapter.notifyDataSetChanged();
-                }
-            });
+            final CollectionReference collectionReference = db.collection("CompletedRiderRequests");
+            collectionReference
+                    .whereEqualTo(userType, user.getEmail())
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                            tripHistoryArrayList.clear();
+                            for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                                tripHistoryArrayList.add(doc);
+                            }
+                            tripHistoryArrayAdapter.notifyDataSetChanged();
+                        }
+                    });
+        });
     }
 }
