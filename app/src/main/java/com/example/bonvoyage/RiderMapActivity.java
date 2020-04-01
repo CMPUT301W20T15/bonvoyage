@@ -130,7 +130,6 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
                     tripInformation.put("timestamp", timestamp);
                     Bundle rideInfo = new Bundle();
                     rideInfo.putSerializable("HashMap",tripInformation);
-                    firebaseHandler.addNewRideRequestToDatabase(tripInformation, user.getEmail());
                     pricingFragment.setArguments(rideInfo);
                     //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
                     continueButton.setOnClickListener(new View.OnClickListener() {
@@ -242,7 +241,6 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
         Toast.makeText(this, "Payment Completed", Toast.LENGTH_LONG).show();
         HashMap requestInfo = (HashMap) bundle.getSerializable("HashMap");
         riderRatingFragment = new RiderRatingFragment();
-        riderRatingFragment.show(getSupportFragmentManager(), "Rating");
         createLocationSearch();
     }
 }

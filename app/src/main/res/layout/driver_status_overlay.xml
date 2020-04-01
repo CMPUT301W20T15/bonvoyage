@@ -24,6 +24,7 @@
             android:textColor="@android:color/black"
             android:text="Request Status"
             android:id="@+id/ds_status_title"
+            android:layout_marginLeft="15dp"
             android:layout_marginBottom="15dp"/>
 
         <TableLayout
