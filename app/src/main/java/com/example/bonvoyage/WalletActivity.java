@@ -25,8 +25,6 @@ public class WalletActivity extends AppCompatActivity {
         setContentView(R.layout.wallet_activity);
         TextView money_val = findViewById(R.id.wallet_val);
 
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
@@ -41,7 +39,6 @@ public class WalletActivity extends AppCompatActivity {
                     // If user is a rider
                     userType = "riders";
                 }
-
                 if (user != null){
                     DocumentReference docRef = db.collection(userType).document(user.getEmail());
                     docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
