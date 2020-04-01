@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -28,23 +29,20 @@ public class DrawerWrapper {
     //Toolbar toolbar = findViewById(R.id.toolbar);
     // new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
-
-    PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName(R.string.nav_home);
-    PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.nav_wallet);
-    PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.nav_trips);
-    PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.nav_logout);
+    FirebaseUser user;
+    PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(3).withName(R.string.nav_wallet);
+    PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.nav_trips);
+    PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(4).withName(R.string.nav_logout);
 
     DrawerWrapper(Activity activity, Context context, Toolbar toolbar) {
         //create the drawer and remember the `Drawer` result object
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(activity)
-                .withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
-                                .withName("Jane Doe")
-                                .withEmail("testrider@gmail.com")
-                                .withIcon(activity.getResources().getDrawable(R.drawable.profile))
+                                .withEmail(user.getEmail())
+                                .withIcon(activity.getResources().getDrawable(R.drawable.default_profile))
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -65,8 +63,7 @@ public class DrawerWrapper {
                 .addDrawerItems(
                         item1,
                         item2,
-                        item3,
-                        item4
+                        item3
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
@@ -74,15 +71,12 @@ public class DrawerWrapper {
                         // do something with the clicked item :D
                         switch (position) {
                             case 1:
-                                Intent changeProfile = new Intent(context,Rider.class);
-                                activity.startActivity(changeProfile);
-                            case 2:
                                 Intent walletDisplay = new Intent(context,WalletActivity.class);
                                 activity.startActivity(walletDisplay);
-                            case 3:
+                            case 2:
                                 Intent tripHistory = new Intent(context,TripHistoryActivity.class);
                                 activity.startActivity(tripHistory);
-                            case 4:
+                            case 3:
                                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                                 Intent loginPage = new Intent(context, LoginSignupActivity.class);
                                 mAuth.signOut();

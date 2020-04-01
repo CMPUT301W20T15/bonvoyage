@@ -35,9 +35,8 @@ public class ChangeUserProfile extends AppCompatActivity {
     private  FirebaseFirestore db;
     private  FirebaseAuth mAuth;
 
-
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private String userType = "riders";
+    String userType = "riders";
     private FirebaseUser user;
     String TAG = "UserProfile";
 
@@ -58,29 +57,47 @@ public class ChangeUserProfile extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        if (user != null){
 
-            DocumentReference docRef = db.collection("riders").document(user.getEmail());
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    //DocumentSnapShot is the object that holds the fields of data
-                    String first_name = documentSnapshot.getString("first_name");
-                    String last_name = documentSnapshot.getString("last_name");
-                    String email = documentSnapshot.getString("email_address");
-                    String phone = documentSnapshot.getString("phone_number");
-                    change_email.setText(email);
-                    change_name.setText(String.format(first_name + "    " +last_name));
-                    change_number.setText(phone);
-                    change_email.setFocusable(false);
-                    change_name.setFocusable(false);
-                    change_number.setFocusable(false);
-
+        DocumentReference userRef = db.collection("drivers").document(user.getEmail());
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // If user is a driver
+                    Log.d(TAG, "Document exists!");
+                    userType = "drivers";
+                } else {
+                    // If user is a rider
+                    Log.d(TAG, "Document does not exist!");
+                    userType = "riders";
                 }
-            });
-        }else{
-            Toast.makeText(ChangeUserProfile.this,"User does not exist", Toast.LENGTH_SHORT).show();
-        }
+                Log.d(TAG, "This type" + userType);
+
+                if (user != null){
+                    DocumentReference docRef = db.collection(userType).document(user.getEmail());
+                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            //DocumentSnapShot is the object that holds the fields of data
+                            String first_name = documentSnapshot.getString("first_name");
+                            String last_name = documentSnapshot.getString("last_name");
+                            String email = documentSnapshot.getString("email_address");
+                            String phone = documentSnapshot.getString("phone_number");
+                            change_email.setText(email);
+                            change_name.setText(String.format(first_name + "    " +last_name));
+                            change_number.setText(phone);
+                            change_email.setFocusable(false);
+                            change_name.setFocusable(false);
+                            change_number.setFocusable(false);
+
+                        }
+                    });
+                }else{
+                    Toast.makeText(ChangeUserProfile.this,"User does not exist", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
 //        boolean answer = firebaseHandler.checkIfUserIsDriver(firebaseUser.getDisplayName());
@@ -120,7 +137,7 @@ public class ChangeUserProfile extends AppCompatActivity {
                     String number = change_number.getText().toString();
                     String first_name = name.substring(0, name.indexOf(" "));
                     String last_name = name.substring(name.indexOf(" ")+1);
-                    DocumentReference docRef = db.collection("riders").document(user.getEmail());
+                    DocumentReference docRef = db.collection(userType).document(user.getEmail());
                     docRef
                             .update("first_name", first_name,
                                     "last_name", last_name,
