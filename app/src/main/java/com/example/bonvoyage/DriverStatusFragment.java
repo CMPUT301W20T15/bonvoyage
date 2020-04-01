@@ -50,8 +50,8 @@ public class DriverStatusFragment extends Fragment {
         Button completeBtn = view.findViewById(R.id.ds_complete_btn);
 
         Bundle bundle = getArguments();
-        tripData = (HashMap) bundle.getSerializable("HashMap");
-        db = FirebaseFirestore.getInstance();
+        this.tripData = (HashMap) bundle.getSerializable("HashMap");
+
 
         amount.setText(tripData.get("cost").toString());
         status.setText(tripData.get("status").toString());
@@ -62,7 +62,9 @@ public class DriverStatusFragment extends Fragment {
             @Override
             public void onClick(View v){
                 tripData.put("status", "complete");
+                db = FirebaseFirestore.getInstance();
                 db.collection("RiderRequests").document(tripData.get("rider_email").toString()).set(tripData);
+                db.collection("CompletedRiderRequests").add(tripData);
                 driverStatusListener.onRideComplete();
             }
         });
