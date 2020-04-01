@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * SignInEmailActivity provides email sign in functionality for our app.
@@ -30,6 +33,8 @@ public class SignInEmailActivity extends AppCompatActivity {
     private ProgressBar inProgress;
     private FirebaseHandler firebaseHandler;
 
+    private FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +48,6 @@ public class SignInEmailActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         firebaseHandler = new FirebaseHandler();
-
         db = FirebaseFirestore.getInstance();
 
         /**
@@ -54,7 +58,6 @@ public class SignInEmailActivity extends AppCompatActivity {
         mAuthListener = firebaseAuth -> {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null){
-
                 //TO CHECK IF THEY VERIFIED THEIR EMAIL
                 //mAuth.getCurrentUser().isEmailVerified()
                 if (true) {
@@ -87,7 +90,6 @@ public class SignInEmailActivity extends AppCompatActivity {
                     toastMessage("Please verify your email address.");
                     inProgress.setVisibility(View.INVISIBLE);
                 }
-
             }else {
                 Log.d(TAG,"onAuthStateChanged:signed_out");
                 toastMessage("Successfully signed out");

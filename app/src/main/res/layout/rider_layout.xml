@@ -49,6 +49,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginBottom="30dp"/>
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/rider_payment_container"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="30dp"/>
+
         <Button
             android:id="@+id/continueButton"
             android:layout_width="match_parent"

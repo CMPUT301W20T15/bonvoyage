@@ -81,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public User setUpUser(){
-
         final String newFirstName, newLastName, newEmail, newPhoneNumber, newPassword, newRePassword;
         final int newWallet;
         inProgress = findViewById(R.id.progressBar);
@@ -104,7 +103,6 @@ public class SignUpActivity extends AppCompatActivity {
         newEmail = signUpEmail.getText().toString();
         newPhoneNumber = ccp.getFullNumberWithPlus();
         newPassword = signUpPassword.getText().toString();
-
         newRePassword = signUpRePassword.getText().toString();
 
         if (newPassword.equals(newRePassword)){
@@ -162,6 +160,7 @@ public class SignUpActivity extends AppCompatActivity {
         user_map.put("email_address", user.getEmail());
         user_map.put("phone_number", user.getPhonenumber());
         user_map.put("password", user.getPassword());
+        user_map.put("wallet", user.getWallet());
 
         // Adds it to the Authentication of Firebase
         firebaseHandler.createNewUserToDatabase(user.getEmail(), user.getPassword(), mAuth, SignUpActivity.this, this);

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -35,9 +36,14 @@ public class DriverPayment extends AppCompatActivity {
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private RiderPaymentListener paymentListener;
     Button doneButton;
     String intentData = "";
 
+    /**
+     * creates the qr code scanner and does the scanning
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +57,19 @@ public class DriverPayment extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (intentData.length() > 0) {
-                    startActivity(new Intent(DriverPayment.this, Activity.class));  // Set firebase save function in the second argument
-                    startActivity(new Intent(DriverPayment.this, RiderMapActivity.class));  // Sets Rider side to rider home
+                    startActivity(new Intent(DriverPayment.this, DriverPostPayment.class));  // calls post payment to handle the paymet updates for the driver
+                    startActivity(new Intent(DriverPayment.this, RiderPostPayment.class));  // Sets Rider side rating and update payment
                 } else {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                 }
             }
         });
+        
     }
 
+    /**
+     * Creates the qr code detector and does the scanning
+     */
     private void initialiseDetectorsAndSources() {
 
         Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
