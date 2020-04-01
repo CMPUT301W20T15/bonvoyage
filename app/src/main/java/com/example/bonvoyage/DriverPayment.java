@@ -60,7 +60,8 @@ public class DriverPayment extends AppCompatActivity {
                     startActivity(new Intent(DriverPayment.this, DriverPostPayment.class));  // calls post payment to handle the paymet updates for the driver
                     startActivity(new Intent(DriverPayment.this, RiderPostPayment.class));  // Sets Rider side rating and update payment
                 } else {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
+                    Toast.makeText(getApplicationContext(), "No payment found", Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
                 }
             }
         });
