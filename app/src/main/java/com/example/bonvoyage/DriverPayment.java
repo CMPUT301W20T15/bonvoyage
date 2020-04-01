@@ -40,7 +40,10 @@ public class DriverPayment extends AppCompatActivity {
     Button doneButton;
     String intentData = "";
 
-
+    /**
+     * creates the qr code scanner and does the scanning
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,17 +64,12 @@ public class DriverPayment extends AppCompatActivity {
                 }
             }
         });
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, 3000);
-
+        
     }
 
+    /**
+     * Creates the qr code detector and does the scanning
+     */
     private void initialiseDetectorsAndSources() {
 
         Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
