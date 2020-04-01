@@ -15,6 +15,10 @@ public class DriverPostPayment extends AppCompatActivity {
     private FirebaseHandler firebaseHandler;
     private FirebaseFirestore db;
 
+    /**
+     * Handles the call for the driver transaction and sends the driver back to the driver home page
+     * @param savedInstanceState
+     */
     protected void onCreateView(Bundle savedInstanceState) {
         FirebaseUser fb_driver = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();

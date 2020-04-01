@@ -23,8 +23,24 @@ public class QRGenerate extends AppCompatActivity {
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
 
-    // this generates the QR code
+    /**
+     * this generates the QR code
+     * @param amount   takes in the value to generate
+     */
     public void generateQR(String amount, int dimension) {
+        View view = new RiderPaymentFragment().getView();
+
+        qrCode = (ImageView) view.findViewById(R.id.QR_Code);
+
+        WindowManager manager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        Display display = manager.getDefaultDisplay();
+        Point point = new Point();
+        display.getSize(point);
+        int width = point.x;
+        int height = point.y;
+        int smallerDimention = width < height ? width : height;
+        smallerDimention = smallerDimention * 3 / 4;
+
         // Generates the QR code
         qrgEncoder = new QRGEncoder(amount, null, QRGContents.Type.TEXT, dimension);
 
