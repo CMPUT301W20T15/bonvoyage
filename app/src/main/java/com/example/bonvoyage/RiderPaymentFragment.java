@@ -8,15 +8,18 @@ package com.example.bonvoyage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -37,9 +40,14 @@ public class RiderPaymentFragment extends DialogFragment{
 
     private FirebaseHandler firebaseHandler;
     private FirebaseFirestore db;
+    private RiderPaymentListener riderPaymentListener;
 
     Rider rider;
     float cost = 10;
+
+    public RiderPaymentFragment(RiderPaymentListener riderPaymentListener){
+        this.riderPaymentListener = riderPaymentListener;
+    }
 
     @NonNull
     @Override
@@ -49,7 +57,9 @@ public class RiderPaymentFragment extends DialogFragment{
         firebaseHandler = new FirebaseHandler();
         FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        
         DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -65,10 +75,19 @@ public class RiderPaymentFragment extends DialogFragment{
 
         // for the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog alert = builder.create();
+        Button doneBtn = alert.getButton(AlertDialog.BUTTON_POSITIVE);
+
         return builder
                 .setView(view)
                 .setTitle("Your ride is complete!")
-                .setMessage(rider + "will scan your QR code below to process your payment of $" + cost).create();
+                .setMessage(rider + "will scan your QR code below to process your payment of $" + cost)
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        riderPaymentListener.onPaymentComplete();
+                    }
+                }).create();
 
     }
 

@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-public class RiderMapActivity extends MapActivity implements RiderStatusListener {
+public class RiderMapActivity extends MapActivity implements RiderStatusListener, RiderPaymentListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
@@ -39,6 +39,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     RiderStatusFragment riderStatusFragment;
+    RiderPaymentFragment riderPaymentFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -229,9 +230,15 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     @Override
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
-        RiderPaymentFragment riderPaymentFragment= new RiderPaymentFragment();
+        riderPaymentFragment= new RiderPaymentFragment(this);
         riderPaymentFragment.show(getSupportFragmentManager(), "Payment");
 
     }
 
+    @Override
+    public void onPaymentComplete() {
+        riderPaymentFragment.dismiss();
+        createLocationSearch();
+
+    }
 }
