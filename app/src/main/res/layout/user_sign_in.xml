@@ -12,6 +12,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/splash_page" />
 
+
     <ImageView
         android:id="@+id/BonVoyage_Splash"
         android:layout_width="wrap_content"
@@ -20,14 +21,17 @@
         android:layout_marginTop="150dp"
 
         android:gravity="top|center"
+
         android:src="@drawable/bonvlogo" />
 
     <ImageView
         android:id="@+id/whiteBox"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+
         android:layout_below="@id/BonVoyage_Splash"
         android:layout_alignParentBottom="true"
+
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="0dp"
@@ -38,6 +42,7 @@
         android:id="@+id/sign_in_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_below="@+id/BonVoyage_Splash"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="0dp"

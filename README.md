@@ -1,5 +1,5 @@
 # BonVoyage
-![](https://raw.githubusercontent.com/CMPUT301W20T15/bonvoyage/master/doc/UI_Mockups_Images/BonVoyage_Banner.PNG)
+![](https://github.com/CMPUT301W20T15/bonvoyage/blob/master/doc/UI_Mockups_Images/header4.png)
 
 Bon Voyage is developed as a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil.
 
@@ -71,14 +71,13 @@ Explain what these tests test and why
 * [Robotium](https://github.com/RobotiumTech/robotium) - Intent Testing
 * [FireBase](https://firebase.google.com/) - Used to generate/retrieve database to store user information
 * [QRGenerator](https://github.com/androidmads/QRGenerator) - Used to generate QR Codes
+* [MaterialDrawer](https://github.com/mikepenz/MaterialDrawer/tree/v6.1.2) - Create the navigation drawer 
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+```
+write about our process in a short bulleted para
+```
 
 ## Authors
 * **Nasiv Adhikari**  - [anasiv](https://github.com/anasiv)
@@ -88,12 +87,23 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 * **Nicole Hagerman**  - [nicolelisa](https://github.com/nicolelisa)
 * **Nomar Chavez**     - [nmrchvz](https://github.com/nmrchvz)
 
-See also the list of [contributors](https://github.com/your/project/contributors) for full contribution in this project
+See also the [wiki](https://github.com/CMPUT301W20T15/bonvoyage/wiki) for full contribution in this project
 
 ## License
+```Copyright 2018 
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
 ## Acknowledgments
 
 * Hat tip to anyone whose code was used
