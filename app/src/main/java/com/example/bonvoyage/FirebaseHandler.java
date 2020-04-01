@@ -185,7 +185,13 @@ public class FirebaseHandler {
                     return;
                 }
                 if (documentSnapshot != null){
-                    cost[0] = documentSnapshot.toObject(RideRequest.class).getCost();
+                    RideRequest rr = documentSnapshot.toObject(RideRequest.class);
+                    if (rr != null) {
+                        cost[0] = rr.getCost();
+                    }
+                    else {
+                        Log.e(TAG,  "Unable to find the ride");
+                    }
                 }
             }
         });
