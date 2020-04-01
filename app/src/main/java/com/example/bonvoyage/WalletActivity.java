@@ -1,6 +1,7 @@
 package com.example.bonvoyage;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -24,9 +25,12 @@ public class WalletActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wallet_activity);
         TextView money_val = findViewById(R.id.wallet_val);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
+
 
         DocumentReference userRef = db.collection("drivers").document(user.getEmail());
         userRef.get().addOnCompleteListener(task -> {
