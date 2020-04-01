@@ -41,6 +41,11 @@ public class RiderPaymentFragment extends DialogFragment{
     Rider rider;
     float cost = 10;
 
+    /**
+     * Generates the fragment for the qrcode and call the qr code generator
+     * @param savedInstanceState
+     * @return                      returns the fragment
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {

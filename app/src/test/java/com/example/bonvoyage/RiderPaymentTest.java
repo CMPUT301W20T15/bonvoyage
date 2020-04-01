@@ -11,9 +11,7 @@ public class RiderPaymentTest {
         // There was an error compiling here so I commented it out - Nicole
 //        RiderPaymentFragment payment = new RiderPaymentFragment();
 //        QRGenerate generate = new QRGenerate();
-//        generate.setAmount("27.0");
-//
-//        generate.generateQR();
+//        generate.generateQR("27.0");
 //
 //        assertTrue(generate.qrCode != null);
     }
