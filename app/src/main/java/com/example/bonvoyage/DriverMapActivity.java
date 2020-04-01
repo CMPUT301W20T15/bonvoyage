@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, DriverStatusListener {
+public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener, DriverStatusListener, RiderPaymentListener {
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -443,8 +443,14 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     @Override
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
-        startActivity(new Intent(DriverMapActivity.this, DriverPayment.class));    // Call driver payment Scanner
+        Intent intent = new Intent(DriverMapActivity.this, DriverPayment.class);
+        startActivity(intent);
 
+    }
+
+    @Override
+    public void onPaymentComplete() {
+        Toast.makeText(this, "Payment Complete", Toast.LENGTH_LONG).show();
     }
 
 

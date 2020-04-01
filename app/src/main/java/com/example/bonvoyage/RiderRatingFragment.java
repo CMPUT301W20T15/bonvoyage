@@ -36,7 +36,7 @@ public class RiderRatingFragment extends DialogFragment {
 
         profile_preview = view.findViewById(R.id.rs_profile);
         profile_name = profile_preview.findViewById(R.id.rs_profile_name);
-        
+
 
         location_layout = view.findViewById(R.id.rs_location);
         current_location = location_layout.findViewById(R.id.startLocation);

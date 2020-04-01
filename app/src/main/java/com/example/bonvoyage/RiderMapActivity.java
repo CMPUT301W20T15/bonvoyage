@@ -121,7 +121,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
                     tripInformation.put("firstName", first_name);
                     tripInformation.put("lastName", last_name);
                     tripInformation.put("phoneNumber", user.getPhoneNumber());
-                    tripInformation.put("email", user.getEmail());
+                    tripInformation.put("userEmail", user.getEmail());
                     tripInformation.put("status", "available");
                     tripInformation.put("timestamp", timestamp);
                     tripInformation.put("userEmail", "testrider@gmail.com");
@@ -229,7 +229,8 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     @Override
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
-
+        RiderPaymentFragment riderPaymentFragment= new RiderPaymentFragment();
+        riderPaymentFragment.show(getSupportFragmentManager(), "Payment");
 
     }
 

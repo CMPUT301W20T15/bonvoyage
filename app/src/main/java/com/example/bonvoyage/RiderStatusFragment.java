@@ -97,10 +97,11 @@ public class RiderStatusFragment extends Fragment {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot.get("status").toString().equals("accepted")){
-                    title.setText("Ride request accepted, Rider is on their way!");
+                    String driverName = documentSnapshot.getString("driver_name");
+                    title.setText(driverName + " is on their way!");
                     profile_preview.setVisibility(View.VISIBLE);
                     profile_name.setVisibility(View.VISIBLE);
-                    profile_name.setText(documentSnapshot.get("driver_name").toString());
+                    profile_name.setText(driverName);
                     contact_layout.setVisibility(View.VISIBLE);
                     callBtn.setVisibility(View.VISIBLE);
                     textBtn.setVisibility(View.VISIBLE);
@@ -121,9 +122,6 @@ public class RiderStatusFragment extends Fragment {
                     statusListener.onCancelRide();
                 }
                 else if (documentSnapshot.getString("status").equals("complete")){
-                    db = FirebaseFirestore.getInstance();
-                    db.collection("RiderRequests").document(tripData.get("email").toString()).delete();
-                    getActivity().startActivity(new Intent(getActivity(), RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
                     statusListener.onRideComplete();
                 }
             }
