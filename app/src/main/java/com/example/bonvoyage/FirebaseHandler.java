@@ -47,6 +47,12 @@ public class FirebaseHandler {
         return FirebaseAuth.getInstance().getCurrentUser();
     }
 
+    public DocumentReference getDriverRef(String id){
+        db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("drivers").document(id);
+        return ref;
+    }
+
     /**
      * If the user exists, the user is logged on to the app
      * @param email     the user's email
@@ -64,6 +70,7 @@ public class FirebaseHandler {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            db = FirebaseFirestore.getInstance();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());

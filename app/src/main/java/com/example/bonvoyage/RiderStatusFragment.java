@@ -47,26 +47,13 @@ import java.util.Locale;
 
 import static com.google.android.gms.vision.L.TAG;
 
-
 public class RiderStatusFragment extends Fragment {
     private static final String TAG = "RiderStatusFragment";
-    private TextView title;
-    private View profile_preview;
-    private TextView profile_name;
-    private View location_layout;
     private TextView current_location;
     private TextView destination_location;
-    private View contact_layout;
-    private Button textBtn;
-    private Button callBtn;
-    private Button emailBtn;
-    private TextView exitBtn;
     private RiderStatusListener statusListener;
     private FirebaseFirestore db;
     private HashMap tripData;
-    private String driver_phone = "";
-    private String driver_email = "";
-
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -83,52 +70,58 @@ public class RiderStatusFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
-        tripData = (HashMap) bundle.getSerializable("HashMap");
         View view = inflater.inflate(R.layout.rider_status_overlay, container, false);
-        title = view.findViewById(R.id.rs_title);
+        TextView title = view.findViewById(R.id.rs_title);
         title.setText("Trip requested");
-        profile_preview = view.findViewById(R.id.rs_profile);
+
+        View profile_preview = view.findViewById(R.id.rs_profile);
         profile_preview.setVisibility(View.GONE);
-        profile_name = profile_preview.findViewById(R.id.rs_profile_name);
-        location_layout = view.findViewById(R.id.rs_location);
+        TextView profile_name = profile_preview.findViewById(R.id.rs_profile_name);
+        View location_layout = view.findViewById(R.id.rs_location);
         current_location = location_layout.findViewById(R.id.startLocation);
         destination_location = location_layout.findViewById(R.id.endLocation);
-        contact_layout = view.findViewById(R.id.rs_contact);
+        View contact_layout = view.findViewById(R.id.rs_contact);
         contact_layout.setVisibility(View.GONE);
-        callBtn = contact_layout.findViewById(R.id.rs_call_btn);
-        textBtn = contact_layout.findViewById(R.id.rs_text_btn);
-        emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
-        exitBtn = view.findViewById(R.id.rs_exitBtn);
+        Button callBtn = contact_layout.findViewById(R.id.rs_call_btn);
+        Button textBtn = contact_layout.findViewById(R.id.rs_text_btn);
+        Button emailBtn = contact_layout.findViewById(R.id.rs_email_btn);
+        Button exitBtn = view.findViewById(R.id.rs_exitBtn);
+
+        Bundle bundle = getArguments();
+        tripData = (HashMap) bundle.getSerializable("HashMap");
         db = FirebaseFirestore.getInstance();
-        setAddresses();
         DocumentReference statusRef = db.collection("RiderRequests").document(tripData.get("userEmail").toString());
+        setAddresses();
 
         statusRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
                 if(documentSnapshot.get("status").toString().equals("accepted")){
-                    title.setText("Ride request accepted");
+                    String driverName = documentSnapshot.getString("driver_name");
+                    title.setText(driverName + " is on their way!");
                     profile_preview.setVisibility(View.VISIBLE);
                     profile_name.setVisibility(View.VISIBLE);
-                    profile_name.setText(documentSnapshot.get("driver_name").toString());
+                    profile_name.setText(driverName);
                     contact_layout.setVisibility(View.VISIBLE);
                     callBtn.setVisibility(View.VISIBLE);
                     textBtn.setVisibility(View.VISIBLE);
                 }
+
+                else if(documentSnapshot.getString("status").equals("atStartLocation")){
+                    title.setText("Rider is here!");
+                    exitBtn.setVisibility(View.GONE);
+                }
+
                 else if(documentSnapshot.getString("status").equals("inProgress")){
                     title.setText("Ride in progress");
                     contact_layout.setVisibility(View.GONE);
+                    exitBtn.setVisibility(View.GONE);
 
                 }
                 else if(documentSnapshot.getString("status").equals("canceled")){
-                    db.collection("RiderRequests").document(tripData.get("rider_email").toString()).delete();
                     statusListener.onCancelRide();
                 }
                 else if (documentSnapshot.getString("status").equals("complete")){
-                    db.collection("RiderRequests").document(tripData.get("rider_email").toString()).delete();
-                    db.collection("CompletedRiderRequests").add(tripData);
-                    getActivity().startActivity(new Intent(getActivity(), RiderPaymentFragment.class));     // Call rider payment fragment to display for QR Code
                     statusListener.onRideComplete();
                 }
             }
@@ -139,7 +132,7 @@ public class RiderStatusFragment extends Fragment {
             public void onClick(View v) {
                 try {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                    callIntent.setData(Uri.parse("tel:" + driver_phone));
+                    callIntent.setData(Uri.parse("tel:" + tripData.get("driver_phone").toString()));
                     startActivity(callIntent);
                 } catch (ActivityNotFoundException activityException) {
                     Log.e("Calling a Phone Number", "Call failed", activityException);
@@ -151,7 +144,7 @@ public class RiderStatusFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                Uri sms_uri = Uri.parse("smsto:"+driver_phone);
+                Uri sms_uri = Uri.parse("smsto:"+ tripData.get("driver_phone").toString());
                 Intent sms_intent = new Intent(Intent.ACTION_SENDTO, sms_uri);
                 sms_intent.putExtra("sms_body", "Hello");
                 startActivity(sms_intent);
@@ -192,7 +185,7 @@ public class RiderStatusFragment extends Fragment {
             current_location.setText(address);
             destination_location.setText(endAddressLine);
         } catch (IOException e) {
-            Log.d(TAG, "*****START ADDRESS*** NOT WOKRING");
+            Log.d(TAG, e.getMessage());
         }
     }
 
@@ -207,8 +200,4 @@ public class RiderStatusFragment extends Fragment {
     }
 
     // This interface is used to interact with RiderMapActivity
-    public interface RiderStatusListener {
-        void onCancelRide();
-        void onRideComplete();
-    }
 }

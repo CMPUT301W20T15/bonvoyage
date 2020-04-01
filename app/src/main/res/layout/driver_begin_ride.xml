@@ -105,6 +105,14 @@
                 android:id="@+id/beginRide_destination"/>
 
         </LinearLayout>
+        <Button
+            android:background="#1A237E"
+            android:textColor="#fff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Begin Ride"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/beginRide_beginRideBtn" />
 
         <TableLayout
             android:layout_width="match_parent"
@@ -135,8 +143,8 @@
                     android:layout_weight="5"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="15dp"
-                    android:text="Begin Ride"
-                    android:id="@+id/beginRide_beginRideBtn"
+                    android:text="Arrive"
+                    android:id="@+id/beginRide_arriveBtn"
                     />
             </TableRow>
         </TableLayout>

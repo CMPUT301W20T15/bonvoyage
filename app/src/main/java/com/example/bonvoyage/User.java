@@ -12,6 +12,10 @@ public abstract class User {
     private String password;
     private float wallet;
 
+    public User(){
+
+    }
+
     public User(String firstname, String lastname, String email, String phonenumber, String password, float wallet) {
         this.firstname = firstname;
         this.lastname = lastname;
@@ -58,6 +62,27 @@ public abstract class User {
         }
         this.wallet = this.wallet - money;
     }
+
+    public void setFirstname(String fname){
+        this.firstname = fname;
+    }
+
+    public void setLastname(String lastname){
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public void setPhonenumber(String phonenumber){
+        this.phonenumber = phonenumber;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
     // this is for testing only
     public String getUserType() {
         return "driver";
