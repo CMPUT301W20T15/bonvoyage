@@ -67,7 +67,7 @@ public class DriverPayment extends AppCompatActivity {
             }
         });
 
-        doneButton.setOnClickListener(new View.OnClickListener() {
+        skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Going back to home. Payment not processed", Toast.LENGTH_SHORT).show();
