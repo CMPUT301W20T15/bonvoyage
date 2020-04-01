@@ -69,7 +69,7 @@ public class DriverPayment extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Going back to home. Payment not processed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Going back to home. Payment not processed", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(DriverPayment.this, DriverMapActivity.class));  // goes back to driver home without payment being processed
             }
         });
