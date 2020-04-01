@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <include layout="@layout/menu_toolbar"></include>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="650dp"
+        android:background="@drawable/splash_page">
+
+        <ImageView
+            android:layout_width="500dp"
+            android:layout_height="300dp"
+            android:id="@+id/first_box"
+            android:layout_marginTop="219dp"
+            android:background="#006796" />
+        <ImageView
+            android:layout_width="300dp"
+            android:layout_height="500dp"
+            android:id="@+id/second_box"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="140dp"
+            android:background="#009688" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="58dp"
+            android:layout_marginLeft="58dp"
+            android:layout_marginTop="200dp"
+            android:fontFamily="@font/abril_fatface"
+            android:text="Trip History"
+            android:textColor="@color/White"
+            android:textSize="50dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        android:layout_marginTop="300dp"
+        android:paddingTop="30dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginLeft="25dp">
+
+        <ListView
+            android:id="@+id/list_trips"
+            android:layout_width="match_parent"
+            android:background="#54BFBCBC"
+            android:layout_height="wrap_content"/>
+</RelativeLayout>
+</RelativeLayout>

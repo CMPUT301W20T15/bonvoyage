@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -35,9 +36,8 @@ public class ChangeUserProfile extends AppCompatActivity {
     private  FirebaseFirestore db;
     private  FirebaseAuth mAuth;
 
-
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private String userType = "riders";
+    String userType = "riders";
     private FirebaseUser user;
     String TAG = "UserProfile";
 
@@ -46,6 +46,8 @@ public class ChangeUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_user_profile);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        RelativeLayout form = findViewById(R.id.form_fill);
+        form.animate().translationY(350).setStartDelay(300).setDuration(1200);
         new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
         Intent intent = getIntent();
@@ -58,35 +60,47 @@ public class ChangeUserProfile extends AppCompatActivity {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        if (user != null){
 
-            DocumentReference docRef = db.collection("riders").document(user.getEmail());
-            docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    //DocumentSnapShot is the object that holds the fields of data
-                    String first_name = documentSnapshot.getString("first_name");
-                    String last_name = documentSnapshot.getString("last_name");
-                    String email = documentSnapshot.getString("email_address");
-                    String phone = documentSnapshot.getString("phone_number");
-                    change_email.setText(email);
-                    change_name.setText(String.format(first_name + "    " +last_name));
-                    change_number.setText(phone);
-                    change_email.setFocusable(false);
-                    change_name.setFocusable(false);
-                    change_number.setFocusable(false);
-
+        DocumentReference userRef = db.collection("drivers").document(user.getEmail());
+        userRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    // If user is a driver
+                    Log.d(TAG, "Document exists!");
+                    userType = "drivers";
+                } else {
+                    // If user is a rider
+                    Log.d(TAG, "Document does not exist!");
+                    userType = "riders";
                 }
-            });
-        }else{
-            Toast.makeText(ChangeUserProfile.this,"User does not exist", Toast.LENGTH_SHORT).show();
-        }
+
+                if (user != null){
+                    DocumentReference docRef = db.collection(userType).document(user.getEmail());
+                    docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            //DocumentSnapShot is the object that holds the fields of data
+                            String first_name = documentSnapshot.getString("first_name");
+                            String last_name = documentSnapshot.getString("last_name");
+                            String email = documentSnapshot.getString("email_address");
+                            String phone = documentSnapshot.getString("phone_number");
+                            change_email.setText(email);
+                            change_name.setText(String.format(first_name + "    " +last_name));
+                            change_number.setText(phone);
+                            change_email.setFocusable(false);
+                            change_name.setFocusable(false);
+                            change_number.setFocusable(false);
+
+                        }
+                    });
+                }else{
+                    Toast.makeText(ChangeUserProfile.this,"User does not exist", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
-//        boolean answer = firebaseHandler.checkIfUserIsDriver(firebaseUser.getDisplayName());
-//        String type_user;
-//        String fetch_email, fetch_name, fetch_number;
-//        DocumentReference docRef;
 //        if(answer){
 //            type_user ="drivers";
 //        }
@@ -95,19 +109,11 @@ public class ChangeUserProfile extends AppCompatActivity {
 //            type_user = "riders";
 //        }
 //
-//        docRef = db.collection(type_user).document(firebaseUser.getEmail());
-//        fetch_email = docRef.toString();
-//        docRef = db.collection(type_user).document(firebaseUser.getPhoneNumber());
-//        fetch_number = docRef.toString();
-//        docRef = db.collection(type_user).document(firebaseUser.getDisplayName());
-//        fetch_name = docRef.toString();
-//
-//        change_email.setText(fetch_email);
-//        change_name.setText(fetch_name);
-//        change_number.setText(fetch_number);
+
         tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    change_name.setFocusable(true);
                     change_email.setFocusableInTouchMode(true);
                     change_name.setFocusableInTouchMode(true);
                     change_number.setFocusableInTouchMode(true);
@@ -120,7 +126,7 @@ public class ChangeUserProfile extends AppCompatActivity {
                     String number = change_number.getText().toString();
                     String first_name = name.substring(0, name.indexOf(" "));
                     String last_name = name.substring(name.indexOf(" ")+1);
-                    DocumentReference docRef = db.collection("riders").document(user.getEmail());
+                    DocumentReference docRef = db.collection(userType).document(user.getEmail());
                     docRef
                             .update("first_name", first_name,
                                     "last_name", last_name,
@@ -140,7 +146,6 @@ public class ChangeUserProfile extends AppCompatActivity {
                                     Toast.makeText(ChangeUserProfile.this,"Failed to update user information",Toast.LENGTH_SHORT).show();
                                 }
                             });
-
                 }
             }
         });
