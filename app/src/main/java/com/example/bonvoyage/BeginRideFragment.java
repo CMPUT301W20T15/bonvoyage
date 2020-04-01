@@ -60,8 +60,10 @@ public class BeginRideFragment extends Fragment {
         bundle = getArguments();
         requestInfo = (HashMap) bundle.getSerializable("HashMap");
         DocumentReference requestRef = db.collection("RiderRequests").document(requestInfo.get("rider_email").toString());
-
-        rider_name.setText(requestInfo.get("rider_name").toString());
+        String riderFirstName = requestInfo.get("rider_firstName").toString();
+        String riderLastName = requestInfo.get("rider_lastName").toString();
+        String riderFullName = riderFirstName + riderLastName;
+        rider_name.setText(riderFullName);
         cost.setText(requestInfo.get("cost").toString());
 
         Geocoder geo = new Geocoder(BeginRideFragment.this.getContext());

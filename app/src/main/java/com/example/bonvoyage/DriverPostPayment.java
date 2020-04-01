@@ -31,7 +31,6 @@ public class DriverPostPayment extends AppCompatActivity {
                 Driver driver = documentSnapshot.toObject(Driver.class);
                 float cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
                 firebaseHandler.driverTransaction(driver, cost);
-
                 toastMessage("Payment Processed!");
                 startActivity(new Intent(DriverPostPayment.this, DriverMapActivity.class));
             }

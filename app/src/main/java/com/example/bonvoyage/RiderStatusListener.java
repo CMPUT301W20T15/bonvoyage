@@ -4,5 +4,5 @@ import android.os.Bundle;
 
 public interface RiderStatusListener {
     void onCancelRide();
-    void onRideComplete();
+    void onRideComplete(Bundle requestInfo);
 }
