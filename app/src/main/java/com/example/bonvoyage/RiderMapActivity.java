@@ -1,5 +1,6 @@
 package com.example.bonvoyage;
 
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.text.InputType;
@@ -10,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
@@ -40,6 +42,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     RiderPricingFragment pricingFragment;
     RiderStatusFragment riderStatusFragment;
     RiderPaymentFragment riderPaymentFragment;
+    RiderRatingFragment riderRatingFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -108,7 +111,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
 
         FirebaseUser user = firebaseHandler.getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("riders").document("testrider@gmail.com");
+        DocumentReference docRef = db.collection("riders").document(user.getEmail());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -125,10 +128,9 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
                     tripInformation.put("userEmail", user.getEmail());
                     tripInformation.put("status", "available");
                     tripInformation.put("timestamp", timestamp);
-                    tripInformation.put("userEmail", "testrider@gmail.com");
                     Bundle rideInfo = new Bundle();
                     rideInfo.putSerializable("HashMap",tripInformation);
-                    firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
+                    firebaseHandler.addNewRideRequestToDatabase(tripInformation, user.getEmail());
                     pricingFragment.setArguments(rideInfo);
                     //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
                     continueButton.setOnClickListener(new View.OnClickListener() {
@@ -228,17 +230,19 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     }
 
     @Override
-    public void onRideComplete() {
+    public void onRideComplete(Bundle requestInfo) {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
         riderPaymentFragment= new RiderPaymentFragment(this);
+        riderPaymentFragment.setArguments(requestInfo);
         riderPaymentFragment.show(getSupportFragmentManager(), "Payment");
-
     }
 
     @Override
-    public void onPaymentComplete() {
-        riderPaymentFragment.dismiss();
+    public void onPaymentComplete(Bundle bundle) {
+        Toast.makeText(this, "Payment Completed", Toast.LENGTH_LONG).show();
+        HashMap requestInfo = (HashMap) bundle.getSerializable("HashMap");
+        riderRatingFragment = new RiderRatingFragment();
+        riderRatingFragment.show(getSupportFragmentManager(), "Rating");
         createLocationSearch();
-
     }
 }

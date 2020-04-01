@@ -26,11 +26,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import org.w3c.dom.Document;
+
+import java.util.HashMap;
 
 import androidmads.library.qrgenearator.QRGEncoder;
 
@@ -41,12 +49,12 @@ public class RiderPaymentFragment extends DialogFragment{
     private FirebaseHandler firebaseHandler;
     private FirebaseFirestore db;
     private RiderPaymentListener riderPaymentListener;
+    private HashMap requstInfo;
 
-    Rider rider;
-    float cost = 10;
 
     public RiderPaymentFragment(RiderPaymentListener riderPaymentListener){
         this.riderPaymentListener = riderPaymentListener;
+
     }
 
     @NonNull
@@ -55,11 +63,14 @@ public class RiderPaymentFragment extends DialogFragment{
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.payment_fragment_layout, null);
         ImageView QRCode = view.findViewById(R.id.QR_Code);
         firebaseHandler = new FirebaseHandler();
-        FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
+        FirebaseUser user = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();
-        
-        DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());
 
+        Bundle bundle = getArguments();
+        this.requstInfo = (HashMap) bundle.getSerializable("HashMap");
+
+        String driverName = requstInfo.get("driver_firstName").toString();
+        String cost = requstInfo.get("cost").toString();
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -81,11 +92,15 @@ public class RiderPaymentFragment extends DialogFragment{
         return builder
                 .setView(view)
                 .setTitle("Your ride is complete!")
-                .setMessage(rider + "will scan your QR code below to process your payment of $" + cost)
+                .setMessage(driverName + "will scan your QR code below to process your payment of $" + cost)
                 .setPositiveButton("Done", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        riderPaymentListener.onPaymentComplete();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("HashMap", requstInfo);
+                        riderPaymentListener.onPaymentComplete(bundle);
+                        dismiss();
+
                     }
                 }).create();
 
