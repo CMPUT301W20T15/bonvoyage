@@ -313,7 +313,8 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                 }
                 if (!rideRequestArrayList.isEmpty()){
                     rideRequestArrayList.clear();
-                    //mMap.clear();
+                    mTripMarkers.clear();
+                    mMap.clear();
                 }
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
