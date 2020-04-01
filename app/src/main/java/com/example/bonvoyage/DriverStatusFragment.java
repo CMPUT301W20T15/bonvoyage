@@ -54,8 +54,8 @@ public class DriverStatusFragment extends Fragment {
 
 
         amount.setText(tripData.get("cost").toString());
-        status.setText(tripData.get("status").toString());
-        name.setText(tripData.get("rider_name").toString());
+        status.setText("En Route");
+        name.setText(tripData.get("rider_firstName").toString());
 
 
         completeBtn.setOnClickListener(new View.OnClickListener(){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <TextView
         android:id="@+id/startLocation"
         android:layout_marginRight="40dp"
@@ -15,6 +15,5 @@
         android:drawableStart="@drawable/ic_place_navy_24dp"
         android:drawableLeft="@drawable/ic_place_navy_24dp"
         android:text="@string/destination_location_hint"
-        android:layout_marginBottom="14dp"
         style="@style/behindMenuItemLabel"/>
 </LinearLayout>

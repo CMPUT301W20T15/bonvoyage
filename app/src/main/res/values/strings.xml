@@ -43,4 +43,6 @@
     <string name="nav_wallet">Wallet</string>
     <string name="nav_trips">Trip History</string>
     <string name="nav_logout">Logout</string>
+
+    <string name="driver_fullName">%1$s %2$s</string>
 </resources>
