@@ -450,6 +450,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
         Intent intent = new Intent(DriverMapActivity.this, DriverPayment.class);
         startActivity(intent);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT , 0, 70);
+        linearLayoutContainer.removeView(mapContainer);
+        linearLayoutContainer.addView(mapContainer, params);
 
     }
 
@@ -459,6 +462,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 
 
     /*
