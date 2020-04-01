@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
@@ -65,6 +66,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -98,7 +100,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private LinearLayout linearLayoutContainer;
     private BeginRideFragment beginRideFragment;
     private DriverStatusFragment driverStatusFragment;
-    //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
+
+    private ArrayList<Marker> mTripMarkers = new ArrayList<>();
+    //Map <String, String> markers = new HashMap<String, String>();
 
 
     @Override
@@ -116,11 +120,37 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         mDatabase = FirebaseFirestore.getInstance();
         getLocationPermission();
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        new DrawerWrapper(this,this.getApplicationContext(),toolbar);
+
+
         riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("RIDEINFO","Hi");
                 RideRequest selectedRider = (RideRequest) adapterView.getItemAtPosition(i);
                 riderLocationArrayAdapter.notifyDataSetChanged();
+                for (Marker mapMarker: mTripMarkers){
+                    LatLng pickUpLocation = mapMarker.getPosition();
+                    if (mapMarker.getTitle().equals(selectedRider.getUserEmail())){
+                        drawPolyline(pickUpLocation);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLng(pickUpLocation));
+                    }
+                    break;
+                }
+                /*
+                for (Map.Entry<String,String> entry : markers.entrySet()){
+                    String mID = entry.getValue();
+                    if (mID.equals(selectedRider.getUserEmail())){
+                        for (Marker mapMarker: mTripMarkers){
+                            if (mapMarker.getId().equals(mID)){
+                                mMap.animateCamera(CameraUpdateFactory.newLatLng(mapMarker.getPosition()));
+                            }
+                            break;
+                        }
+                    }
+                }
+                 */
             }
         });
     }
@@ -272,22 +302,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
     private void getRiderLocations(){
-        /*
-        riderRequestList = mFirebaseHandler.getAvailableRiderRequest();
-        for (int i = 0; i < riderRequestList.size(); i++){
-            RideRequest rider = riderRequestList.get(i);
-            riderLocationArrayAdapter.add(rider);
-            GeoPoint startGeopoint = rider.getStartGeopoint();
-            Log.d(TAG,rider.toString());
-            LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
-            MarkerOptions options = new MarkerOptions()
-                    .position(rider_position)
-                    .title(rider.getUserEmail())
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-            mMap.addMarker(options);
-        }
-        */
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -297,27 +311,32 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                //rideRequestArrayList.clear();
-                //rideRequestArrayList = new ArrayList<>();
-                riderLocationArrayAdapter.clear();
+                if (!rideRequestArrayList.isEmpty()){
+                    rideRequestArrayList.clear();
+                    mTripMarkers.clear();
+                    mMap.clear();
+                }
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
+                        String rider_email = rider.getUserEmail();
                         //rideRequestArrayList.add(rider);
                         if (rider.getStatus().equals("available")){
-                            //rideRequestArrayList.add(rider);
-                            riderLocationArrayAdapter.add(rider);
+                            rideRequestArrayList.add(rider);
+                            //riderLocationArrayAdapter.add(rider);
                             GeoPoint startGeopoint = rider.getStartGeopoint();
-                            //GeoPoint endGeopoint = rider.getEndGeopoint();
                             Log.d(TAG,rider.toString());
                             LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
                             MarkerOptions options = new MarkerOptions()
                                     .position(rider_position)
-                                    .title(rider.getCostString())
+                                    .title(rider_email)
                                     .snippet(rider.getRideInformation())
                                     .icon(BitmapDescriptorFactory
                                             .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-                            mMap.addMarker(options);
+                            Marker mapMarker = mMap.addMarker(options);
+                            //markers.put(mapMarker.getId(),rider_email);
+                            mTripMarkers.add(mapMarker);
+                            riderLocationArrayAdapter.notifyDataSetChanged();
                         }
                     }
                     Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());

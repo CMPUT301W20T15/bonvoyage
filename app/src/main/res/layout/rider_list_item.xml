@@ -41,6 +41,7 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="false"
                         android:text="ACCEPT"
                         android:textColor="#fff"
                         android:background="#1A237E"
@@ -63,4 +64,5 @@
 
 
     </TableLayout>
+
 </LinearLayout>

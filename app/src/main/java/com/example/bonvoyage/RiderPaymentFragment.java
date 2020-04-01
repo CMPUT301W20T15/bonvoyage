@@ -52,11 +52,21 @@ public class RiderPaymentFragment extends DialogFragment{
     private HashMap requstInfo;
 
 
+
+    /**
+     * sets the rider payment fragment
+     * @param riderPaymentListener
+     */
     public RiderPaymentFragment(RiderPaymentListener riderPaymentListener){
         this.riderPaymentListener = riderPaymentListener;
 
     }
 
+    /**
+     * Generates the fragment for the qrcode and call the qr code generator
+     * @param savedInstanceState
+     * @return                      returns the fragment
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -71,6 +81,7 @@ public class RiderPaymentFragment extends DialogFragment{
 
         String driverName = requstInfo.get("driver_firstName").toString();
         String cost = requstInfo.get("cost").toString();
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
