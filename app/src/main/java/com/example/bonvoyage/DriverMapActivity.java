@@ -99,7 +99,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private LinearLayout linearLayoutContainer;
     private BeginRideFragment beginRideFragment;
     private DriverStatusFragment driverStatusFragment;
-    //private ArrayList<RideRequest> riderRequestList = new ArrayList<>();
 
 
     @Override
@@ -124,6 +123,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("Hi","Hi");
                 RideRequest selectedRider = (RideRequest) adapterView.getItemAtPosition(i);
                 riderLocationArrayAdapter.notifyDataSetChanged();
             }
@@ -277,22 +277,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
     private void getRiderLocations(){
-        /*
-        riderRequestList = mFirebaseHandler.getAvailableRiderRequest();
-        for (int i = 0; i < riderRequestList.size(); i++){
-            RideRequest rider = riderRequestList.get(i);
-            riderLocationArrayAdapter.add(rider);
-            GeoPoint startGeopoint = rider.getStartGeopoint();
-            Log.d(TAG,rider.toString());
-            LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
-            MarkerOptions options = new MarkerOptions()
-                    .position(rider_position)
-                    .title(rider.getUserEmail())
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-            mMap.addMarker(options);
-        }
-        */
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
         mRiderListEventListener = riderRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -302,18 +286,18 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
-                //rideRequestArrayList.clear();
-                //rideRequestArrayList = new ArrayList<>();
-                riderLocationArrayAdapter.clear();
+                if (!rideRequestArrayList.isEmpty()){
+                    rideRequestArrayList.clear();
+                }
+                mMap.clear();
                 if (queryDocumentSnapshots!= null){
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
                         //rideRequestArrayList.add(rider);
                         if (rider.getStatus().equals("available")){
-                            //rideRequestArrayList.add(rider);
-                            riderLocationArrayAdapter.add(rider);
+                            rideRequestArrayList.add(rider);
+                            //riderLocationArrayAdapter.add(rider);
                             GeoPoint startGeopoint = rider.getStartGeopoint();
-                            //GeoPoint endGeopoint = rider.getEndGeopoint();
                             Log.d(TAG,rider.toString());
                             LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
                             MarkerOptions options = new MarkerOptions()
@@ -323,6 +307,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                                     .icon(BitmapDescriptorFactory
                                             .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                             mMap.addMarker(options);
+                            riderLocationArrayAdapter.notifyDataSetChanged();
                         }
                     }
                     Log.d(TAG,"onEventRiderLocations: size is : "+ rideRequestArrayList.size());
