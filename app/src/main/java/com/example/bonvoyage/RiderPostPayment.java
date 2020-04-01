@@ -15,6 +15,10 @@ public class RiderPostPayment extends AppCompatActivity {
     private FirebaseHandler firebaseHandler;
     private FirebaseFirestore db;
 
+    /**
+     * Handles the call for rider transaction and send's the rider to rating fragment
+     * @param savedInstanceState
+     */
     protected void onCreateView(Bundle savedInstanceState) {
         FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();
