@@ -39,7 +39,7 @@ public class DriverPayment extends AppCompatActivity {
     private RiderPaymentListener paymentListener;
     Button doneButton;
     String intentData = "";
-    
+
     /**
      * creates the qr code scanner and does the scanning
      * @param savedInstanceState
