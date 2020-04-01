@@ -12,10 +12,14 @@ import androidx.annotation.Nullable;
 
 import com.example.bonvoyage.R;
 import com.example.bonvoyage.models.RideRequest;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.GeoPoint;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TripHistoryAdapter extends ArrayAdapter<DocumentSnapshot> {
     private ArrayList<DocumentSnapshot> tripHistoryArrayList;
@@ -50,12 +54,20 @@ public class TripHistoryAdapter extends ArrayAdapter<DocumentSnapshot> {
         driver_email.setText(docSnap.getString("driver_email"));
         rider_name.setText(docSnap.getString("rider_name"));
         rider_email.setText(docSnap.getString("rider_email"));
-        start_loc.setText(String.valueOf(docSnap.getGeoPoint("startGeopoint")));
-        end_loc.setText(String.valueOf(docSnap.getGeoPoint("endGeopoint")));
+        //https://stackoverflow.com/questions/53799346/how-to-convert-geopoint-in-firestore-to-latlng
+        GeoPoint startGeopoint = docSnap.getGeoPoint("startGeopoint");
+        double start_lat = startGeopoint.getLatitude();
+        double start_lng = startGeopoint.getLongitude ();
+        LatLng start_latLng = new LatLng(start_lat, start_lng);
+        start_loc.setText("Start: " + start_latLng.toString());
+        GeoPoint endgeoPoint = docSnap.getGeoPoint("endGeopoint");
+        double end_lat = endgeoPoint.getLatitude();
+        double end_lng = endgeoPoint.getLongitude ();
+        LatLng end_latLng = new LatLng(end_lat, end_lng);
+        end_loc.setText("End: " + end_latLng.toString());
         cost.setText("$" + String.valueOf(docSnap.getLong("cost")));
-        time_stamp.setText(String.valueOf(docSnap.getTimestamp("timestamp")));
+        time_stamp.setText(String.valueOf(docSnap.getDate("timestamp")));
 
         return view;
     }
-
 }
