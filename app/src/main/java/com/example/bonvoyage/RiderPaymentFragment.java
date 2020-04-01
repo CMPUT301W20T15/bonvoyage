@@ -43,12 +43,21 @@ public class RiderPaymentFragment extends DialogFragment{
     private RiderPaymentListener riderPaymentListener;
 
     Rider rider;
-    float cost = 10;
+    float cost;
 
+    /**
+     * sets the rider payment fragment
+     * @param riderPaymentListener
+     */
     public RiderPaymentFragment(RiderPaymentListener riderPaymentListener){
         this.riderPaymentListener = riderPaymentListener;
     }
 
+    /**
+     * Generates the fragment for the qrcode and call the qr code generator
+     * @param savedInstanceState
+     * @return                      returns the fragment
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -60,6 +69,7 @@ public class RiderPaymentFragment extends DialogFragment{
         
         DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());
 
+        float cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
