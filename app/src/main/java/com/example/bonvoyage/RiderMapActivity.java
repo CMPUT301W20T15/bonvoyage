@@ -36,6 +36,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
     private Button continueButton;
     String first_name = "";
     String last_name = "";
+    String phoneNumber = "";
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     RiderStatusFragment riderStatusFragment;
@@ -69,9 +70,9 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
                     Address address = geoLocate(destinationLocationBox);
 
                     if (address != null) {
-                    continueButton.setVisibility(View.VISIBLE);
-                    continueButton.setEnabled(true);
-                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                        continueButton.setVisibility(View.VISIBLE);
+                        continueButton.setEnabled(true);
+                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
                 }
                 return false;
@@ -97,7 +98,7 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
         priceInfo.setText(priceText);
 
         createPricingFragment();
-        
+
         Log.d(TAG, "Start location: " + startLocation.getLatitude()
                 + ", " + startLocation.getLongitude());
         Log.d(TAG, "Destination location: " + endLocation.getLatitude()
@@ -107,25 +108,26 @@ public class RiderMapActivity extends MapActivity implements RiderStatusListener
 
 
         FirebaseUser user = firebaseHandler.getCurrentUser();
+        String riderEmail = user.getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("riders").document("testrider@gmail.com");
+        DocumentReference docRef = db.collection("riders").document(riderEmail);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
                     first_name = documentSnapshot.getString("first_name");
                     last_name = documentSnapshot.getString("last_name");
+                    phoneNumber = documentSnapshot.getString("phone_number");
                     HashMap<String, Object> tripInformation = new HashMap<>();
                     tripInformation.put("cost", cost);
                     tripInformation.put("endGeopoint", endLocation);
                     tripInformation.put("startGeopoint", startLocation);
                     tripInformation.put("firstName", first_name);
                     tripInformation.put("lastName", last_name);
-                    tripInformation.put("phoneNumber", user.getPhoneNumber());
-                    tripInformation.put("userEmail", user.getEmail());
+                    tripInformation.put("phoneNumber", phoneNumber);
                     tripInformation.put("status", "available");
                     tripInformation.put("timestamp", timestamp);
-                    tripInformation.put("userEmail", "testrider@gmail.com");
+                    tripInformation.put("userEmail", riderEmail);
                     Bundle rideInfo = new Bundle();
                     rideInfo.putSerializable("HashMap",tripInformation);
                     firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
