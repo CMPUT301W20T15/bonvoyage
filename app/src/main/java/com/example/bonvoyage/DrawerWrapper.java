@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
@@ -70,14 +71,17 @@ public class DrawerWrapper {
                             case 1:
                                 Intent walletDisplay = new Intent(context,WalletActivity.class);
                                 activity.startActivity(walletDisplay);
+                                break;
                             case 2:
                                 Intent tripHistory = new Intent(context,TripHistoryActivity.class);
                                 activity.startActivity(tripHistory);
+                                break;
                             case 3:
                                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
                                 Intent loginPage = new Intent(context, LoginSignupActivity.class);
                                 mAuth.signOut();
                                 activity.startActivity(loginPage);
+                                break;
                         }
                         return true;
                     }

@@ -74,7 +74,6 @@ public class ChangeUserProfile extends AppCompatActivity {
                     Log.d(TAG, "Document does not exist!");
                     userType = "riders";
                 }
-                Log.d(TAG, "This type" + userType);
 
                 if (user != null){
                     DocumentReference docRef = db.collection(userType).document(user.getEmail());
