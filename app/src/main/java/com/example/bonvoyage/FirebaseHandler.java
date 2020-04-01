@@ -165,7 +165,7 @@ public class FirebaseHandler {
     public float getCostOfRideFromDatabase(final String unique_id) {
         db = FirebaseFirestore.getInstance();
         final float[] cost = {0};
-        DocumentReference docRef = db.collection("InProgressRiderRequests")
+        DocumentReference docRef = db.collection("RiderRequests")
                 .document(unique_id);
         docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override

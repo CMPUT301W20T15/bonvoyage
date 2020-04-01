@@ -93,6 +93,7 @@ public class DriverPayment extends AppCompatActivity {
                     } else {
                         ActivityCompat.requestPermissions(DriverPayment.this, new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        cameraSource.start(surfaceView.getHolder());
                     }
 
                 } catch (IOException e) {
