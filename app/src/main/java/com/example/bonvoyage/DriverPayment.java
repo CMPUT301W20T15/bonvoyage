@@ -64,15 +64,7 @@ public class DriverPayment extends AppCompatActivity {
                 }
             }
         });
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, 3000);
-
+        
     }
 
     /**

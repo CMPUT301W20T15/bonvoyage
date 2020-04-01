@@ -2,6 +2,7 @@ package com.example.bonvoyage;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,8 +31,18 @@ public class DriverPostPayment extends AppCompatActivity {
                 Driver driver = documentSnapshot.toObject(Driver.class);
                 float cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
                 firebaseHandler.driverTransaction(driver, cost);
+
+                toastMessage("Payment Processed!");
                 startActivity(new Intent(DriverPostPayment.this, DriverMapActivity.class));
             }
         });
+    }
+
+    /**
+     * toastMessage generates a toast message.
+     * @param message
+     */
+    public void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }

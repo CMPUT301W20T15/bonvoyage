@@ -22,7 +22,7 @@ public class QRGenerate extends AppCompatActivity {
     private ImageView qrCode;
     private Bitmap bitmap;
     private QRGEncoder qrgEncoder;
-    
+
     /**
      * this generates the QR code
      * @param amount   takes in the value to generate
