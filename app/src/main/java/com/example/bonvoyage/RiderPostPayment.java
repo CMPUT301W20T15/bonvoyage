@@ -27,7 +27,7 @@ public class RiderPostPayment extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Rider rider = documentSnapshot.toObject(Rider.class);
-                float cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
+                float cost = firebaseHandler.getCostOfRideFromDatabase(rider.getEmail());
                 firebaseHandler.riderTransaction(rider, cost);
                 startActivity(new Intent(RiderPostPayment.this, RiderRatingFragment.class));
             }

@@ -38,6 +38,7 @@ public class DriverPayment extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     private RiderPaymentListener paymentListener;
     Button doneButton;
+    Button skipButton;
     String intentData = "";
 
     /**
@@ -52,16 +53,24 @@ public class DriverPayment extends AppCompatActivity {
         barcodeVal = findViewById(R.id.barcode_value);
         surfaceView = findViewById(R.id.surfaceView);
         doneButton = findViewById(R.id.done_button);
+        skipButton = findViewById(R.id.skip_button);
 
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (intentData.length() > 0) {
                     startActivity(new Intent(DriverPayment.this, DriverPostPayment.class));  // calls post payment to handle the paymet updates for the driver
-                    startActivity(new Intent(DriverPayment.this, RiderPostPayment.class));  // Sets Rider side rating and update payment
                 } else {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(intentData)));
+                    Toast.makeText(getApplicationContext(), "No payment found", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Going back to home. Payment not processed", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(DriverPayment.this, DriverMapActivity.class));  // goes back to driver home without payment being processed
             }
         });
         
@@ -93,6 +102,7 @@ public class DriverPayment extends AppCompatActivity {
                     } else {
                         ActivityCompat.requestPermissions(DriverPayment.this, new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                        cameraSource.start(surfaceView.getHolder());
                     }
 
                 } catch (IOException e) {
@@ -128,7 +138,7 @@ public class DriverPayment extends AppCompatActivity {
                         @Override
                         public void run() {
                             barcodeVal.removeCallbacks(null);
-                            intentData = barcodes.valueAt(0).toString();
+                            intentData = barcodes.valueAt(0).displayValue;
                             barcodeVal.setText(intentData);
                             doneButton.setText("ADD TO WALLET");
                         }

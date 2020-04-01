@@ -1,8 +1,19 @@
 package com.example.bonvoyage;
 
-import com.google.android.gms.maps.model.LatLng;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Rider extends User {
+import com.example.bonvoyage.models.RideRequest;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.Date;
+
+public class Rider extends User{
+
+    public Rider(){
+        super();
+    }
 
     public Rider(String firstname, String lastname, String email, String phonenumber, String password,
                  float wallet) {
@@ -27,5 +38,24 @@ public class Rider extends User {
         this.destinationLocation = destinationLocation;
     }
 
+    private Rider(Parcel in){
+        super(in);
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Parcelable.Creator<Rider> CREATOR = new Parcelable.Creator<Rider>() {
+        @Override
+        public Rider createFromParcel(Parcel in) {
+            return new Rider(in);
+        }
+
+        @Override
+        public Rider[] newArray(int size) {
+            return new Rider[size];
+        }
+    };
 }
