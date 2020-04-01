@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 
@@ -55,6 +56,8 @@ public class DrawerWrapper {
 
 
         Drawer result = new DrawerBuilder()
+                .withSliderBackgroundColor(Color.parseColor("#1A237E"))
+
                 .withActivity(activity)
                 .withAccountHeader(headerResult)
                 .withToolbar(toolbar)
