@@ -1,6 +1,7 @@
 package com.example.bonvoyage;
 
 import android.os.Bundle;
+import android.os.Parcel;
 
 import com.example.bonvoyage.models.RideRequest;
 import com.google.firebase.firestore.GeoPoint;
@@ -37,9 +38,27 @@ public class TestRiderRequest {
         assertEquals(new GeoPoint(53.5232,-113.5263),rideRequest.getEndGeopoint());
     }
     @Test
+    public void TestSetStartGeopoint() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setStartGeopoint(new GeoPoint(53.5550,-113.5131));
+        assertEquals(new GeoPoint(53.5550,-113.5131),rideRequest.getStartGeopoint());
+    }
+    @Test
+    public void TestSetEndGeopoint() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setEndGeopoint((new GeoPoint(53.5550,-113.5131)));
+        assertEquals(new GeoPoint(53.5550,-113.5131),rideRequest.getEndGeopoint());
+    }
+    @Test
     public void TestUserEmail() {
         RideRequest rideRequest = mockRideRequest();
         assertEquals("bob@gmail.com",rideRequest.getUserEmail());
+    }
+    @Test
+    public void TestSetUserEmail() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setUserEmail("jenny@email.com");
+        assertEquals("jenny@email.com",rideRequest.getUserEmail());
     }
     @Test
     public void TestStatus() {
@@ -47,9 +66,21 @@ public class TestRiderRequest {
         assertEquals("available",rideRequest.getStatus());
     }
     @Test
+    public void TestSetStatus() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setStatus("cancelled");
+        assertEquals("cancelled",rideRequest.getStatus());
+    }
+    @Test
     public void TestPhoneNumber() {
         RideRequest rideRequest = mockRideRequest();
         assertEquals("17801234567",rideRequest.getPhoneNumber());
+    }
+    @Test
+    public void TestSetPhoneNumber() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setPhoneNumber("+1234567890");
+        assertEquals("+1234567890",rideRequest.getPhoneNumber());
     }
     @Test
     public void TestFirstName() {
@@ -57,14 +88,47 @@ public class TestRiderRequest {
         assertEquals("Bob",rideRequest.getFirstName());
     }
     @Test
+    public void TestSetFirstName() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setFirstName("Bobby");
+        assertEquals("Bobby",rideRequest.getFirstName());
+    }
+    @Test
     public void TestLastName() {
         RideRequest rideRequest = mockRideRequest();
         assertEquals("Bobby",rideRequest.getLastName());
     }
     @Test
+    public void TestSetLastName() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setLastName("Smith");
+        assertEquals("Smith",rideRequest.getLastName());
+    }
+    @Test
     public void TestCost() {
         RideRequest rideRequest = mockRideRequest();
         assertEquals((float)20.01,rideRequest.getCost());
+    }
+    @Test
+    public void TestSetCost() {
+        RideRequest rideRequest = mockRideRequest();
+        rideRequest.setCost((float)10.01);
+        assertEquals((float)10.01,rideRequest.getCost());
+    }
+    @Test
+    public void TestGetFullName(){
+        RideRequest rideRequest = mockRideRequest();
+        assertEquals("Bob Bobby",rideRequest.getFullName());
+    }
+    @Test
+    public void TestGetCostString(){
+        RideRequest rideRequest = mockRideRequest();
+        assertEquals("Cost: 20.01",rideRequest.getCostString());
+    }
+    @Test
+    public void TestGetRideInformation(){
+        RideRequest rideRequest = mockRideRequest();
+        assertEquals("Bob Bobby\nCost: 20.01\nEmail: bob@gmail.com\nPhone: 17801234567",rideRequest.getRideInformation());
     }
     @org.junit.Test
     public void testParcelable() {

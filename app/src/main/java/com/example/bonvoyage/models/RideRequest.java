@@ -130,8 +130,7 @@ public class RideRequest implements Parcelable {
     public String toString(){
         return "RideRequest{ userEmail=" + userEmail +
                 ", startGeopoint=" + startGeopoint +
-                ", endGeopoint=" + endGeopoint
-                +", timestamp=" + timestamp +
+                ", endGeopoint=" + endGeopoint+
                 ", firstName=" + firstName +
                 ", lastName=" + lastName +
                 ", phoneNumber=" + phoneNumber +
