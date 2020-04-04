@@ -3,6 +3,7 @@ package com.example.bonvoyage;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -19,7 +20,7 @@ public class RiderPostPayment extends AppCompatActivity {
      * Handles the call for rider transaction and send's the rider to rating fragment
      * @param savedInstanceState
      */
-    protected void onCreateView(Bundle savedInstanceState) {
+    protected void onCreateView(@Nullable Bundle savedInstanceState) {
         FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("riders").document(fb_rider.getEmail());

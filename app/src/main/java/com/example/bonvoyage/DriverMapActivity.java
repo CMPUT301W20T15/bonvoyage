@@ -102,7 +102,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
     private DriverStatusFragment driverStatusFragment;
 
     private ArrayList<Marker> mTripMarkers = new ArrayList<>();
-    //Map <String, String> markers = new HashMap<String, String>();
 
 
     @Override
@@ -123,7 +122,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         Toolbar toolbar = findViewById(R.id.toolbar);
         new DrawerWrapper(this,this.getApplicationContext(),toolbar);
 
-
+        /**
+         * When a list item is clicked in the listview, the map will animate to that rider's pick up location
+         * and a polyline is drawn along the way.
+         */
         riderList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -138,22 +140,14 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                     break;
                 }
-                /*
-                for (Map.Entry<String,String> entry : markers.entrySet()){
-                    String mID = entry.getValue();
-                    if (mID.equals(selectedRider.getUserEmail())){
-                        for (Marker mapMarker: mTripMarkers){
-                            if (mapMarker.getId().equals(mID)){
-                                mMap.animateCamera(CameraUpdateFactory.newLatLng(mapMarker.getPosition()));
-                            }
-                            break;
-                        }
-                    }
-                }
-                 */
             }
         });
     }
+
+    /**
+     * onMapReady customizes the map style, add the listeners to the map features.
+     * @param googleMap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
@@ -188,6 +182,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             init();
         }
     }
+
+    /**
+     * init is called to setup the map to the correct position, and the locate me icon
+     * for the map.
+     */
     private void init(){
         Log.d(TAG, "init: initializing");
 
@@ -218,6 +217,12 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         hideSoftKeyboard();
     }
 
+    /**
+     * geoLocate is called to find the user on the map, and moves the camera to focus
+     * on that portion of the map.
+     * @param mMap
+     * @param mSearchText
+     */
     private void geoLocate(GoogleMap mMap, EditText mSearchText){
         Log.d(TAG, "geoLocate: geolocating");
 
@@ -242,6 +247,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * getDeviceLocation finds the current location of the device and places
+     * a marker where the user is.
+     */
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
 
@@ -278,6 +287,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * moveCamera shifts the camera view to a new latitude and longitude on the map.
+     * @param latLng
+     * @param zoom
+     * @param title
+     * @param mMap
+     */
     private void moveCamera(LatLng latLng, float zoom, String title, GoogleMap mMap){
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -294,6 +310,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         hideSoftKeyboard();
     }
 
+    /**
+     * initMap prepares the map for user usage, by adding a support fragment manager.
+     */
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.driver_map);
@@ -301,6 +320,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         getRiderLocations();
 
     }
+
+    /**
+     * getRiderLocations finds all the available ride requests in the database, and shows them on the map.
+     * Due to the async nature of firebase, we could not split up this firebase function into the firebase class.
+     */
     private void getRiderLocations(){
         CollectionReference riderRef = mDatabase
                 .collection("RiderRequests");
@@ -311,6 +335,7 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     Log.e(TAG, "onEventRiderLocations: list failed");
                     return;
                 }
+                //Clear map again once re-logined/activity is restarted
                 if (!rideRequestArrayList.isEmpty()){
                     rideRequestArrayList.clear();
                     mTripMarkers.clear();
@@ -320,13 +345,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         RideRequest rider = doc.toObject(RideRequest.class);
                         String rider_email = rider.getUserEmail();
-                        //rideRequestArrayList.add(rider);
+                        //If the request is available add it to the map.
                         if (rider.getStatus().equals("available")){
                             rideRequestArrayList.add(rider);
-                            //riderLocationArrayAdapter.add(rider);
                             GeoPoint startGeopoint = rider.getStartGeopoint();
                             Log.d(TAG,rider.toString());
                             LatLng rider_position = new LatLng(startGeopoint.getLatitude(), startGeopoint.getLongitude());
+                            //Create marker for the riderequest on the map.
                             MarkerOptions options = new MarkerOptions()
                                     .position(rider_position)
                                     .title(rider_email)
@@ -334,7 +359,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                                     .icon(BitmapDescriptorFactory
                                             .defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
                             Marker mapMarker = mMap.addMarker(options);
-                            //markers.put(mapMarker.getId(),rider_email);
                             mTripMarkers.add(mapMarker);
                             riderLocationArrayAdapter.notifyDataSetChanged();
                         }
@@ -346,6 +370,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
+    /**
+     * getLocationPermission asks the user for location services permission, before it can
+     * geolocate the user on the map.
+     */
     private void getLocationPermission(){
         Log.d(TAG, "getLocationPermission: getting location permissions");
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -369,6 +397,13 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * onRequestPermissionsResult initializes the map once the user gives permission to access
+     * device location.
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG, "onRequestPermissionsResult: called.");
@@ -393,10 +428,18 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
+    /**
+     * hideSoftKeyboard stops the keyboard from showing up upon the activity starting.
+     */
     private void hideSoftKeyboard(){
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    /**
+     * onInfoWindowClick shows a dialog fragment representing a user profile, when the marker is clicked on
+     * by the driver user.
+     * @param marker
+     */
     @Override
     public void onInfoWindowClick(Marker marker) {
         if(marker.getTitle().equals("Current Location")){
@@ -408,20 +451,20 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             final AlertDialog.Builder builder = new AlertDialog.Builder(DriverMapActivity.this);
             builder.setMessage(marker.getSnippet())
                     .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Finish Viewing Rider Profile", new DialogInterface.OnClickListener() {
                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                             dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            dialog.cancel();
                         }
                     });
             final AlertDialog alert = builder.create();
             alert.show();
         }
     }
+
+    /**
+     * drawPolyline creates a polyline on the map, given an end location represented by Latlng.
+     * @param latLng
+     */
     public void drawPolyline(LatLng latLng){
         LatLng start = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         Polyline line = mMap.addPolyline(new PolylineOptions()
@@ -430,6 +473,11 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         line.setClickable(true);
     }
 
+    /**
+     * onRequestAccepted notifies the selected rider that the ride request has been accepted to proceed
+     * onto the next step in the ride transaction.
+     * @param request_info
+     */
     @Override
     public void onRequestAccepted(Bundle request_info) {
         beginRideFragment = new BeginRideFragment();
@@ -441,6 +489,10 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         getSupportFragmentManager().beginTransaction().add(R.id.driver_status_container, beginRideFragment).commit();
     }
 
+    /**
+     * onBeginRide lets the rider know the ride has begin.
+     * @param request_info
+     */
     @Override
     public void onBeginRide(Bundle request_info) {
         driverStatusFragment = new DriverStatusFragment();
@@ -450,6 +502,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
+    /**
+     * onRideCanceled lets the rider know the ride is cancelled.
+     */
     @Override
     public void onRideCanceled() {
         getSupportFragmentManager().beginTransaction().remove(beginRideFragment).commit();
@@ -460,6 +515,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
         linearLayoutContainer.addView(mapContainer, 0, params);
     }
 
+    /**
+     * onRideComplete lets the rider know the ride is finished, and updates the status on firestore.
+     */
     @Override
     public void onRideComplete() {
         getSupportFragmentManager().beginTransaction().remove(driverStatusFragment).commit();
@@ -471,27 +529,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
-    /*@Override
-    public void onPaymentComplete() {
-        Toast.makeText(this, "Payment Complete", Toast.LENGTH_LONG).show();
-
-    }
-     */
-
-
     @Override
     protected void onResume() {
         super.onResume();
 
     }
-
-
-    /*
-    @Override
-    public void onPolylineClick(Polyline polyline) {
-        Log.d("POLYLINE","HIIII");
-        polyline.setColor(ContextCompat.getColor(DriverMapActivity.this,R.color.quantum_cyan));
-        polyline.setZIndex(1);
-    }
-     */
 }
