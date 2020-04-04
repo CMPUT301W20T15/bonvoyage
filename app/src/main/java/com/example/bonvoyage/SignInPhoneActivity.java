@@ -35,6 +35,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * SignInPhoneActivity implements phone number authentication sign in.
  * Source code used: https://firebase.google.com/docs/auth/android/phone-auth.
+ * https://www.youtube.com/watch?v=KVnJCOBsWGQ.
  */
 public class SignInPhoneActivity extends AppCompatActivity {
     private final String TAG = "SignInPhoneActivity";
@@ -106,10 +107,19 @@ public class SignInPhoneActivity extends AppCompatActivity {
             }
         });
         mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            /**
+             * onVerificationCompleted checks if the SMS code entered is correct.
+             * @param phoneAuthCredential
+             */
             @Override
             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                 signInWithPhoneAuthCredential(phoneAuthCredential);
             }
+
+            /**
+             * onVerifcationFailed is called when an invalid phone number is entered.
+             * @param e
+             */
             @Override
             public void onVerificationFailed(@NonNull FirebaseException e) {
                 toastMessage("Invalid Phone Number");
@@ -119,6 +129,11 @@ public class SignInPhoneActivity extends AppCompatActivity {
                 codeText.setVisibility(View.GONE);
             }
 
+            /**
+             * onCodeSent is called when the SMS code is sent to the user.
+             * @param s
+             * @param forceResendingToken
+             */
             @Override
             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                 super.onCodeSent(s, forceResendingToken);
@@ -135,6 +150,12 @@ public class SignInPhoneActivity extends AppCompatActivity {
             }
         };
     }
+
+    /**
+     * signInWithPhoneAuthCredential verifies the SMS code entered is correct,
+     * and sucessfully signs the user in.
+     * @param credential
+     */
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
