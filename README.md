@@ -11,6 +11,8 @@ On ride completion, drivers and riders use QR generated codes to complete paymen
 
 Please download the apk file [here](https://github.com/CMPUT301W20T15/bonvoyage/tree/master/doc/apk/v4.apk) to run this on your android device.
 
+Authorize location settings, and make sure internet is turned on.
+
 The entire project can be downloaded from the master branch for running, developing and testing purposes. 
 
 ### Prerequisites
