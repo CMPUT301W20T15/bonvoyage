@@ -18,8 +18,11 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.io.IOException;
@@ -28,16 +31,16 @@ import java.util.List;
 
 public class BeginRideFragment extends Fragment {
 
+    private final String TAG = "BeginRideFragment";
     private FirebaseFirestore db;
     private Bundle bundle;
     private HashMap requestInfo;
-    private FirebaseHandler firebaseHandler;
-    private BeginRideListener beginRideListener;
+    private DriverStatusListener beginRideListener;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        beginRideListener = (BeginRideListener) context;
+        beginRideListener = (DriverStatusListener) context;
     }
 
     @Nullable
@@ -49,13 +52,19 @@ public class BeginRideFragment extends Fragment {
         TextView location = view.findViewById(R.id.beginRide_location);
         TextView destination = view.findViewById(R.id.beginRide_destination);
         TextView cost = view.findViewById(R.id.beginRide_payment);
+        Button arriveBtn = view.findViewById(R.id.beginRide_arriveBtn);
         Button beginBtn = view.findViewById(R.id.beginRide_beginRideBtn);
+        beginBtn.setVisibility(View.GONE);
         Button cancelBtn = view.findViewById(R.id.beginRide_cancelRideBtn);
         db = FirebaseFirestore.getInstance();
         bundle = getArguments();
         requestInfo = (HashMap) bundle.getSerializable("HashMap");
-
-        rider_name.setText(requestInfo.get("rider_name").toString());
+        DocumentReference requestRef = db.collection("RiderRequests").document(requestInfo.get("rider_email").toString());
+        String riderFirstName = requestInfo.get("rider_firstName").toString();
+        String riderLastName = requestInfo.get("rider_lastName").toString();
+        String riderFullName = riderFirstName + riderLastName;
+        rider_name.setText(riderFullName);
+        cost.setText(requestInfo.get("cost").toString());
 
         Geocoder geo = new Geocoder(BeginRideFragment.this.getContext());
         GeoPoint start = (GeoPoint) requestInfo.get("startGeopoint");
@@ -69,15 +78,24 @@ public class BeginRideFragment extends Fragment {
             location.setText(address);
             destination.setText(endAddressLine);
         } catch (IOException e) {
-            Log.d("BEGIN RIDE", "*****START ADDRESS*** NOT WOKRING");
+            Log.d(TAG, e.getMessage());
         }
 
-        cost.setText(requestInfo.get("cost").toString());
+        arriveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                beginBtn.setVisibility(View.VISIBLE);
+                arriveBtn.setVisibility(View.GONE);
+                cancelBtn.setVisibility(View.GONE);
+                requestInfo.put("status", "atStartLocation");
+                db = FirebaseFirestore.getInstance();
+                db.collection("RiderRequests").document(requestInfo.get("rider_email").toString()).set(requestInfo);
+            }
+        });
 
         beginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 requestInfo.put("status", "inProgress");
                 db = FirebaseFirestore.getInstance();
                 db.collection("RiderRequests").document(requestInfo.get("rider_email").toString()).set(requestInfo);
@@ -93,15 +111,23 @@ public class BeginRideFragment extends Fragment {
                 requestInfo.put("status", "canceled");
                 db = FirebaseFirestore.getInstance();
                 db.collection("RiderRequests").document(requestInfo.get("rider_email").toString()).set(requestInfo);
+                beginRideListener.onRideCanceled();
 
+            }
+        });
+
+
+        requestRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(documentSnapshot.getString("status").equals("canceled")){
+
+                }
             }
         });
 
         return view;
     }
 
-    public interface BeginRideListener{
-        void onBeginRide(Bundle request_info);
-    }
 
 }

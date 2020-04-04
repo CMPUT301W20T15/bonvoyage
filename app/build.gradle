@@ -69,6 +69,13 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-database:3.2.2'
     implementation 'com.hbb20:ccp:2.1.9'
     implementation 'pub.devrel:easypermissions:0.4.0'
+    // ... more entries
+    testImplementation 'junit:junit:4.12'
+
+    testImplementation 'org.powermock:powermock:1.6.5'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0'
 
 
 }
