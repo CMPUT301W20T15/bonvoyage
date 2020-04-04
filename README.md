@@ -9,7 +9,7 @@ On ride completion, drivers and riders use QR generated codes to complete paymen
 
 ## Getting Started
 
-Please download the apk file <a href="">here</a> to run this on your android device.
+Please download the apk file [here](https://github.com/CMPUT301W20T15/bonvoyage/tree/master/doc/apk/v4.apk) to run this on your android device.
 
 The entire project can be downloaded from the master branch for running, developing and testing purposes. 
 
@@ -27,24 +27,6 @@ Android Studio requirements:
 Java SDK compatibility: 1.8
 ```
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
 ## Running the tests
 
 If project is run on Android Studio, previously defined tests are provided in the src java folder
@@ -60,10 +42,6 @@ Unit Testing with JUnit
 bonvoyage\app\src\test\java\com\example\bonvoyage\
 ```
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
 
 ## Built With
 
@@ -76,7 +54,7 @@ Explain what these tests test and why
 ## Contributing
 
 ```
-write about our process in a short bulleted para
+All collaborators on this project have carefully discussed and divided areas by interest. For more information, please check the wikipage for this project.
 ```
 
 ## Authors
@@ -106,8 +84,8 @@ limitations under the License.
 ```
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+* Inspiration for splash screen and general theme from creator [Anggy Risky](https://www.youtube.com/channel/UCG1aEPR4NO2Sd_mmJFimfQQ) on youtube
+* Animation inspiration from aforementioned creator
+* All the precious stackoverflow help required to implement the QR generator and Google Maps API into our project
 
 
