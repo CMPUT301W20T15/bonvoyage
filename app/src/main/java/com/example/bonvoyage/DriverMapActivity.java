@@ -138,19 +138,6 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
                     }
                     break;
                 }
-                /*
-                for (Map.Entry<String,String> entry : markers.entrySet()){
-                    String mID = entry.getValue();
-                    if (mID.equals(selectedRider.getUserEmail())){
-                        for (Marker mapMarker: mTripMarkers){
-                            if (mapMarker.getId().equals(mID)){
-                                mMap.animateCamera(CameraUpdateFactory.newLatLng(mapMarker.getPosition()));
-                            }
-                            break;
-                        }
-                    }
-                }
-                 */
             }
         });
     }
@@ -408,14 +395,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
             final AlertDialog.Builder builder = new AlertDialog.Builder(DriverMapActivity.this);
             builder.setMessage(marker.getSnippet())
                     .setCancelable(true)
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    .setPositiveButton("Finish Viewing Rider Profile", new DialogInterface.OnClickListener() {
                         public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                             dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
-                            dialog.cancel();
                         }
                     });
             final AlertDialog alert = builder.create();
@@ -471,27 +453,9 @@ public class DriverMapActivity extends AppCompatActivity implements OnMapReadyCa
 
     }
 
-    /*@Override
-    public void onPaymentComplete() {
-        Toast.makeText(this, "Payment Complete", Toast.LENGTH_LONG).show();
-
-    }
-     */
-
-
     @Override
     protected void onResume() {
         super.onResume();
 
     }
-
-
-    /*
-    @Override
-    public void onPolylineClick(Polyline polyline) {
-        Log.d("POLYLINE","HIIII");
-        polyline.setColor(ContextCompat.getColor(DriverMapActivity.this,R.color.quantum_cyan));
-        polyline.setZIndex(1);
-    }
-     */
 }

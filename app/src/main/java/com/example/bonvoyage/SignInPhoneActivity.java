@@ -145,7 +145,7 @@ public class SignInPhoneActivity extends AppCompatActivity {
                             //Log.d(TAG, "signInWithCredential:success");
                             //FirebaseUser user = task.getResult().getUser();
                             loadingBar.dismiss();
-                            toastMessage("Login Successful");
+                            //toastMessage("Login Successful");
                             sendUserToMainActivity();
                         } else {
                             // Sign in failed, display a message and update the UI
@@ -161,12 +161,7 @@ public class SignInPhoneActivity extends AppCompatActivity {
                 });
     }
     private void sendUserToMainActivity(){
-        //Intent intent = new Intent(SignInPhoneActivity.this,DriverMapActivity.this);
-        //startActivity(intent);
-        //finish();
-        //db = FirebaseFirestore.getInstance();
-        //mAuth.getCurrentUser().linkWithCredential()
-        toastMessage("Pass to next activity");
+        toastMessage("Error in Login");
     }
     /**
      * toastMessage generates a toast message.

@@ -60,6 +60,8 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".SplashPageActivity" />
         <activity android:name=".RiderStatusActivity" />
+        <activity android:name=".RiderPostPayment" />
+        <activity android:name=".RiderRatingFragment" />
         <activity android:name=".DriverPayment"/>
     </application>
 

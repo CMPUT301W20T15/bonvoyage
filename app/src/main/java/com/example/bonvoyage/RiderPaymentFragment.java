@@ -111,7 +111,6 @@ public class RiderPaymentFragment extends DialogFragment{
                         bundle.putSerializable("HashMap", requstInfo);
                         riderPaymentListener.onPaymentComplete(bundle);
                         dismiss();
-
                     }
                 }).create();
 
