@@ -15,6 +15,10 @@ public class RiderPostPayment extends AppCompatActivity {
     private FirebaseHandler firebaseHandler;
     private FirebaseFirestore db;
 
+    /**
+     * Handles the call for rider transaction and send's the rider to rating fragment
+     * @param savedInstanceState
+     */
     protected void onCreateView(Bundle savedInstanceState) {
         FirebaseUser fb_rider = firebaseHandler.getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -23,7 +27,7 @@ public class RiderPostPayment extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Rider rider = documentSnapshot.toObject(Rider.class);
-                float cost = firebaseHandler.getCostOfRideFromDatabase(RiderPricingFragment.getRequestId());
+                float cost = firebaseHandler.getCostOfRideFromDatabase(rider.getEmail());
                 firebaseHandler.riderTransaction(rider, cost);
                 startActivity(new Intent(RiderPostPayment.this, RiderRatingFragment.class));
             }

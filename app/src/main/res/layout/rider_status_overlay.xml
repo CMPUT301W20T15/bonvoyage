@@ -19,22 +19,22 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+      >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:text="Status"
             android:textSize="25dp"
             android:id="@+id/rs_title"/>
 
         <include layout="@layout/profile_preview_layout"
-            android:id="@+id/rs_profile"
-            />
+            android:id="@+id/rs_profile" />
 
         <include layout="@layout/rider_location_layout"
             android:id="@+id/rs_location" />
-
 
         <include layout="@layout/contact_driver_layout"
             android:id="@+id/rs_contact"
@@ -42,7 +42,9 @@
 
         <Button
             android:id="@+id/rs_exitBtn"
-            android:layout_marginTop="30dp"
+            android:background="@color/red1"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"

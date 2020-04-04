@@ -2,6 +2,7 @@ package com.example.bonvoyage;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,35 +37,25 @@ public class RiderRatingFragment extends DialogFragment {
 
         profile_preview = view.findViewById(R.id.rs_profile);
         profile_name = profile_preview.findViewById(R.id.rs_profile_name);
-        profile_sub_header = profile_preview.findViewById(R.id.rs_profile_subheader);
-
-        location_layout = view.findViewById(R.id.rs_location);
-        current_location = location_layout.findViewById(R.id.startLocation);
-        destination_location = location_layout.findViewById(R.id.endLocation);
-
         rating = view.findViewById(R.id.rating);
-
-        rating_complete_btn = view.findViewById(R.id.rating_complete_btn);
-
-        if (rating.getNumStars() == 0) {
-            rating_complete_btn.setText("Skip");
-        } else {
-            rating_complete_btn.setText("Back to Home");
-        }
-
-        rating_complete_btn.setOnClickListener(new View.OnClickListener(){
-
+        rating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new RiderMapActivity();
+
             }
         });
-
         // for the fragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
-                .setTitle("Rate your driver")
+                .setTitle("Rate your driver!")
+                .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dismiss();
+                    }
+                })
                 .create();
     }
 }
+

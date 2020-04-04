@@ -1,7 +1,9 @@
 package com.example.bonvoyage;
 
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
@@ -27,7 +30,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-public class RiderMapActivity extends MapActivity implements RiderStatusFragment.RiderStatusListener {
+public class RiderMapActivity extends MapActivity implements RiderStatusListener, RiderPaymentListener {
 
     private static final String TAG = "RiderMapActivity";
     private EditText destinationLocationBox;
@@ -35,9 +38,12 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
     private Button continueButton;
     String first_name = "";
     String last_name = "";
+    String phoneNumber = "";
     FragmentManager fm = getSupportFragmentManager();
     RiderPricingFragment pricingFragment;
     RiderStatusFragment riderStatusFragment;
+    RiderPaymentFragment riderPaymentFragment;
+    RiderRatingFragment riderRatingFragment;
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
@@ -67,9 +73,9 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
                     Address address = geoLocate(destinationLocationBox);
 
                     if (address != null) {
-                    continueButton.setVisibility(View.VISIBLE);
-                    continueButton.setEnabled(true);
-                    endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                        continueButton.setVisibility(View.VISIBLE);
+                        continueButton.setEnabled(true);
+                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
                     }
                 }
                 return false;
@@ -95,60 +101,93 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
         priceInfo.setText(priceText);
 
         createPricingFragment();
-        
+
         Log.d(TAG, "Start location: " + startLocation.getLatitude()
                 + ", " + startLocation.getLongitude());
         Log.d(TAG, "Destination location: " + endLocation.getLatitude()
                 + ", " + endLocation.getLongitude());
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        HashMap<String, Object> tripInformation = new HashMap<>();
+
 
 
         FirebaseUser user = firebaseHandler.getCurrentUser();
+        String riderEmail = user.getEmail();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("riders").document("testrider@gmail.com");
+
+        DocumentReference docRef = db.collection("riders").document(riderEmail);
+
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    if (!Objects.requireNonNull(documentSnapshot.getString("first_name")).isEmpty()) {
-                        first_name = documentSnapshot.getString("first_name");
-                    }
-                    if (!Objects.requireNonNull(documentSnapshot.getString("last_name")).isEmpty()) {
-                        last_name = documentSnapshot.getString("last_name");
-                    }
+                    first_name = documentSnapshot.getString("first_name");
+                    last_name = documentSnapshot.getString("last_name");
+                    phoneNumber = documentSnapshot.getString("phone_number");
+                    HashMap<String, Object> tripInformation = new HashMap<>();
+                    tripInformation.put("cost", cost);
+                    tripInformation.put("endGeopoint", endLocation);
+                    tripInformation.put("startGeopoint", startLocation);
+                    tripInformation.put("firstName", first_name);
+                    tripInformation.put("lastName", last_name);
+                    tripInformation.put("phoneNumber", phoneNumber);
+                    tripInformation.put("status", "available");
+                    tripInformation.put("timestamp", timestamp);
+                    tripInformation.put("userEmail", riderEmail);
+                    Bundle rideInfo = new Bundle();
+                    rideInfo.putSerializable("HashMap",tripInformation);
+                    pricingFragment.setArguments(rideInfo);
+                    //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
+                    continueButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            pricingFragment.updatePrice();
+                            pricingFragment.getView().setVisibility(View.GONE);
+                            continueButton.setVisibility(View.GONE);
+                            currentLocationBox.setVisibility(View.GONE);
+                            destinationLocationBox.setVisibility(View.GONE);
+                            riderStatusFragment = new RiderStatusFragment();
+                            riderStatusFragment.setArguments(rideInfo);
+                            getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+                        }
+                    });
+
                 } else {
                     Log.d(TAG, "No user found with that email");
                 }
             }
         });
 
-        tripInformation.put("cost", cost);
-        tripInformation.put("endGeopoint", endLocation);
-        tripInformation.put("startGeopoint", startLocation);
-        tripInformation.put("firstName", first_name);
-        tripInformation.put("lastName", last_name);
-        tripInformation.put("phoneNumber", user.getPhoneNumber());
-        tripInformation.put("email", user.getEmail());
-        tripInformation.put("status", "available");
-        tripInformation.put("timestamp", timestamp);
-        tripInformation.put("userEmail", "testrider@gmail.com");
-        Bundle rideInfo = new Bundle();
-        rideInfo.putSerializable("HashMap",tripInformation);
-        firebaseHandler.addNewRideRequestToDatabase(tripInformation, "testrider@gmail.com");
-        pricingFragment.setArguments(rideInfo);
-        //continueButton.setOnClickListener(v -> pricingFragment.updatePrice());
-        continueButton.setOnClickListener(new View.OnClickListener() {
+
+    }
+
+    private void createLocationSearch(){
+        currentLocationBox.setVisibility(View.VISIBLE);
+        destinationLocationBox.setVisibility(View.VISIBLE);
+        continueButton.setVisibility(View.VISIBLE);
+        continueButton.setOnClickListener(v -> continueToPayment());
+        continueButton.setEnabled(false);
+        destinationLocationBox.getText().clear();
+        destinationLocationBox.setEnabled(true);
+        destinationLocationBox.setInputType(InputType.TYPE_CLASS_TEXT);
+        destinationLocationBox.setFocusable(true);
+        destinationLocationBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                pricingFragment.updatePrice();
-                pricingFragment.getView().setVisibility(View.GONE);
-                continueButton.setVisibility(View.GONE);
-                currentLocationBox.setVisibility(View.GONE);
-                destinationLocationBox.setVisibility(View.GONE);
-                riderStatusFragment = new RiderStatusFragment();
-                riderStatusFragment.setArguments(rideInfo);
-                getSupportFragmentManager().beginTransaction().add(R.id.rider_status_container, riderStatusFragment, "Status frag").commit();
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if(actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
+
+                    //execute our method for searching
+                    Address address = geoLocate(destinationLocationBox);
+
+                    if (address != null) {
+                        continueButton.setVisibility(View.VISIBLE);
+                        continueButton.setEnabled(true);
+                        endLocation = new GeoPoint(address.getLatitude(), address.getLongitude());
+                    }
+                }
+                return false;
             }
         });
     }
@@ -190,12 +229,23 @@ public class RiderMapActivity extends MapActivity implements RiderStatusFragment
     @Override
     public void onCancelRide() {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+        createLocationSearch();
 
     }
 
     @Override
-    public void onRideComplete() {
+    public void onRideComplete(Bundle requestInfo) {
         getSupportFragmentManager().beginTransaction().remove(riderStatusFragment).commit();
+        riderPaymentFragment= new RiderPaymentFragment(this);
+        riderPaymentFragment.setArguments(requestInfo);
+        riderPaymentFragment.show(getSupportFragmentManager(), "Payment");
     }
 
+    @Override
+    public void onPaymentComplete(Bundle bundle) {
+        Toast.makeText(this, "Payment Completed", Toast.LENGTH_LONG).show();
+        HashMap requestInfo = (HashMap) bundle.getSerializable("HashMap");
+        riderRatingFragment = new RiderRatingFragment();
+        createLocationSearch();
+    }
 }
